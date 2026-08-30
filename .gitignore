@@ -25,3 +25,12 @@
 *.log
 *.jsonl
 *.tmp
+
+# AI/session coordination material; keep local copies out of the source repo.
+/parallel_tasks/
+/AGENTS.md
+/.claude/
+/OPEN_PROBLEM_DFP_C3.md
+/PARALLEL_INFRASTRUCTURE_ROADMAP.md
+/source/
+/main-new.tex
