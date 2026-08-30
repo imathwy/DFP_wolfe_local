@@ -1,0 +1,1238 @@
+\RequirePackage{fix-cm}
+\documentclass[smallextended,envcountsame]{svjour3}
+\smartqed
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\ip}[2]{\langle #1,#2\rangle}
+\newcommand{\norm}[1]{\lVert #1\rVert}
+
+\title{A uniformly convex counterexample to global convergence of DFP
+under weak Wolfe line search}
+\titlerunning{A uniformly convex counterexample for DFP}
+
+% SUBMISSION METADATA: replace the anonymous working-copy fields below before
+% uploading the manuscript to Editorial Manager.  Do not infer these factual
+% declarations from the local project owner name.
+\author{Anonymous Author(s)}
+\authorrunning{Anonymous Author(s)}
+\institute{Author names, affiliations, corresponding-author email, and ORCID
+will be inserted in the final submission file.}
+\date{Received: date / Accepted: date}
+\journalname{Mathematical Programming}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Does the classical Davidon--Fletcher--Powell (DFP) method converge globally
+on every uniformly convex objective when its steps satisfy the standard weak
+Wolfe conditions?  We give a negative answer.  We construct a twice
+continuously differentiable function $f:\R^2\to\R$ with
+$\frac12 I\preceq\nabla^2 f(x)\preceq\frac32 I$ for every $x$, a symmetric
+positive definite initial inverse-Hessian approximation, and positive step
+lengths satisfying weak Wolfe with $(c_1,c_2)=(1/4,3/4)$, but for which the
+DFP gradient norms converge to a positive constant.  The construction begins
+with an exact two-phase singular DFP orbit.  Along an invariant slow curve,
+one metric eigenvalue tends to zero, the gradient amplitude remains positive,
+and the iterates form an inward discrete spiral around a limiting circle.  We
+prove a uniform all-pairs separation estimate for the spiral and use
+pairwise-disjoint smooth corrections of a quadratic to interpolate every
+endpoint gradient.  The corrections have Hessian norms tending to zero at
+the circle, so their sum defines one global uniformly convex $C^2$ objective.
+Every secant equation, DFP update, Armijo inequality, and weak-curvature
+inequality then holds exactly.  Orthogonal direct sums extend the example to
+every dimension $n\ge2$.
+\keywords{Davidon--Fletcher--Powell method \and quasi-Newton method \and
+weak Wolfe line search \and global convergence \and uniform convexity \and
+counterexample}
+\subclass{90C53 \and 65K05 \and 90C30}
+\end{abstract}
+
+\section{Introduction}
+\label{sec:introduction}
+
+The Davidon--Fletcher--Powell (DFP) update is one of the original variable
+metric methods for unconstrained optimization
+\cite{Davidon1991,FletcherPowell1963}.  Combined with a Wolfe line search
+\cite{Wolfe1969}, it generates positive definite inverse-Hessian
+approximations from positive-curvature secant pairs and is locally
+superlinearly convergent under the familiar regularity assumptions.  Its
+global behavior is subtler.  Powell proved convergence for uniformly convex
+objectives under exact line search \cite{Powell1971}, but exact search supplies
+the orthogonality $g_{k+1}^{T}s_k=0$, an identity that an ordinary weak Wolfe
+line search does not retain.
+
+The endpoint nature of the difficulty is already visible in the convex
+Broyden class.  Byrd, Nocedal, and Yuan established a global self-correction
+mechanism for a restricted class but explicitly excluded the DFP endpoint
+\cite{ByrdNocedalYuan1987}.  Yuan later proved convergence under additional
+trajectory hypotheses, including eventual monotonicity of the gradient norm
+or summability of the step lengths \cite{Yuan1995}.  Xu obtained another
+conditional theorem involving an eventual monotonicity condition and the
+parameter restriction $c_2<(m/M)^3$ when
+$mI\preceq\nabla^2f\preceq MI$ \cite{Xu1997}.  These results left open whether
+uniform convexity and the standard weak Wolfe conditions alone suffice.  The
+question was highlighted in early overviews by Nocedal and Fletcher
+\cite{Nocedal1992,Fletcher1994}.  A paper published in 2026 still states this
+precise question as open and changes the algorithm by adding a
+projection/correction mechanism
+\cite{YuanZhouPham2026}.
+
+We show that the missing hypothesis cannot be removed: classical,
+unmodified DFP can fail globally even in dimension two.  The obstruction is
+not a finite ill-conditioning transient.  We construct an infinite orbit on
+which a small metric eigenvalue decays through a parabolic two-phase drift,
+while the gradient amplitude converges to a nonzero limit.  The associated
+physical frame rotates by a nonsummable amount, and the iterates wind inward
+toward a circle.  The curvature perturbations used to discover the orbit tend
+to the identity, which is essential for realizing the entire sequence by the
+gradient of one $C^2$ function near its accumulation set.
+
+The main contributions are as follows.
+\begin{enumerate}
+\item We derive an exact two-leg DFP map, remove its apparent singularity, and
+      identify a one-dimensional $C^7$ invariant slow curve.  On that curve,
+      the singular scale obeys
+      $\epsilon_{j+1}=\epsilon_j-\frac32\epsilon_j^4+O(\epsilon_j^5)$.
+\item We compute the physical drift of this orbit.  The gradient amplitude
+      loses only a summable amount, whereas the frame rotation is
+      nonsummable.  This creates an inward discrete spiral with a full circle
+      as its accumulation set.
+\item We prove a uniform separation estimate for every pair of endpoints,
+      including near returns after one or many turns.  Pairwise-disjoint
+      cutoff corrections then realize all endpoint jets and extend with a
+      zero second-order jet on the limiting circle.
+\item We obtain one global $C^2$ function satisfying
+      $\frac12I\preceq\nabla^2f\preceq\frac32I$, and verify the original DFP
+      recurrence and both weak Wolfe inequalities exactly.  The gradient
+      norms converge to a positive constant, giving a counterexample in every
+      dimension $n\ge2$.
+\end{enumerate}
+
+The example is consistent with all of the conditional results just
+mentioned.  Its gradient norm decreases on the first leg of each cycle and
+increases on the second; its step lengths in state space are asymptotic to
+$2\epsilon_j^2$ and $\epsilon_j^2$, whose sum diverges; and the selected value
+$c_2=3/4$ is larger than $(m/M)^3=1/27$ for
+$(m,M)=(1/2,3/2)$.  Section~\ref{sec:verification} gives the precise
+comparison.
+
+The paper is organized as follows.  Section~\ref{sec:statement} states the
+counterexample and records the exact one-step algebra.  The singular
+two-phase orbit is constructed in Section~\ref{sec:two-phase}.
+Section~\ref{sec:spiral} proves its asymptotics and uniform separation.
+Section~\ref{sec:realization} constructs the global objective, and
+Section~\ref{sec:verification} completes the Wolfe, convergence-failure, and
+known-results checks.  Appendix~\ref{app:algebra} exposes the algebra behind
+the decisive two-leg coefficients.
+
+\section{The DFP iteration and the counterexample}
+\label{sec:statement}
+
+For $g_k=\nabla f(x_k)$, classical inverse-form DFP is
+\begin{align*}
+d_k&=-H_kg_k,&s_k&=\alpha_kd_k,&x_{k+1}&=x_k+s_k,\\
+y_k&=g_{k+1}-g_k,&
+H_{k+1}&=H_k-
+\frac{H_ky_ky_k^TH_k}{y_k^TH_ky_k}
++\frac{s_ks_k^T}{s_k^Ty_k}.
+\end{align*}
+The standard weak Wolfe conditions are
+\begin{align}
+f(x_{k+1})&\le f(x_k)+c_1g_k^Ts_k,\label{eq:armijo}\\
+g_{k+1}^Ts_k&\ge c_2g_k^Ts_k,
+\label{eq:weak-curvature}
+\end{align}
+where $0<c_1<c_2<1$.
+
+\begin{theorem}[Main theorem]\label{thm:main}
+There exist $f\in C^2(\R^2)$, $x_0\in\R^2$, $H_0\succ0$, and positive
+step lengths $\alpha_k$ such that
+\[
+\frac12I\preceq\nabla^2f(x)\preceq\frac32I
+\qquad(x\in\R^2),
+\]
+all classical DFP iterates are well defined, and every step satisfies
+\eqref{eq:armijo}--\eqref{eq:weak-curvature} with
+\[
+c_1=\frac14,\qquad c_2=\frac34,
+\]
+but
+\[
+\|\nabla f(x_k)\|\longrightarrow G_\infty>0.
+\]
+The same conclusion holds in every dimension $n\ge2$ by an orthogonal direct
+sum.
+\end{theorem}
+
+The auxiliary matrices used below generate an abstract sequence of secants.
+They are not asserted to be the Hessians of the final objective.  The final
+objective interpolates the endpoint gradients exactly, so its actual averaged
+Hessians produce the same secants automatically.
+
+\section{The exact two-phase DFP map}
+\label{sec:two-phase}
+
+At a cycle boundary, use an oriented orthogonal frame $R=(e,e^\perp)$ and
+write
+\begin{equation}\label{eq:canonical-state}
+H=R\begin{pmatrix}hpr^2&0\\0&h\end{pmatrix}R^T,
+\qquad
+g=GR\binom{1}{pr},
+\end{equation}
+where $r,p,h,G>0$.  For a symmetric positive definite matrix $A$ and a
+number $\tau>0$, define
+\begin{equation}\label{eq:abstract-step}
+\alpha=\tau\frac{g^THg}{(Hg)^TA(Hg)},\qquad
+s=-\alpha Hg,\qquad y=As,\qquad g_+=g+y,
+\end{equation}
+and update $H$ by DFP.  Then, with
+\[
+q=-g^Ts>0,\qquad t=s^Ty,
+\]
+one has the exact identity
+\begin{equation}\label{eq:line-ratio}
+\frac tq=\tau.
+\end{equation}
+Indeed, $q=\alpha g^THg$ and
+$t=\alpha^2(Hg)^TA(Hg)=\tau\alpha g^THg=\tau q$.
+
+Throughout the proof, if $e=(e_1,e_2)^T$, then
+$e^\perp=(-e_2,e_1)^T$, so $R$ is positively oriented.  Vector norms are
+Euclidean and matrix norms are spectral norms.
+
+The following formula is the algebraic starting point for every expansion in
+the paper.  It also separates the exact DFP calculation from the later
+asymptotic choices.
+
+\begin{proposition}[Exact one-step map]\label{prop:one-step}
+Let $v=Hg$, $\delta=g^THg$, $w=Av$, $\beta=v^TAv$, and
+$\gamma=w^THw$.  The step in \eqref{eq:abstract-step} satisfies
+\begin{align}
+g_+&=g-\tau\frac{\delta}{\beta}w,
+\label{eq:one-step-g}\\
+H_+&=H-\frac{Hww^TH}{\gamma}+\frac{vv^T}{\beta}.
+\label{eq:one-step-H}
+\end{align}
+In particular, the matrix update is independent of the scale parameter
+$\tau$, and all denominators in \eqref{eq:one-step-g}--\eqref{eq:one-step-H}
+are positive.
+\end{proposition}
+
+\begin{proof}
+Equation \eqref{eq:abstract-step} gives
+$s=-\alpha v$ and $y=-\alpha w$.  Therefore
+$s^Ty=\alpha^2\beta$, $y^THy=\alpha^2\gamma$, and the two factors
+$\alpha^2$ cancel in the rank-one DFP terms.  Substitution gives
+\eqref{eq:one-step-H}, while $g_+=g+y$ gives
+\eqref{eq:one-step-g}.  Positivity follows from $H\succ0$, $A\succ0$, and
+$v\ne0$.
+\end{proof}
+
+Set $r=\epsilon^2$.  During a complete cycle use, in the current oriented
+eigenframe, the controls
+\begin{equation}\label{eq:two-controls}
+A_1(\epsilon)=
+\begin{pmatrix}1&\epsilon\\ \epsilon&1\end{pmatrix},
+\quad \tau_1=\frac23;
+\qquad
+A_2(\epsilon)=
+\begin{pmatrix}1&-2\epsilon\\ -2\epsilon&1\end{pmatrix},
+\quad \tau_2=\frac13.
+\end{equation}
+We restrict the initial scale so that
+$0<\epsilon\le\epsilon_0<1/4$; hence both controls are positive definite
+(indeed, their spectra lie in $[1/2,3/2]$).
+The same $\epsilon$ is used on both legs.  Between the legs and after the
+second leg, diagonalize the new $H$, orient its low eigenvector to have
+positive inner product with the new gradient, and use the corresponding
+coordinates in \eqref{eq:canonical-state}.
+
+We use the following finite-smooth invariant-graph statement.  It is included
+to make explicit both the regularity needed below and the fact that the full
+map need not be invertible.
+
+\begin{lemma}[Local invariant graph for a map]\label{lem:graph-transform}
+Let $\nu\ge2$ and let $F=(F_c,F_s)$ be a $C^\nu$ map from a neighborhood of
+$(0,0)\in\R\times\R^m$ into $\R\times\R^m$.  Suppose
+\[
+F(0,0)=(0,0),\qquad
+DF(0,0)=\begin{pmatrix}1&0\\0&L\end{pmatrix},
+\qquad \rho(L)<1.
+\]
+Then, after restricting the neighborhood, there is a $C^\nu$ function
+$z=\zeta(u)$ with $\zeta(0)=D\zeta(0)=0$ whose graph is locally forward
+invariant.  The conclusion does not require $L$, or the full derivative
+$DF(0,0)$, to be invertible.
+\end{lemma}
+
+\begin{proof}
+Choose an equivalent norm in the stable space for which
+$\norm{L}<\lambda<1$.  For every graph with sufficiently small Lipschitz
+constant, the center projection
+$u\mapsto F_c(u,\zeta(u))$ has derivative uniformly close to one and is
+therefore a local $C^\nu$ diffeomorphism.  Its inverse defines the graph
+transform
+\[
+(\mathcal T\zeta)(\bar u)
+=F_s(u,\zeta(u)),
+\qquad \bar u=F_c(u,\zeta(u)).
+\]
+After the usual local cutoff, the stable contraction and the small nonlinear
+derivatives make $\mathcal T$ a contraction on a closed small Lipschitz cone.
+Its fixed graph is forward invariant.  For the prescribed finite $\nu$, the
+neighborhood can also be reduced so that the stable contraction multiplied
+by the $\nu$th power of the inverse center-derivative bound is still less than
+one; this is possible because these two factors tend to $\norm L<1$ and $1$.
+The differentiated graph transforms are then contractions through order
+$\nu$, giving $C^\nu$ regularity.  This is the finite-smooth graph-transform form of
+the discrete center-manifold theorem; see, for example,
+Karydas and Schinas \cite{KarydasSchinas1992}.  The construction only inverts
+the one-dimensional center projection, so a zero eigenvalue of $L$ causes no
+obstruction.
+\end{proof}
+
+\begin{lemma}[Blown-up map and invariant slow curve]
+\label{lem:slow-curve}
+The exact two-leg map in the variables $(\epsilon,p,h)$ has a removable
+real-analytic extension near $(0,2,1)$.  Its derivative there has one center
+eigenvalue $1$ and transverse eigenvalues $-1/9$ and $0$.  It therefore has a
+locally invariant $C^7$ center curve
+\[
+p=p(\epsilon),\qquad h=h(\epsilon),
+\]
+on which
+\begin{align}
+p(\epsilon)&=2+\frac{198}{5}\epsilon^3
+-\frac95\epsilon^4+O(\epsilon^5),
+&h(\epsilon)&=1+8\epsilon^3+O(\epsilon^5),
+\label{eq:center-curve}\\
+\epsilon_+&=\epsilon-\frac32\epsilon^4
++\frac54\epsilon^5+O(\epsilon^6).
+\label{eq:epsilon-map}
+\end{align}
+\end{lemma}
+
+\begin{proof}
+All operations in one DFP step are rational in the matrix entries and the
+secant pair.  At the blown-up base point, every denominator left after
+cancelling the explicit powers of $\epsilon$ is positive.  The two eigenvalues
+of the limiting matrix are $0$ and $1$, hence its oriented spectral frame is
+analytic.  Direct cancellation therefore gives the claimed analytic
+extension.  If $\widehat r_+$ denotes the canonical radius after two legs,
+then $\widehat r_+/\epsilon^2$ has a positive analytic extension with value
+one.  We use the signed branch
+\[
+\epsilon_+=\epsilon
+\sqrt{\widehat r_+/\epsilon^2}.
+\]
+It agrees with the positive square root when $\epsilon>0$ and makes the
+three-variable map analytic across $\epsilon=0$.
+
+Here is the explicit removable-factor check.  After leg $i\in\{1,2\}$,
+write the state in its new oriented frame as
+\[
+\lambda_-^{(i)}=\epsilon^4L_i,\qquad
+\lambda_+^{(i)}=\mathcal H_i,\qquad
+R_i^Tg_i
+=G\binom{\mathcal G_i}{\epsilon^2U_i},\qquad
+r_i=\epsilon^2\mathcal R_i.
+\]
+Direct substitution in \eqref{eq:abstract-step} and the DFP determinant
+identity
+\[
+\det H_+=\det H\,\frac{s^Ty}{y^THy}
+\]
+show that all displayed factors are analytic.  Their base-point
+values are
+\[
+\begin{array}{c|cccccc}
+i&L_i&\mathcal H_i&\mathcal G_i&U_i&\mathcal R_i&p_i\\ \hline
+1&2&1&1&1&2&1/2\\
+2&2&1&1&2&1&2.
+\end{array}
+\]
+Indeed,
+\[
+r_i=\frac{\lambda_-^{(i)}}
+{\lambda_+^{(i)}
+ ((R_i^Tg_i)_2/(R_i^Tg_i)_1)}
+=\epsilon^2\frac{L_i\mathcal G_i}{\mathcal H_iU_i}.
+\]
+On each leg the four quantities
+$g^THg$, $(Hg)^TA(Hg)$, $s^TAs$, and $(As)^TH(As)$ equal
+$\epsilon^4$ times analytic factors with positive base-point values.
+For the first leg these four limiting factors are $(6,4,4,4)$; for the
+second they are $(3,1,1,1)$.  For example, before the first update,
+\[
+g^THg=hp(p+1)\epsilon^4,
+\qquad
+(Hg)^TA_1(Hg)=h^2p^2\epsilon^4
+ (1+2\epsilon^3+\epsilon^4).
+\]
+Consequently every step length, DFP denominator, spectral coordinate, and
+canonical-state quotient has a removable analytic extension.  In particular
+$\widehat r_+/\epsilon^2=\mathcal R_2\to1$, as used in the signed branch.
+
+The cancellation also gives an explicit certificate for the limiting map.
+If $p$ and $h$ are left independent while $\epsilon\to0$, then
+\begin{align}
+\left.\frac{r_+}{\epsilon^2}\right|_{\epsilon=0}
+&=\frac{9hp(p+1)}{2\{9hp+(p+1)^2\}},
+\label{eq:limiting-radius}\\
+\left.p_+\right|_{\epsilon=0}
+&=\frac{4\{9hp+(p+1)^2\}^2}
+{81hp(p+1)^2},
+&\left.h_+\right|_{\epsilon=0}&=1.
+\label{eq:limiting-ph}
+\end{align}
+At $(p,h)=(2,1)$, the radius factor equals one and the limiting map fixes
+$(2,1)$.  Differentiating \eqref{eq:limiting-radius}--\eqref{eq:limiting-ph}
+yields
+\begin{equation}\label{eq:limiting-jacobian}
+D(\epsilon_+,p_+,h_+)(0,2,1)
+=\begin{pmatrix}
+1&0&0\\
+0&-1/9&2/3\\
+0&0&0
+\end{pmatrix}.
+\end{equation}
+Thus the center and transverse spectra claimed in the lemma are visible
+directly from the exact limiting formulas.
+
+For completeness, introduce independent small variables $r$ and $b$, and put
+\[
+p=2+Pb r,\qquad h=1+Jb r.
+\]
+Substitution in the two exact DFP updates, followed by the quadratic formula
+for the two simple eigenvalues, gives the following formulas.  Here
+$C=x-g$, $e$ is the physical low eigenvector, and $\phi$ is its unwrapped
+angle:
+\begin{align*}
+r_+-r
+ &=\frac{b(6J+5P-300)}{18}r^2+O(r^3),\\
+p_+-2
+ &=\frac{b(6J-P+348)}9r+O(r^2),\\
+h_+-1&=8br+O(r^2),\\
+\frac{G_+}{G}-1
+ &=\frac{b^2(24J-4P+384)-117}{18}r^2+O(r^3),\\
+\phi_+-\phi&=-3r+O(r^2),\\
+e^T(C_+-C)
+ &=-\frac{2b^2(6J-P+96)}9Gr^2+O(G|b|r^3).
+\end{align*}
+The remainders are uniform for bounded $(b,P,J)$ in a fixed neighborhood.
+In particular, the leading transverse map is
+\begin{equation}\label{eq:transverse-map}
+P_+=\frac{6J-P+348}{9}+o(1),
+\qquad J_+=8+o(1).
+\end{equation}
+Thus its linear part is
+\[
+L=\begin{pmatrix}-1/9&2/3\\0&0\end{pmatrix},
+\]
+and the fixed coefficient is
+\[
+(P,J)=\left(\frac{198}{5},8\right).
+\]
+Lemma~\ref{lem:graph-transform} applies with $\nu=7$: the center eigenvalue is
+$1$, while the two transverse eigenvalues $-1/9$ and $0$ lie strictly inside
+the unit disk.  The analyticity proved above supplies all required
+derivatives, and the zero eigenvalue belongs to the stable block.  We obtain a
+$C^7$ invariant graph.  Coefficient matching can be displayed explicitly.
+Put
+\[
+p=2+P_3\epsilon^3+P_4\epsilon^4+O(\epsilon^5),
+\qquad
+h=1+H_3\epsilon^3+H_4\epsilon^4+O(\epsilon^5).
+\]
+The $p$- and $h$-components of the graph-invariance equation give
+\begin{equation}\label{eq:graph-coefficient-system}
+3H_3-5P_3+174=0,\qquad 8-H_3=0,\qquad
+3H_4-5P_4-9=0,\qquad H_4=0.
+\end{equation}
+Hence
+\[
+(P_3,H_3,P_4,H_4)=\left(\frac{198}{5},8,-\frac95,0\right).
+\]
+For the signed center coordinate, the next two coefficients of
+$\epsilon_+-\epsilon$ are
+\[
+\frac{6H_3+5P_3-300}{36}=-\frac32,
+\qquad
+\frac{6H_4+5P_4+54}{36}=\frac54.
+\]
+This proves \eqref{eq:center-curve}--\eqref{eq:epsilon-map}.  In particular,
+the leading relation is also recovered from the displayed bivariate formula:
+$r_+=r-3\epsilon r^2+O(\epsilon^6)$ when
+$b=\epsilon$ and $r=\epsilon^2$.
+Finally, \eqref{eq:epsilon-map} gives
+$0<\epsilon_+<\epsilon$ for every sufficiently small $\epsilon>0$.
+Since $p(0)=2$, $h(0)=1$, and the center curve is continuous, its entire
+forward orbit then remains in the positive region $p,h,\epsilon>0$.
+\end{proof}
+
+Fix first a uniform Taylor neighborhood
+$0<\epsilon\le\bar\epsilon<1/4$ on which all analytic denominators and the
+invariant graph above are defined.  All constants implicit below are chosen
+on this fixed neighborhood and are independent of the final initial scale
+$\epsilon_0\le\bar\epsilon$.  Choose such an $\epsilon_0>0$, take
+$(p_0,h_0)=(p(\epsilon_0),h(\epsilon_0))$, $G_0=1$, and $R_0=I$ in
+\eqref{eq:canonical-state}, and set $x_0=g_0$, so that $C_0=x_0-g_0=0$.
+The preceding construction now defines an exact infinite abstract DFP orbit.
+
+\begin{lemma}[Physical drift on the slow curve]\label{lem:physical-drift}
+Let $\phi_j$ be the unwrapped angle of the low eigenvector at cycle boundary
+$j$, let $G_j$ be the amplitude in \eqref{eq:canonical-state}, and define
+\[
+C_k=x_k-g_k.
+\]
+Along the invariant curve,
+\begin{align}
+\frac{G_{j+1}}{G_j}
+&=1-\frac{13}{2}\epsilon_j^4+O(\epsilon_j^6),
+\label{eq:G-map}\\
+\phi_{j+1}-\phi_j
+&=-3\epsilon_j^2+O(\epsilon_j^4),
+\label{eq:phi-map}\\
+C_{2j+2}-C_{2j}
+&=-\frac{116}{5}G_j\epsilon_j^6e_j
++O(G_j\epsilon_j^7),
+\label{eq:C-map}\\
+\|C_{2j+1}-C_{2j}\|&=O(G_j\epsilon_j^3).
+\label{eq:C-half}
+\end{align}
+The two endpoint polar-angle increments within a cycle are respectively
+\begin{equation}\label{eq:half-angles}
+-2\epsilon_j^2+o(\epsilon_j^2),
+\qquad -\epsilon_j^2+o(\epsilon_j^2).
+\end{equation}
+Here $e_j$ is the physical low unit eigenvector.
+\end{lemma}
+
+\begin{proof}
+After inserting the leading slow-graph coefficients
+$(P,J)=(198/5,8)$, the same exact bivariate expansion used in
+\eqref{eq:transverse-map} gives, before putting $b=\epsilon$,
+\begin{align*}
+\frac{G_+}{G}
+&=1+\frac{232b^2-65}{10}r^2+O(r^3),\\
+\phi_+-\phi&=-3r+O(r^2),\\
+e^T(C_+-C)&=-\frac{116}{5}Gb^2r^2+O(G|b|r^3).
+\end{align*}
+These remainders are uniform for bounded $b$ in the fixed Taylor
+neighborhood.  The last remainder is deliberately not written as
+$o(Gb^2r^2)$ for two independent variables.  Along the path used here,
+$b=\epsilon$ and $r=\epsilon^2$, it is
+$O(G\epsilon^7)=o(G\epsilon^6)$.
+The four center-curve coefficients in \eqref{eq:center-curve}, substituted
+into the exact analytic map, sharpen these relations to
+\begin{align*}
+\frac{G_+}{G}
+&=1-\frac{13}{2}\epsilon^4
++\frac{116}{5}\epsilon^6+O(\epsilon^7),\\
+\phi_+-\phi&=-3\epsilon^2+O(\epsilon^4),\\
+R_j^T(C_{2j+2}-C_{2j})/G_j
+&=\binom{-\frac{116}{5}\epsilon^6+O(\epsilon^7)}
+{O(\epsilon^8)}.
+\end{align*}
+Along the single-parameter path $b=\epsilon$, $r=\epsilon^2$, the first-leg
+formula is
+\[
+C_{2j+1}-C_{2j}
+=G_jR_j\binom{2\epsilon^3+o(\epsilon^3)}
+{2\epsilon^5+o(\epsilon^5)}.
+\]
+These relations prove
+\eqref{eq:G-map}--\eqref{eq:C-half}.  Direct expansion of the two oriented
+eigenframes and gradients gives \eqref{eq:half-angles}.
+\end{proof}
+
+\section{Asymptotics and the discrete spiral}
+\label{sec:spiral}
+
+\begin{lemma}[Scalar asymptotics]\label{lem:scalar-asymptotics}
+There are limits $G_\infty>0$ and $C_\infty\in\R^2$ such that
+\begin{align}
+\epsilon_j&\sim\left(\frac92j\right)^{-1/3},
+\label{eq:epsilon-asymptotic}\\
+G_j-G_\infty&\sim\frac{13}{3}G_\infty\epsilon_j,
+\label{eq:G-tail}\\
+\|C_{2j}-C_\infty\|&=O(\epsilon_j^3),
+\qquad
+\|C_{2j+1}-C_\infty\|=O(\epsilon_j^3).
+\label{eq:C-tail}
+\end{align}
+Moreover $\phi_j\to-\infty$, and the accumulation set of the endpoints is
+the full circle
+\begin{equation}\label{eq:limit-circle}
+\Gamma=\{C_\infty+G_\infty v:\|v\|=1\}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The standard reciprocal-power argument applied to
+\eqref{eq:epsilon-map} gives \eqref{eq:epsilon-asymptotic}.  In particular,
+\[
+\sum_j\epsilon_j^4<\infty,
+\qquad
+\sum_j\epsilon_j^2=\infty.
+\]
+The positive product in \eqref{eq:G-map} therefore converges to
+$G_\infty>0$.  Comparing the tails of \eqref{eq:G-map} with
+\eqref{eq:epsilon-map} gives
+\[
+\sum_{\ell\ge j}\epsilon_\ell^4\sim\frac23\epsilon_j,
+\]
+and hence \eqref{eq:G-tail}.  The series in \eqref{eq:C-map} is absolutely
+convergent, with
+\[
+\sum_{\ell\ge j}\epsilon_\ell^6=O(\epsilon_j^3).
+\]
+Combining this with \eqref{eq:C-half} proves \eqref{eq:C-tail}.
+
+Equation \eqref{eq:phi-map} and the divergent sum of $\epsilon_j^2$ imply
+$\phi_j\to-\infty$.  The angular increments tend to zero, so every angle
+modulo $2\pi$ is approached.  Equations \eqref{eq:G-tail} and
+\eqref{eq:C-tail} then give \eqref{eq:limit-circle}.
+\end{proof}
+
+For an endpoint $x_k$ in cycle $j$, write $r(k)=\epsilon_j^2$.
+
+\begin{lemma}[Uniform separation]\label{lem:separation}
+After decreasing $\epsilon_0$ if necessary, there is a constant $c_*>0$ such
+that, for every $k$,
+\begin{equation}\label{eq:separation}
+\operatorname{dist}\!\left(
+x_k,(\{x_\ell:\ell\ge0\}\cup\Gamma)\setminus\{x_k\}
+\right)
+\ge c_*r(k).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+At a cycle boundary, complex notation in the oriented physical frame gives
+\begin{equation}\label{eq:polar-boundary}
+x_{2j}-C_\infty
+=G_je^{i\phi_j}\bigl(1+2i\epsilon_j^2+o(\epsilon_j^2)\bigr).
+\end{equation}
+The endpoint angles are strictly decreasing for small $\epsilon_0$.  By
+\eqref{eq:half-angles}, there are constants
+$0<c_\theta<C_\theta$, fixed on the preliminary neighborhood, such that each
+consecutive endpoint gap lies between $c_\theta r_j$ and
+$C_\theta r_j$.  Enlarging $C_\theta$ if necessary, any block of $N$ cycles
+whose scales are comparable rotates by at most $NC_\theta r_j$.  During one
+complete turn, $\epsilon$ changes by only a relative $O(\epsilon_j)$.
+
+For both phases $\sigma\in\{0,1\}$, the polar radius satisfies
+\begin{equation}\label{eq:phase-radius}
+\|x_{2j+\sigma}-C_\infty\|
+=G_j+O(\epsilon_j^3)=G_j+o(r_j),
+\qquad r_j=\epsilon_j^2.
+\end{equation}
+More quantitatively, there is a modulus $\omega(\eta)\downarrow0$ such that,
+whenever $\epsilon_0\le\eta$,
+\begin{equation}\label{eq:phase-radius-uniform}
+\left|\norm{x_{2j+\sigma}-C_\infty}-G_j\right|
+\le \omega(\eta)r_j
+\qquad(\sigma=0,1;\ j\ge0).
+\end{equation}
+Fix two distinct endpoints, with the first in cycle $j$ and the second in
+cycle $\ell\ge j$, and use the earlier scale $r_j$.  The following three
+cases are exhaustive.
+
+Choose once and for all
+\begin{equation}\label{eq:kappa-choice}
+\frac1{\sqrt2}<\kappa<1.
+\end{equation}
+First, suppose $\epsilon_\ell\le\kappa\epsilon_j$.
+Equation \eqref{eq:G-tail} and
+\eqref{eq:phase-radius} give
+\[
+G_j-G_\ell
+=\frac{13}{3}G_\infty(\epsilon_j-\epsilon_\ell)(1+o(1))
+\ge c\epsilon_j\gg r_j,
+\]
+so the radial component alone proves the required separation.
+
+Next suppose the two scales are comparable and their circular angular
+separation is at least $r_j/4$.  Both polar radii have a uniform positive
+lower bound, and the chord formula gives distance at least $c r_j$.
+This case includes adjacent endpoints because their angular gaps are bounded
+below by a fixed multiple of $r_j$.
+
+It remains to consider comparable scales whose unwrapped angular difference
+is $2\pi m+\zeta$, where $|\zeta|<r_j/4$.  The lower bound on consecutive
+angular gaps excludes $m=0$: after decreasing $\epsilon_0$, each consecutive
+gap is at least $r_t/2$, while comparability and
+\eqref{eq:kappa-choice} give
+$r_t/2\ge\kappa^2r_j/2>r_j/4$.  Thus $m\ge1$.
+
+Let $N=\ell-j$.  Here $N\ge1$; by enlarging $C_\theta$ once, the two endpoint
+phase offsets are absorbed into the same $NC_\theta r_j$ bound.  While the
+scales are comparable, the amplitude expansion
+\eqref{eq:G-map} provides a fixed $c_G>0$ such that
+$G_t-G_{t+1}\ge c_G r_j^2$.  The angular displacement gives the explicit
+cycle-count inequality
+\begin{equation}\label{eq:cycle-count}
+NC_\theta r_j\ge 2\pi m-r_j/4,
+\end{equation}
+and consequently
+\begin{equation}\label{eq:radial-return-gap}
+G_j-G_\ell
+\ge Nc_G r_j^2
+\ge \frac{c_G}{C_\theta}(2\pi m-r_j/4)r_j
+\ge c_0m r_j
+\end{equation}
+for a uniform $c_0>0$.  We now choose the final upper bound on
+$\epsilon_0$ so that $2\omega(\epsilon_0)\le c_0/2$ in
+\eqref{eq:phase-radius-uniform}.  Thus the two phase-radius errors are less
+than half of the main radial gap in \eqref{eq:radial-return-gap}, uniformly in
+the pair and in $m$.  For $m=1$, summing the leading terms recovers the
+sharper one-turn
+formula
+\begin{equation}\label{eq:one-turn-drop}
+G_j-G_\ell=\frac{13\pi}{3}G_jr_j(1+o(1)).
+\end{equation}
+This proves the estimate for endpoints in different phases, on neighboring
+turns, and on multiple turns.  It does not assume that the physical endpoint
+radius is monotone at every individual cycle.
+
+Finally, \eqref{eq:G-tail}, \eqref{eq:C-tail}, and
+\eqref{eq:polar-boundary} imply
+\[
+\operatorname{dist}(x_k,\Gamma)
+=\frac{13}{3}G_\infty\epsilon_j(1+o(1))\gg r(k).
+\]
+All estimates are uniform on the invariant curve after taking one sufficiently
+small $\epsilon_0$.  This proves \eqref{eq:separation}.
+\end{proof}
+
+\section{A global \texorpdfstring{$C^2$}{C2} uniformly convex realization}
+\label{sec:realization}
+
+Define the closed set
+\[
+\mathcal E=\Gamma\cup\{x_k:k\ge0\}
+\]
+and put
+\begin{equation}\label{eq:dk-rhok}
+d_k=\operatorname{dist}(x_k,\mathcal E\setminus\{x_k\}),
+\qquad \rho_k=\frac14d_k.
+\end{equation}
+By Lemma~\ref{lem:separation}, $\rho_k\ge c r(k)$; the adjacent endpoint
+also gives $\rho_k\le Cr(k)$.  The balls $B(x_k,\rho_k)$ are pairwise
+disjoint and avoid $\Gamma$.
+
+Let
+\begin{equation}\label{eq:correction-vector}
+a_k=g_k-(x_k-C_\infty)=C_\infty-C_k.
+\end{equation}
+Lemma~\ref{lem:scalar-asymptotics} gives
+\begin{equation}\label{eq:ak-bound}
+\|a_k\|=O(\epsilon_j^3)=O(\epsilon_jr(k)).
+\end{equation}
+Choose one $\chi\in C_c^\infty(B(0,1))$ with $\chi\equiv1$ on
+$B(0,1/3)$, and define
+\begin{equation}\label{eq:bumps}
+\psi_k(z)=
+\chi\!\left(\frac{z-x_k}{\rho_k}\right)a_k^T(z-x_k),
+\qquad
+\Psi(z)=\sum_{k=0}^\infty\psi_k(z).
+\end{equation}
+
+\begin{lemma}[Disjoint-bump extension]\label{lem:bump-extension}
+The function $\Psi$, extended by zero on $\Gamma$, belongs to
+$C^2(\R^2)$.  It satisfies
+\begin{equation}\label{eq:bump-jets}
+\Psi(x_k)=0,\qquad \nabla\Psi(x_k)=a_k,
+\end{equation}
+and
+\begin{equation}\label{eq:bump-hessian}
+\sup_{z\in\R^2}\|\nabla^2\Psi(z)\|
+\le K\epsilon_0.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Write $u=z-x_k$ and $\xi=u/\rho_k$.  Direct differentiation gives
+\begin{align*}
+\nabla\psi_k(z)
+&=\chi(\xi)a_k
++\rho_k^{-1}(a_k^Tu)\nabla\chi(\xi),\\
+\nabla^2\psi_k(z)
+&=\rho_k^{-1}\{a_k\nabla\chi(\xi)^T
++\nabla\chi(\xi)a_k^T\}
++\rho_k^{-2}(a_k^Tu)\nabla^2\chi(\xi).
+\end{align*}
+On the support, $\|u\|\le\rho_k$.  Hence the fixed cutoff together with
+\eqref{eq:dk-rhok} and \eqref{eq:ak-bound} implies
+\begin{align*}
+\|\psi_k\|_\infty&=O(\epsilon_jr(k)^2),\\
+\|\nabla\psi_k\|_\infty&=O(\epsilon_jr(k)),\\
+\|\nabla^2\psi_k\|_\infty&=O(\epsilon_j).
+\end{align*}
+At most one summand is nonzero at any point.  Away from $\Gamma$, the supports
+are locally finite.  Along any sequence approaching $\Gamma$ through the
+supports, the displayed function, gradient, and Hessian bounds all tend to
+zero.  More explicitly, \eqref{eq:G-tail} and \eqref{eq:C-tail} give
+\[
+\operatorname{dist}(x_k,\Gamma)=\Theta(\epsilon_j),
+\qquad \rho_k=O(\epsilon_j^2).
+\]
+Hence every point $z$ in the $k$th support has
+$\operatorname{dist}(z,\Gamma)=\Theta(\epsilon_j)$, and
+\[
+\frac{|\psi_k(z)|}{\operatorname{dist}(z,\Gamma)^2}=O(\epsilon_j^3),
+\qquad
+\frac{\|\nabla\psi_k(z)\|}{\operatorname{dist}(z,\Gamma)}
+=O(\epsilon_j^2),
+\qquad
+\|\nabla^2\psi_k(z)\|=O(\epsilon_j).
+\]
+These second-order difference quotients show that the zero value, gradient,
+and Hessian on $\Gamma$ are the genuine limiting jets.  Thus $\Psi\in C^2$.
+The cutoff is constant near each center, which gives
+\eqref{eq:bump-jets}.  The constants in the separation estimate, the upper
+bound $\rho_k\le Cr(k)$, and the derivatives of the fixed cutoff were chosen
+on the preliminary neighborhood $\epsilon\le\bar\epsilon$.  Hence they
+produce one constant $K$, independent of the later choice of
+$\epsilon_0\le\bar\epsilon$.  Disjointness and
+$\epsilon_j\le\epsilon_0$ then give \eqref{eq:bump-hessian}.
+\end{proof}
+
+Now set
+\begin{equation}\label{eq:objective}
+f(z)=\frac12\|z-C_\infty\|^2+\Psi(z).
+\end{equation}
+After $K$ has been fixed, take
+$\epsilon_0\le\min\{\bar\epsilon,(2K)^{-1}\}$, together with the earlier
+smallness requirements.  Then the right side of
+\eqref{eq:bump-hessian} is at most $1/2$, which gives the global Hessian
+bounds in Theorem~\ref{thm:main}.  At every endpoint,
+\begin{equation}\label{eq:endpoint-data}
+f(x_k)=\frac12\|x_k-C_\infty\|^2,
+\qquad
+\nabla f(x_k)=x_k-C_\infty+a_k=g_k.
+\end{equation}
+Thus the abstract sequence is an exact gradient sequence of one $C^2$
+uniformly convex objective.  In particular, its $y_k$ are the actual gradient
+secants, and every previously defined DFP update is unchanged.
+
+\section{Completion and verification of the counterexample}
+\label{sec:verification}
+
+\subsection{Armijo decrease and weak curvature}
+
+Let $q_k=-g_k^Ts_k>0$.  Because every bump vanishes at every endpoint,
+\eqref{eq:endpoint-data} gives
+\begin{align}
+\frac{f(x_k)-f(x_{k+1})}{q_k}
+&=1-\frac{\|s_k\|^2}{2q_k}
++\frac{a_k^Ts_k}{q_k}.
+\label{eq:armijo-ratio}
+\end{align}
+The local state gives $\|s_k\|=\Theta(r(k))$ and
+$q_k=\Theta(r(k)^2)$.  Equations \eqref{eq:ak-bound} and
+\eqref{eq:line-ratio}, together with $A_i(\epsilon)\to I$, imply
+\[
+\frac{a_k^Ts_k}{q_k}=O(\epsilon_j),
+\qquad
+\frac{\|s_k\|^2}{q_k}=\tau_k+O(\epsilon_j).
+\]
+Therefore the two limits of \eqref{eq:armijo-ratio} are
+\[
+1-\frac12\frac23=\frac23,
+\qquad
+1-\frac12\frac13=\frac56.
+\]
+After one final reduction of $\epsilon_0$, every ratio is at least $1/2$;
+Armijo holds with $c_1=1/4$.
+
+Weak curvature is exact and value-independent:
+\[
+g_{k+1}^Ts_k=g_k^Ts_k+s_k^Ty_k
+=-(1-\tau_k)q_k.
+\]
+Both $\tau_k\in\{2/3,1/3\}$ satisfy
+$\tau_k\ge1-c_2=1/4$, proving \eqref{eq:weak-curvature} for $c_2=3/4$.
+
+\subsection{Failure of convergence and extension to higher dimensions}
+
+Finally, Lemma~\ref{lem:scalar-asymptotics} and
+\eqref{eq:canonical-state} give the asserted limit at cycle boundaries.  On
+the first leg,
+$\|g_{2j+1}-g_{2j}\|=\|y_{2j}\|=O(\epsilon_j^2)$, so
+\[
+\|g_k\|\longrightarrow G_\infty>0.
+\]
+All $H_k$ remain positive definite because $s_k^Ty_k=s_k^TA_ks_k>0$ and
+DFP preserves positive definiteness.  This establishes the construction in
+dimension two.
+
+For $n>2$, use
+\[
+\widehat f(z,w)=f(z)+\frac12\|w\|^2,
+\qquad
+\widehat H_0=H_0\oplus I,
+\qquad w_0=0.
+\]
+The entire iteration remains in the first two coordinates, so all identities
+and inequalities are unchanged.  This completes the proof of
+Theorem~\ref{thm:main}.
+
+\subsection{Relation to known sufficient conditions}
+\label{sec:known-results}
+
+The orbit lies outside the additional hypotheses in the known conditional
+convergence theorems.  The exact expansions in
+Appendix~\ref{app:algebra}, normalized by the cycle amplitude $G_j$, give
+\begin{align*}
+\norm{g_{2j}}/G_j
+ &=1+2\epsilon_j^4+O(\epsilon_j^6),\\
+\norm{g_{2j+1}}/G_j
+ &=1-2\epsilon_j^3-2\epsilon_j^4+O(\epsilon_j^6),\\
+\norm{g_{2j+2}}/G_j
+ &=1-\frac92\epsilon_j^4+O(\epsilon_j^6).
+\end{align*}
+Thus the first leg decreases the gradient norm by order $\epsilon_j^3$ and
+the second increases it by order $\epsilon_j^3$; eventual monotonicity fails.
+Moreover,
+\[
+\norm{s_{2j}}/G_j=2\epsilon_j^2+o(\epsilon_j^2),
+\qquad
+\norm{s_{2j+1}}/G_j=\epsilon_j^2+o(\epsilon_j^2).
+\]
+Since $G_j\to G_\infty>0$ and
+$\sum_j\epsilon_j^2=\infty$, the total step length
+$\sum_k\norm{s_k}$ diverges.  Hence neither the eventual gradient-norm
+condition nor the summable-step condition in Yuan \cite{Yuan1995} applies.
+
+For the final function, $m=1/2$ and $M=3/2$.  Xu's theorem
+\cite{Xu1997} assumes, in addition to an eventual monotonicity condition on a
+trajectory-dependent scalar, that $c_2<(m/M)^3$.  Here
+\[
+c_2=\frac34>\left(\frac{1/2}{3/2}\right)^3=\frac1{27},
+\]
+so its parameter hypothesis is violated.  Powell's theorem
+\cite{Powell1971} uses exact line search, whereas our two phases satisfy
+$g_{k+1}^Ts_k=-(1-\tau_k)q_k\ne0$.  Finally, the global result of Byrd,
+Nocedal, and Yuan \cite{ByrdNocedalYuan1987} excludes the DFP endpoint.
+Consequently the counterexample does not contradict any of these positive
+results; it identifies why their extra hypotheses matter.
+
+\subsection{Verification of the assumptions}
+
+The construction uses only the following fixed data:
+\begin{itemize}
+\item the unmodified inverse DFP formula;
+\item one fixed symmetric positive definite $H_0$ obtained from
+  \eqref{eq:canonical-state} on the invariant curve;
+\item the standard weak Wolfe constants $c_1=1/4$ and $c_2=3/4$;
+\item a globally $C^2$ objective with the fixed bounds
+  $\frac12I\preceq\nabla^2f\preceq\frac32I$.
+\end{itemize}
+No exact line search, strong Wolfe condition, damping, restart, projection,
+or bounded-conditioning assumption is used.  The matrices in
+\eqref{eq:two-controls} are auxiliary secant matrices; the
+actual function is \eqref{eq:objective}.  Search segments may cross bump
+supports, which is immaterial because weak Wolfe uses endpoint values and
+endpoint directional derivatives, while the fundamental theorem of calculus
+recovers the exact secant from the final $C^2$ function.
+
+\section{Conclusion}
+
+The construction gives a globally uniformly convex $C^2$ objective for which
+the unmodified classical DFP method satisfies the standard weak Wolfe
+conditions at every step while its gradient norms converge to a positive
+constant.  Thus weak Wolfe line search and uniform convexity alone do not
+guarantee global convergence of DFP.  The counterexample isolates a singular
+two-phase metric drift that is excluded by exact-search orthogonality and by
+the additional trajectory assumptions in earlier positive results; sharper
+Wolfe-parameter ranges and smoother realizations remain separate questions.
+
+\section*{Statements and Declarations}
+
+\textbf{Funding.}
+The authors will insert the complete funding statement, or state that no
+funding was received, after confirming the submission metadata.
+
+\textbf{Competing interests.}
+The authors will insert their confirmed financial and non-financial competing
+interests statement before submission.
+
+\textbf{Availability of data and materials.}
+No datasets were generated or analyzed.  A deterministic symbolic
+verification program reproducing the coefficients in
+Appendix~\ref{app:algebra} is available from the corresponding author and is
+included as Additional Material for referees.  The proof in the article does
+not depend on executing that program.
+
+\textbf{Use of large-language-model tools.}
+Large-language-model tools were used to assist with symbolic-computation
+code, adversarial proof checking, literature organization, and language
+editing.  The human authors checked and approved every formula, citation,
+proof, and conclusion in the submitted version and take full responsibility
+for the content.
+
+\appendix
+
+\section{Algebraic verification of the two-leg map}
+\label{app:algebra}
+
+This appendix makes the calculation behind Lemmas~\ref{lem:slow-curve} and
+\ref{lem:physical-drift} directly auditable from the printed DFP formula.
+The symbolic verification program supplied to referees evaluates the same
+rational identities; it is a reproducibility aid, not a premise of the proof.
+
+\subsection{One step in entries and spectral coordinates}
+
+Work in an eigenframe and write
+\[
+H=\begin{pmatrix}\ell&0\\0&\eta\end{pmatrix},\qquad
+g=\binom{g_1}{g_2},\qquad
+A=\begin{pmatrix}a&c\\c&d\end{pmatrix}.
+\]
+Set
+\[
+v_1=\ell g_1,\quad v_2=\eta g_2,\quad
+w_1=av_1+cv_2,\quad w_2=cv_1+dv_2,
+\]
+and
+\[
+\delta=g_1v_1+g_2v_2,\qquad
+\beta=v_1w_1+v_2w_2,
+\qquad \gamma=\ell w_1^2+\eta w_2^2.
+\]
+Proposition~\ref{prop:one-step} gives, entry by entry,
+\begin{align}
+(H_+)_{11}&=\ell-\frac{\ell^2w_1^2}{\gamma}
+                    +\frac{v_1^2}{\beta},
+&
+(H_+)_{12}&=-\frac{\ell\eta w_1w_2}{\gamma}
+                    +\frac{v_1v_2}{\beta},
+\label{eq:appendix-H-entries}\\
+(H_+)_{22}&=\eta-\frac{\eta^2w_2^2}{\gamma}
+                    +\frac{v_2^2}{\beta},
+&
+(g_+)_i&=g_i-\tau\frac{\delta}{\beta}w_i.
+\nonumber
+\end{align}
+These identities also give
+\begin{equation}\label{eq:dfp-determinant}
+\det H_+=\det H\,\frac{s^Ty}{y^THy},
+\end{equation}
+either by a two-by-two determinant expansion or by the matrix determinant
+lemma.
+
+For a symmetric matrix
+$K=\left(\begin{smallmatrix}a_0&b_0\\b_0&d_0\end{smallmatrix}\right)$,
+put
+\[
+\Delta=\sqrt{(d_0-a_0)^2+4b_0^2},\qquad
+\lambda_\pm=\frac{a_0+d_0\pm\Delta}{2}.
+\]
+Near the limiting matrix $\operatorname{diag}(0,1)$, an analytic low
+eigenvector is
+\[
+u_-=
+\frac{(d_0-\lambda_-,-b_0)^T}
+{\sqrt{(d_0-\lambda_-)^2+b_0^2}},
+\qquad u_+=u_-^\perp.
+\]
+Reverse both signs if needed so that $\gamma_-=u_-^Tg>0$, and write
+$\gamma_+=u_+^Tg$.  Comparing with \eqref{eq:canonical-state} recovers the
+canonical variables by the exact formulas
+\begin{equation}\label{eq:canonical-recovery}
+G=\gamma_-,\qquad h=\lambda_+,qquad
+r=\frac{\lambda_-\gamma_-}{\lambda_+\gamma_+},
+\qquad
+p=\frac{\lambda_+\gamma_+^2}{\lambda_-\gamma_-^2}.
+\end{equation}
+Equations \eqref{eq:appendix-H-entries} and
+\eqref{eq:canonical-recovery} are the complete one-leg calculation used on
+both phases.
+
+\subsection{Two-leg expansion and the invariant graph}
+
+To expose the mixed orders, replace $\epsilon$ in the two controls by an
+independent variable $b$, leave the canonical radius $r$ independent, and set
+\[
+p=2+Pbr,\qquad h=1+Jbr.
+\]
+Applying \eqref{eq:appendix-H-entries}, diagonalizing with the preceding
+quadratic formula, and recovering the canonical variables with
+\eqref{eq:canonical-recovery} gives
+\begin{align}
+r_+-r
+ &=\frac{b(6J+5P-300)}{18}r^2+O(r^3),
+\label{eq:appendix-r}\\
+p_+-2
+ &=\frac{b(6J-P+348)}9r+O(r^2),
+\label{eq:appendix-p}\\
+h_+-1&=8br+O(r^2),
+\label{eq:appendix-h}\\
+\frac{G_+}{G}-1
+ &=\frac{b^2(24J-4P+384)-117}{18}r^2+O(r^3),
+\label{eq:appendix-G}\\
+\phi_+-\phi&=-3r+O(r^2),
+\label{eq:appendix-phi}\\
+e^T(C_+-C)
+ &=-\frac{2b^2(6J-P+96)}9Gr^2+O(G|b|r^3).
+\label{eq:appendix-C}
+\end{align}
+The remainders are uniform for bounded $(b,P,J)$ in the fixed Taylor
+neighborhood.  In particular, \eqref{eq:appendix-C} is a joint estimate; only
+after setting $b=\epsilon$ and $r=\epsilon^2$ is its remainder
+$o(G\epsilon^6)$.
+
+For the graph ansatz
+\[
+p=2+P_3\epsilon^3+P_4\epsilon^4+O(\epsilon^5),\qquad
+h=1+H_3\epsilon^3+H_4\epsilon^4+O(\epsilon^5),
+\]
+the coefficients of $p_+-p(\epsilon_+)$ and
+$h_+-h(\epsilon_+)$ are as follows:
+\begin{center}
+\begin{tabular}{c@{\qquad}c@{\qquad}c}
+\toprule
+order & $p$-component & $h$-component\\
+\midrule
+$\epsilon^3$ & $\frac23H_3-\frac{10}{9}P_3+\frac{116}{3}$
+              & $8-H_3$\\[2pt]
+$\epsilon^4$ & $\frac23H_4-\frac{10}{9}P_4-2$
+              & $-H_4$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Setting these four entries to zero yields
+$(P_3,H_3,P_4,H_4)=(198/5,8,-9/5,0)$, exactly as in
+\eqref{eq:graph-coefficient-system}.
+
+\subsection{Specialized coefficients on the slow curve}
+
+Substitution of those four graph coefficients into the exact two-leg formulas
+gives the following expansions, all normalized by the cycle-boundary
+amplitude $G_j$ where appropriate:
+\begin{align*}
+\epsilon_+
+ &=\epsilon-\frac32\epsilon^4+\frac54\epsilon^5+O(\epsilon^6),\\
+\frac{G_+}{G}
+ &=1-\frac{13}{2}\epsilon^4+\frac{116}{5}\epsilon^6
+   -\frac{976}{5}\epsilon^7+O(\epsilon^8),\\
+\phi_+-\phi
+ &=-3\epsilon^2-\frac{196}{5}\epsilon^5
+   +\frac{28}{5}\epsilon^6+O(\epsilon^7),\\
+R_j^T(C_{2j+2}-C_{2j})/G_j
+ &=\binom{-\frac{116}{5}\epsilon^6+\frac{38}{5}\epsilon^7
+           +O(\epsilon^8)}
+          {-\frac{508}{5}\epsilon^8+O(\epsilon^9)}.
+\end{align*}
+The two endpoint angle increments are
+\begin{align*}
+-2\epsilon^2-\frac{122}{5}\epsilon^5
+ +\frac{88}{15}\epsilon^6+O(\epsilon^7),\qquad
+-\epsilon^2-\frac{104}{5}\epsilon^5
+ +\frac{71}{15}\epsilon^6+O(\epsilon^7).
+\end{align*}
+The corresponding step and gradient norms are
+\begin{align*}
+\frac{\norm{s_{2j}}}{G_j}
+ &=2\epsilon^2+\frac{112}{5}\epsilon^5
+   -\frac{11}{5}\epsilon^6+O(\epsilon^7),\\
+\frac{\norm{s_{2j+1}}}{G_j}
+ &=\epsilon^2+\frac{114}{5}\epsilon^5
+   -\frac{49}{10}\epsilon^6+O(\epsilon^7),\\
+\frac{\norm{g_{2j}}}{G_j}
+ &=1+2\epsilon^4+O(\epsilon^6),\\
+\frac{\norm{g_{2j+1}}}{G_j}
+ &=1-2\epsilon^3-2\epsilon^4-\frac{112}{5}\epsilon^6
+   +O(\epsilon^7),\\
+\frac{\norm{g_{2j+2}}}{G_j}
+ &=1-\frac92\epsilon^4+\frac{116}{5}\epsilon^6
+   +O(\epsilon^7).
+\end{align*}
+Finally, direct substitution in \eqref{eq:abstract-step} gives the exact
+ratios $s^Ty/(-g^Ts)=2/3$ and $1/3$.  Thus every coefficient used in the
+slow dynamics, separation argument, known-results comparison, and Wolfe
+verification follows from the entry formulas printed in this appendix.
+
+\begin{thebibliography}{11}
+
+\bibitem{ByrdNocedalYuan1987}
+Byrd, R.H., Nocedal, J., Yuan, Y.-X.:
+Global convergence of a class of quasi-Newton methods on convex problems.
+SIAM J. Numer. Anal. 24(5), 1171--1190 (1987).
+\url{https://doi.org/10.1137/0724077}
+
+\bibitem{Davidon1991}
+Davidon, W.C.:
+Variable metric method for minimization.
+SIAM J. Optim. 1(1), 1--17 (1991).
+\url{https://doi.org/10.1137/0801001}
+
+\bibitem{FletcherPowell1963}
+Fletcher, R., Powell, M.J.D.:
+A rapidly convergent descent method for minimization.
+Comput. J. 6(2), 163--168 (1963).
+\url{https://doi.org/10.1093/comjnl/6.2.163}
+
+\bibitem{Fletcher1994}
+Fletcher, R.:
+An overview of unconstrained optimization.
+In: Spedicato, E. (ed.) Algorithms for Continuous Optimization,
+pp. 109--143.
+Springer, Dordrecht (1994).
+\url{https://doi.org/10.1007/978-94-009-0369-2_5}
+
+\bibitem{KarydasSchinas1992}
+Karydas, N., Schinas, J.:
+The center manifold theorem for a discrete system.
+Appl. Anal. 44(3--4), 267--284 (1992).
+\url{https://doi.org/10.1080/00036819208840083}
+
+\bibitem{Nocedal1992}
+Nocedal, J.:
+Theory of algorithms for unconstrained optimization.
+Acta Numer. 1, 199--242 (1992).
+\url{https://doi.org/10.1017/S0962492900002270}
+
+\bibitem{Powell1971}
+Powell, M.J.D.:
+On the convergence of the variable metric algorithm.
+J. Inst. Math. Appl. 7(1), 21--36 (1971).
+\url{https://doi.org/10.1093/imamat/7.1.21}
+
+\bibitem{Wolfe1969}
+Wolfe, P.:
+Convergence conditions for ascent methods.
+SIAM Rev. 11(2), 226--235 (1969).
+\url{https://doi.org/10.1137/1011036}
+
+\bibitem{Xu1997}
+Xu, D.-C.:
+Global convergence analysis of DFP method.
+Math. Numer. Sin. 19(3), 287--292 (1997).
+\url{https://doi.org/10.12286/jssx.1997.3.287}
+
+\bibitem{Yuan1995}
+Yuan, Y.-X.:
+Convergence of DFP algorithm.
+Sci. China Ser. A 38(11), 1281--1294 (1995).
+
+\bibitem{YuanZhouPham2026}
+Yuan, G., Zhou, P., Pham, H.:
+A projection DFP quasi-Newton algorithm and its applications in Muskingum
+model and machine learning.
+Numer. Algorithms (2026).
+\url{https://doi.org/10.1007/s11075-025-02284-6}
+
+\end{thebibliography}
+
+\end{document}

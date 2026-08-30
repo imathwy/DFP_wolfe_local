@@ -1,0 +1,27 @@
+# Lean/Lake build products and generated compiler state.
+/.lake/
+*.olean
+*.olean.private
+*.olean.server
+*.ilean
+*.ir
+
+# Editor and proof-stage backup copies.
+*.orig
+
+# M2F orchestration state and generated audit snapshots.
+/.m2f_history/
+/.m2f_lake_state.json
+/.m2f_library_integration/
+/.m2f_locks/
+/.m2f_memory/
+/.m2f_source_manifest.json
+/M2FQualityAudits/
+/undefined/
+**/M2FProofAxiomAudit_*.lean
+
+# Temporary local probes and command logs.
+/Scratch*.lean
+*.log
+*.jsonl
+*.tmp
