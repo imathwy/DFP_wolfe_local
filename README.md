@@ -44,6 +44,35 @@ The main exported declarations include:
 - `DFP.not_PaperRangeLevelSetGlobalWeakWolfeConvergence`
 - `DFP.existsMatrixIdentityLiminfStrongWolfe_of_parameterRange`
 
+## Comparator verification
+
+The key proof interfaces were independently checked with
+[`leanprover/comparator`](https://github.com/leanprover/comparator), using its
+`v4.32.0` release to match this project's Lean toolchain. The checks used the
+real `landrun` implementation (v0.1.18), so the Challenge build, export, and
+Solution build/export ran under Linux Landlock restrictions.
+The comparator/landrun command-line delimiter mismatch was handled by a
+transparent argument-only adapter; it did not change any source or exported
+proof content. The temporary Challenge/Solution wrappers were outside the
+tracked tree and were removed after the checks.
+
+| Comparator target | Result |
+| --- | --- |
+| `DFP.main_not_globalWeakWolfeConvergence_of_parameterRange` | `Your solution is okay!` |
+| `DFP.existsMatrixIdentityLiminfStrongWolfe_of_parameterRange` | `Your solution is okay!` |
+
+For both targets, comparator found matching Challenge/Solution declarations,
+accepted the Solution with the Lean default kernel, and found no axioms beyond
+`propext`, `Classical.choice`, and `Quot.sound`. The independent
+`lake lean DFPWolfe.lean` check also returned successfully.
+
+Comparator certifies declaration identity, kernel acceptance, and the stated
+axiom budget. It does not by itself establish that every formal definition has
+the intended correspondence with the paper; that remains the subject of the
+separate semantic-fidelity review. A one-shot export of the entire root module
+was intentionally not used because it exceeded the practical memory budget;
+the two targeted proof-interface checks completed successfully.
+
 ## Code scale
 
 The figures below are measured from the tracked source tree (2026-08-31). Build
