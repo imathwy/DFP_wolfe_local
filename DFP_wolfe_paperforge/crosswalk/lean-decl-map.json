@@ -1,0 +1,223 @@
+{
+  "thm-main": [
+    {
+      "decl": "DFP.existsStrongWolfeCounterexample_of_parameterRange",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Theorem_Main_theorem.lean",
+      "line": 17,
+      "cited": "Theorem 1",
+      "kind": "theorem",
+      "flagged": true
+    },
+    {
+      "decl": "DFP.main_not_globalWeakWolfeConvergence_of_parameterRange",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Theorem_Main_theorem.lean",
+      "line": 27,
+      "cited": "Theorem 1 (negative form)",
+      "kind": "theorem",
+      "flagged": true
+    }
+  ],
+  "cor-identity-initialization": [
+    {
+      "decl": "DFP.existsMatrixIdentityLiminfStrongWolfe_of_parameterRange",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Theorem_Main_theorem.lean",
+      "line": 155,
+      "cited": "Corollary 2",
+      "kind": "theorem",
+      "flagged": true
+    }
+  ],
+  "prop-one-step": [
+    {
+      "decl": "DFP.AbstractSecantStep.nextGradient_formula",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Proposition_3_6_Exact_one_step_gradient_map.lean",
+      "line": 14,
+      "cited": "Proposition 3 (gradient map)",
+      "kind": "theorem",
+      "flagged": true
+    },
+    {
+      "decl": "DFP.AbstractSecantStep.nextInverseHessian_formula",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Proposition_3_7_Exact_one_step_DFP_matrix_map.lean",
+      "line": 10,
+      "cited": "Proposition 3 (matrix map)",
+      "kind": "theorem",
+      "flagged": true
+    },
+    {
+      "decl": "DFP.AbstractSecantStep.nextInverseHessian_tau_independent",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Proposition_3_7_Exact_one_step_DFP_matrix_map.lean",
+      "line": 22,
+      "cited": "Proposition 3 (tau independence)",
+      "kind": "theorem"
+    }
+  ],
+  "lem-graph-transform": [
+    {
+      "decl": "LocalInvariantGraph.existsOfComplexSpectralRadiusLtOne",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Local_invariant_graph_for_a_map.lean",
+      "line": 15,
+      "cited": "Lemma 4 (local invariant graph)",
+      "kind": "theorem",
+      "flagged": true
+    }
+  ],
+  "lem-center-manifold": [
+    {
+      "decl": "DFP.TwoLeg.stateMapAnalytic",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Blown_up_map_and_invariant_slow_curve.lean",
+      "line": 10,
+      "cited": "Lemma 5 (analytic extension)",
+      "kind": "theorem",
+      "flagged": true
+    },
+    {
+      "decl": "DFP.TwoLeg.stateMap_fderiv_apply",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Blown_up_map_and_invariant_slow_curve.lean",
+      "line": 25,
+      "cited": "Lemma 5 (linearization)",
+      "kind": "theorem"
+    },
+    {
+      "decl": "DFP.TwoLeg.exists_localForwardInvariantSlowCurve",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Blown_up_map_and_invariant_slow_curve.lean",
+      "line": 54,
+      "cited": "Lemma 5 (slow curve)",
+      "kind": "theorem"
+    },
+    {
+      "decl": "DFP.TwoLeg.slowGraphSignedRecurrence",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_3_18_Parabolic_center_recurrence.lean",
+      "line": 13,
+      "cited": "Lemma 5 (parabolic recurrence)",
+      "kind": "theorem"
+    }
+  ],
+  "lem-two-step-expansions": [
+    {
+      "decl": "DFP.TwoLeg.slowCurveAmplitudeDrift",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Physical_drift_on_the_slow_curve.lean",
+      "line": 15,
+      "cited": "Lemma 6 (amplitude drift)",
+      "kind": "theorem",
+      "flagged": true
+    },
+    {
+      "decl": "DFP.TwoPhaseOrbit.slowCurveFrameRotation",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Physical_drift_on_the_slow_curve.lean",
+      "line": 19,
+      "cited": "Lemma 6 (frame rotation)",
+      "kind": "theorem"
+    },
+    {
+      "decl": "DFP.TwoPhaseOrbit.slowCurveFullCenterDrift",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Physical_drift_on_the_slow_curve.lean",
+      "line": 23,
+      "cited": "Lemma 6 (center drift)",
+      "kind": "theorem"
+    },
+    {
+      "decl": "DFP.TwoPhaseOrbit.slowCurveHalfCenterDisplacement",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Physical_drift_on_the_slow_curve.lean",
+      "line": 27,
+      "cited": "Lemma 6 (half-cycle displacement)",
+      "kind": "theorem"
+    },
+    {
+      "decl": "slowCurveFirstEndpointAngleIncrement",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Physical_drift_on_the_slow_curve.lean",
+      "line": 31,
+      "cited": "Lemma 6 (first endpoint angle)",
+      "kind": "theorem"
+    },
+    {
+      "decl": "slowCurveSecondEndpointAngleIncrement",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Physical_drift_on_the_slow_curve.lean",
+      "line": 35,
+      "cited": "Lemma 6 (second endpoint angle)",
+      "kind": "theorem"
+    }
+  ],
+  "lem-scalar-asymptotics": [
+    {
+      "decl": "DFP.TwoPhaseOrbit.slowCurveScalarAsymptotics",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Scalar_asymptotics.lean",
+      "line": 11,
+      "cited": "Lemma 7 (scalar asymptotics)",
+      "kind": "theorem",
+      "flagged": true
+    },
+    {
+      "decl": "DFP.TwoPhaseOrbit.slowCurveEndpointClusterSet_eq_limitCircle",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_4_9_Full_limiting_circle_as_the_endpoint_accumulation_set.lean",
+      "line": 15,
+      "cited": "Lemma 7 (limiting circle)",
+      "kind": "theorem"
+    }
+  ],
+  "lem-separation": [
+    {
+      "decl": "DFP.TwoPhaseOrbit.slowCurveUniformEndpointSeparation",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Uniform_separation.lean",
+      "line": 10,
+      "cited": "Lemma 8 (uniform separation)",
+      "kind": "theorem",
+      "flagged": true
+    }
+  ],
+  "lem-disjoint-interpolation": [
+    {
+      "decl": "DFP.TwoLeg.SlowCurve.bumpCorrectionExtension",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Lemma_Disjoint_bump_extension.lean",
+      "line": 11,
+      "cited": "Lemma 9 (disjoint-bump extension)",
+      "kind": "theorem",
+      "flagged": true
+    },
+    {
+      "decl": "DFP.TwoPhaseOrbit.realizedObjective_endpoint",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Proposition_5_13_Exact_endpoint_value_and_gradient_interpolation.lean",
+      "line": 17,
+      "cited": "Lemma 9 (endpoint value)",
+      "kind": "theorem"
+    },
+    {
+      "decl": "DFP.TwoPhaseOrbit.realizedObjective_gradient_formula_endpoint",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Proposition_5_13_Exact_endpoint_value_and_gradient_interpolation.lean",
+      "line": 25,
+      "cited": "Lemma 9 (endpoint gradient)",
+      "kind": "theorem"
+    },
+    {
+      "decl": "slowCurveRealizedObjectiveHessianBounds",
+      "via": "manual-reviewed",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Proposition_5_12a_Global_Hessian_bounds.lean",
+      "line": 59,
+      "cited": "Lemma 9 (Hessian bound)",
+      "kind": "theorem"
+    }
+  ]
+}

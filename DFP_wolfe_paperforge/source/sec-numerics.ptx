@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="sec-numerics">
+  <title>Numerical experiments</title>
+  <p>
+    The experiments show the geometry of the construction, compare DFP and BFGS
+on the same finite objective, and check the main asymptotic identities.  The
+main comparisons use two complementary settings.  The first follows the
+prescribed DFP sequence at a scale that makes its limiting geometry visible
+and checks the recurrence used in the proof.  The second uses a specific
+strong Wolfe routine to compare DFP and BFGS on finite objectives with
+verified global Hessian bounds.  We finish with a sensitivity check for the
+initial trial step used by the line search.  The solid curves in
+the orbit-comparison figure and
+the finite-gradient figure join computed iterates.  They use no
+smoothing, regression, or fitted trajectory.  The dashed circle in
+the orbit-comparison figure comes from the proved asymptotic recurrence;
+it is not fitted to the plotted points.  None of the experiments is used in
+the proof.
+  </p>
+  <p>
+    At <m>\epsilon_0=0.0025</m>, which is used for the same-objective comparison below,
+the radial drift is only about one percent.  It is almost invisible at journal
+size.  For this reason, the orbit-comparison figure uses the larger
+display value <m>\epsilon_0=0.03</m>.  The recurrence is unchanged.
+The orbit-comparison figure(a) follows the two-step construction of
+Section<nbsp/><xref ref="sec-alternating-sequence" text="global"/> for <m>10^5</m> cycles, or <m>2\times10^5</m>
+DFP iterations.  At every iteration the code forms <m>d_k=-H_kg_k</m>, uses the
+positive step length prescribed by the construction, and applies the
+unmodified inverse DFP update.  All accepted steps satisfy Armijo and the
+standard strong Wolfe curvature inequality with
+<m>(c_1,c_2)=(0.25,0.75)</m>.  The computed orbit completes <m>14.5548</m> turns and its
+gradient norm decreases from <m>1.0000016</m> to <m>0.9268896</m>.  If <m>N=10^5</m> denotes
+the last cycle, the dashed circle is centered at the computed <m>C_N</m> and has
+radius
+<me>\widehat G_\infty=G_N\exp(-13\epsilon_N/3)=0.8770088.</me>
+This first-order estimate of the positive limit comes from the asymptotic law.
+It is not a least-squares circle.  The open square marks the final DFP iterate.
+  </p>
+  <p>
+    The orbit-comparison figure(b) uses the same display value, starting
+point, and initial inverse-Hessian matrix, but replaces DFP by the classical
+inverse BFGS update.  The new update changes the search direction after the
+first secant pair, so the DFP endpoints cannot be treated as a BFGS
+trajectory.  We instead run BFGS on the corresponding finite <m>C^2</m>
+interpolant, which can be evaluated directly.  We call the
+<c>scipy.optimize.line_search</c> routine in SciPy<nbsp/>1.17.0
+<xref ref="bib-VirtanenEtAl2020"/> with
+<m>(c_1,c_2)=(0.25,0.75)</m>, <c>amax=64</c>, and <c>maxiter=40</c>.  No
+previous step estimate is supplied, so the routine tests <m>\alpha=1</m> first and
+then uses its bracketing and zoom procedure if that trial is rejected.  The
+line search selects the displayed path, and the gradient norm reaches
+<m>3.32\times10^{-12}</m> in <m>22</m> iterations.  At the larger value
+<m>\epsilon_0=0.03</m>, the available bound on the smooth corrections does not
+prove global convexity.  We use the orbit-comparison figure only to show
+the geometry.
+  </p>
+  <p>
+    The DFP run in the orbit-comparison figure(a) also provides a numerical
+check of the main asymptotic and algebraic identities.  The recurrence-verification table
+compares the three leading coefficients with medians over the last <m>10{,}000</m>
+cycles and reports the largest algebraic residuals.  The DFP update is
+unmodified: no damping, restart, projection, or matrix reset is used.  The
+dashed circle in the orbit-comparison figure uses the positive-limit
+estimate given above.  That estimate comes from the asymptotic formula and is
+not fitted to the orbit.  The first normalized coefficient converges more
+slowly because, after division by <m>\epsilon_j^4</m>, its expansion contains the
+correction <m>(5/4)\epsilon_j+O(\epsilon_j^2)</m>.
+  </p>
+  <p>
+    We next compare the two methods on one finite objective with verified global
+Hessian bounds.  We take a finite sum of the interpolation functions with
+<m>8{,}004</m> prescribed endpoints and set <m>\epsilon_0=0.0025</m>.  The global
+Hessian bound is
+<me>0.5532628 I\preceq\nabla^2 f(x)\preceq1.4467372 I
+\qquad(x\in\mathbb R^2),</me>
+which lies inside the Hessian bounds of Theorem<nbsp/><xref ref="thm-main" text="global"/>.  Both methods
+start from the same <m>x_0</m> and <m>H_0</m> and use the strong Wolfe routine and
+parameter settings described with the orbit-comparison figure(b).  Here
+<q>unit first</q> means that the routine first tests <m>\alpha=1</m>, not that the
+step is fixed at one.  Only the inverse quasi-Newton update differs between
+the two runs.
+  </p>
+  <p>
+    The finite-gradient figure plots the gradient norms.  The DFP
+run stays close to one over <m>5{,}000</m> iterations and ends at <m>0.9999993653</m>.
+BFGS reaches the stopping tolerance in <m>32</m> iterations, with final gradient
+norm <m>2.22\times10^{-11}</m>.  Every accepted step in both runs satisfies Armijo
+and strong Wolfe.  All curvature denominators are positive, and the
+inverse-Hessian approximations remain positive definite.  DFP accepts
+<m>\alpha=1</m> in all <m>5{,}000</m> displayed iterations.  BFGS accepts <m>\alpha=2</m> at
+iteration <m>2</m> and <m>\alpha=1</m> at every other iteration.
+For BFGS, an independent weak-Wolfe implementation accepts exactly the same
+steps as the strong-Wolfe routine in this experiment.  The long DFP transient
+on a finite objective does not prove infinite nonconvergence.
+Theorem<nbsp/><xref ref="thm-main" text="global"/> gives that result.
+  </p>
+  <p>
+    The finite-comparison table repeats the comparison at three values of
+<m>\epsilon_0</m> with verified global Hessian bounds.
+The DFP column reports the gradient norm after a fixed budget of <m>5{,}000</m>
+iterations, not a stopping time.  The BFGS column reports the first iterate
+satisfying <m>\|\nabla f\|\le10^{-10}</m>.  The accepted weak- and strong-Wolfe
+BFGS trajectories agree point for point at all three parameter values.
+  </p>
+  <p>
+    Finally, we examine how the initial trial step in the line search affects the
+finite DFP trajectory.  Let <m>\rho_k</m> be the support radius and define
+<me>E_k=\frac{\|x_k^{\mathrm{LS}}-x_k^{\mathrm{ref}}\|}{\rho_k},
+\qquad
+k_{1/3}=\min\{k:E_k>1/3\}.</me>
+Here <m>x_k^{\mathrm{LS}}</m> is produced by the line search, and
+<m>x_k^{\mathrm{ref}}</m> is the prescribed DFP endpoint.  We use eight finite
+objectives with verified global Hessian bounds and
+<m>0.0005\le\epsilon_0\le0.0025</m>.  A separate log<ndash/>log least-squares fit gives
+<m>k_{1/3}=\exp(-2.05218)\epsilon_0^{-1.49730}</m> with <m>R^2=0.999981</m>.  This is the
+only fitted quantity in the numerical section, and it does not appear in
+either figure.  For <m>\epsilon_0=0.001</m> and <m>0.002</m>, the first indices with
+<m>E_k>1/3</m> are <m>3{,}997</m> and <m>1{,}411</m>, respectively.  The first indices with
+<m>E_k>1</m> are <m>10{,}141</m> and <m>3{,}441</m>.  Three independent unit-first Wolfe
+implementations generate identical accepted trajectories over <m>25{,}299</m> and
+<m>8{,}945</m> tested iterations, respectively.  Every accepted step in the
+recorded runs satisfies the standard strong Wolfe conditions.  Thus agreement
+among the implementations persists beyond the interval in which the computed
+trajectory remains within one support radius of the prescribed reference
+sequence.
+  </p>
+  <p>
+    If the initial trial step is instead based on the previously accepted step,
+both independent strong-Wolfe routines accept <m>\alpha_3=0.841685</m> for
+<m>\epsilon_0=0.001</m> and <m>\alpha_3=0.841667</m> for <m>\epsilon_0=0.002</m>.  In each
+case, the accepted point leaves the corresponding support ball.  A unit-first
+policy can therefore shadow the prescribed sequence for a long finite
+interval, but the Wolfe inequalities alone do not select a unique infinite
+sequence.
+  </p>
+</section>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DFPWolfe declarations · DFP Wolfe Counterexample</title>
+  <style>
+    :root { color-scheme: light; --ink: #17221d; --muted: #53635b;
+      --line: #d8e0da; --field: #f3f7f4; --accent: #1b6a4a; }
+    * { box-sizing: border-box; }
+    body { max-width: 56rem; margin: 0 auto; padding: 3rem 1.5rem 4rem;
+      color: var(--ink); background: #fff; font: 16px/1.6 system-ui, sans-serif; }
+    h1, h2 { font-family: Georgia, serif; }
+    h1 { border-bottom: 1px solid var(--line); padding-bottom: 1rem; }
+    code { padding: .1rem .25rem; background: var(--field); font-family: ui-monospace, monospace; }
+    a { color: var(--accent); }
+    .back { display: inline-block; margin-bottom: 1rem; }
+    .note { padding: .8rem 1rem; border-left: 3px solid var(--accent); background: var(--field); }
+    li { margin: .55rem 0; }
+  </style>
+</head>
+<body>
+  <a class="back" href="../">Back to formalizations</a>
+  <h1><code>DFPWolfe</code> declaration index</h1>
+  <p class="note">This is a pinned source-level index for the reviewed paper
+    interfaces. Each entry opens the exact Lean file and line in the audited
+    GitHub snapshot. It is intentionally distinct from generated doc-gen4
+    documentation.</p>
+  <p><a href="find/?pattern=DFP.existsStrongWolfeCounterexample_of_parameterRange#doc">Resolve a declaration query</a></p>
+  <h2>Reviewed declarations</h2>
+  <ul id="declarations"><li>Loading declaration map...</li></ul>
+  <p><a href="../../correspondence/">Article-to-Lean correspondence</a> ·
+    <a href="https://github.com/imathwy/DFP_wolfe_local">Lean repository</a></p>
+  <script>
+    fetch("declarations.json", { credentials: "omit" })
+      .then((response) => response.json())
+      .then((payload) => {
+        const list = document.getElementById("declarations");
+        list.textContent = "";
+        Object.keys(payload.declarations).sort().forEach((name) => {
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `find/?pattern=${encodeURIComponent(name)}#doc`;
+          link.textContent = name;
+          item.appendChild(link);
+          list.appendChild(item);
+        });
+      })
+      .catch(() => {
+        document.getElementById("declarations").textContent =
+          "The declaration map is temporarily unavailable.";
+      });
+  </script>
+</body>
+</html>

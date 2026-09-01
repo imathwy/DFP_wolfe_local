@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="sec-conclusion">
+  <title>Conclusion</title>
+  <p>
+    The classical weak Wolfe global convergence question for unmodified DFP has a
+negative answer.  For every <m>0&lt;c_1&lt;2/3</m> and <m>2/3\le c_2&lt;1</m>, we construct a
+<m>C^2</m>, uniformly convex objective on <m>\R^2</m> with
+<m>\frac12I\preceq\nabla^2f\preceq\frac32I</m>.  The steps of the classical DFP
+sequence satisfy the standard strong Wolfe conditions, but the gradient norms
+converge to a positive constant.
+  </p>
+  <p>
+    The standard strong Wolfe conditions alone do not guarantee global convergence of DFP.
+  </p>
+  <p>
+    Between successive
+cycle starts, the changes in the gradient norm are summable, but the total
+eigenvector rotation is infinite.
+  </p>
+  <p>
+    Uniform separation of the iterates allows
+us to interpolate all endpoint data with one objective.  An affine change of
+variables gives a version with <m>H_0=I</m> and problem-dependent Hessian bounds.
+  </p>
+  <p>
+    Existing DFP convergence results require extra assumptions that this sequence
+does not satisfy.  We leave open whether similar examples exist for <m>c_2&lt;2/3</m>
+or for objectives smoother than <m>C^2</m>.
+  </p>
+</section>

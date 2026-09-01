@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A Lean 4 formalization of a strong-Wolfe counterexample to global convergence of classical DFP.">
+  <title>DFP Wolfe Counterexample</title>
+  <style>
+    :root { color-scheme: light; --ink: #17221d; --muted: #53635b;
+      --line: #d8e0da; --field: #f3f7f4; --accent: #1b6a4a; }
+    * { box-sizing: border-box; }
+    body { max-width: 58rem; margin: 0 auto; padding: 3rem 1.5rem 4rem;
+      color: var(--ink); background: #fff; font: 16px/1.6 system-ui, sans-serif; }
+    header { border-bottom: 1px solid var(--line); padding-bottom: 2rem; }
+    h1 { max-width: 46rem; margin: 0; font: 700 2.2rem/1.15 Georgia, serif; }
+    .authors { color: var(--muted); margin: .8rem 0 0; }
+    .lede { max-width: 48rem; margin: 1.4rem 0 0; font-size: 1.08rem; }
+    nav { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.5rem; }
+    nav a { border: 1px solid var(--line); padding: .55rem .8rem; color: var(--accent);
+      text-decoration: none; font-weight: 650; background: var(--field); }
+    nav a:hover, nav a:focus-visible { border-color: var(--accent); }
+    main { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      padding-top: 2rem; }
+    section { border-top: 3px solid var(--accent); padding-top: .8rem; }
+    h2 { margin: 0 0 .45rem; font: 700 1.15rem/1.25 Georgia, serif; }
+    p { margin: .45rem 0; }
+    ul { margin: .55rem 0 0; padding-left: 1.2rem; }
+    a { color: var(--accent); }
+    footer { color: var(--muted); border-top: 1px solid var(--line); margin-top: 2.5rem;
+      padding-top: 1rem; font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>A counterexample to global convergence of classical DFP under the standard strong Wolfe conditions</h1>
+    <p class="authors">Benqi Liu, Zichen Wang, Zaiwen Wen, Liwei Zhang, and Yaxiang Yuan</p>
+    <p class="lede">A globally uniformly convex <i>C</i><sup>2</sup> objective admits a
+      classical inverse-form DFP trajectory satisfying strong Wolfe conditions while
+      its gradient norms converge to a positive limit.</p>
+    <nav aria-label="Primary resources">
+      <a href="paper/">Read the interactive paper</a>
+      <a href="https://arxiv.org/pdf/2608.21708">Download the arXiv PDF</a>
+      <a href="https://arxiv.org/html/2608.21708v1">arXiv version</a>
+      <a href="https://github.com/imathwy/DFP_wolfe_local">Lean repository</a>
+    </nav>
+  </header>
+  <main>
+    <section>
+      <h2>What is formalized</h2>
+      <ul>
+        <li>the two-phase DFP orbit and invariant slow curve;</li>
+        <li>the limiting circle and all-pairs separation estimate;</li>
+        <li>the global <i>C</i><sup>2</sup> uniformly convex realization;</li>
+        <li>all-dimensional transport and identity initialization.</li>
+      </ul>
+    </section>
+    <section>
+      <h2>Explore the proof</h2>
+      <p>Source-level navigation connects paper statements to the reviewed
+        `DFPWolfe` declarations while the compact doc-gen4 subset is prepared.</p>
+      <nav aria-label="Proof resources">
+        <a href="formalizations/">Formalization index</a>
+        <a href="formalizations/DFPWolfe/">Declaration index</a>
+        <a href="correspondence/">Article-to-Lean map</a>
+        <a href="reproducibility/">Reproduce the checks</a>
+      </nav>
+    </section>
+  </main>
+  <footer>Lean 4 v4.32.0 · mathlib v4.32.0 · Apache License 2.0</footer>
+</body>
+</html>

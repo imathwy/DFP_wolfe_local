@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="sec-alternating-sequence">
+  <title>Construction of a nonconvergent DFP sequence</title>
+  <introduction>
+    <p>
+      We now construct the sequences <m>(x_k,g_k,H_k)</m> before defining the objective.
+Unlike Proposition<nbsp/><xref ref="prop-one-step" text="global"/>, which is valid in any dimension, the
+construction in this and the next section is entirely two-dimensional.  All
+vectors belong to <m>\R^2</m> and all matrices are <m>2\times2</m> until the direct-sum
+extension in Section<nbsp/><xref ref="sec-completion" text="global"/>.  The sequences satisfy the
+search-direction, secant, and update equations of classical DFP.  The analysis
+below shows that <m>\|g_k\|</m> remains bounded away from zero.
+Section<nbsp/><xref ref="sec-global-objective" text="global"/> constructs one uniformly convex function on
+<m>\R^2</m> that generates these data.  Cycle <m>j</m> consists of DFP iterations
+<m>2j</m> and <m>2j+1</m>.
+    </p>
+  </introduction>
+  <subsection xml:id="sec-alternating-sequence-coordinate-representation-and-choice-of">
+    <title>Coordinate representation and choice of secant pairs</title>
+    <p>
+      We first choose coordinates that isolate the smaller eigenvalue of <m>H</m> and
+the component of <m>g</m> along its eigenvector.  These coordinates put the two
+prescribed secant pairs in a common form and allow us to analyze their
+combined effect over one cycle.  At the beginning of a two-step cycle, let
+<m>R=(e,e^\perp)</m> be the oriented
+orthogonal matrix whose first column is a unit eigenvector corresponding to
+the smaller eigenvalue of <m>H</m>, and write
+      <men xml:id="eq-coordinate-representation">H=R\begin{pmatrix}hpr^2&amp;0\\0&amp;h\end{pmatrix}R^T,
+\qquad
+g=GR\binom{1}{pr},</men>
+    </p>
+    <p>
+      where <m>r,p,h,G>0</m>.  Here <m>r</m> determines the smaller eigenvalue and the second
+gradient component.  The scalar <m>G</m> is the component of <m>g</m> along the
+corresponding eigenvector.  The pair <m>(p,h)</m> describes the remaining normalized
+components of <m>H</m> and <m>g</m>.
+    </p>
+    <p>
+      We use the following data for the two DFP iterations in each cycle.  The ratio
+<m>s^Ty/(-g^Ts)</m> determines the directional derivative after an accepted step.
+The off-diagonal terms have opposite signs, and this rotates the eigenvectors
+of the inverse Hessian approximation.  At <m>\epsilon=0</m>, the first iteration
+doubles <m>r</m> and changes <m>p</m> from <m>2</m> to <m>1/2</m>.  The second restores both
+quantities.  The terms of order <m>\epsilon</m> produce the net decrease in <m>r</m>
+that we study below.  Set <m>r=\epsilon^2</m>.  In the current oriented eigenbasis,
+use the following matrices and parameters during one cycle:
+      <men xml:id="eq-alternating-secant-data">A_1(\epsilon)=
+\begin{pmatrix}1&amp;\epsilon\\ \epsilon&amp;1\end{pmatrix},
+\quad \tau_1=\frac23;
+\qquad
+A_2(\epsilon)=
+\begin{pmatrix}1&amp;-2\epsilon\\ -2\epsilon&amp;1\end{pmatrix},
+\quad \tau_2=\frac13.</men>
+    </p>
+    <p>
+      We restrict the initial parameter to
+<m>0&lt;\epsilon\le\epsilon_0&lt;1/4</m>.  Both matrices are then positive definite, and
+their spectra lie in <m>[1/2,3/2]</m>.  The same <m>\epsilon</m> is used in both
+iterations.  After each iteration, we diagonalize the updated inverse Hessian
+approximation.  We choose the sign of the eigenvector for the smaller
+eigenvalue so that its inner product with the new gradient is positive.  We
+then use the corresponding coordinates in
+<xref ref="eq-coordinate-representation"/>.
+    </p>
+    <p>
+      For direct verification of the two iterations, we now record the current
+gradient, the Hessian approximation, and the step length at each index.  This
+also fixes the relation between the inverse-Hessian notation used in the
+algorithm and the Hessian notation common in quasi-Newton analysis.  Define
+<me>B_k:=H_k^{-1}.</me>
+At the beginning of cycle <m>j</m>, write the quantities in
+<xref ref="eq-coordinate-representation"/> as
+<m>R_j,G_j,p_j,h_j,r_j</m>, where <m>r_j=\epsilon_j^2</m>, and set
+<me>\widehat g_j=\binom{1}{p_jr_j},\qquad
+\widehat w_j=\binom{r_j+\epsilon_j}{1+\epsilon_jr_j},\qquad
+D_j^{(1)}=1+2\epsilon_jr_j+r_j^2.</me>
+The data at the even iteration are
+      <men xml:id="eq-even-iteration-data">\begin{aligned}
+g_{2j}&amp;=G_jR_j\widehat g_j,\\
+B_{2j}&amp;=R_j
+\begin{pmatrix}
+(h_jp_jr_j^2)^{-1}&amp;0\\[1mm]
+0&amp;h_j^{-1}
+\end{pmatrix}R_j^T,\\
+\alpha_{2j}
+&amp;=\frac{2(p_j+1)}{3h_jp_jD_j^{(1)}}.
+\end{aligned}</men>
+      The first update therefore gives, still in the basis <m>R_j</m>,
+      <mdn>
+        <mrow xml:id="eq-first-updated-gradient">g_{2j+1}
+&amp;=G_jR_j\left(
+\widehat g_j-
+\frac{2(p_j+1)r_j}{3D_j^{(1)}}\widehat w_j
+\right),</mrow>
+        <mrow xml:id="eq-first-updated-B">B_{2j+1}
+&amp;=R_j\left\{
+\frac1{h_j}
+\begin{pmatrix}(p_jr_j^2)^{-1}&amp;0\\0&amp;1\end{pmatrix}
+-\frac{\widehat w_j\widehat g_j^T+
+\widehat g_j\widehat w_j^T}
+{h_jp_jr_jD_j^{(1)}}
++\left\{\frac1{D_j^{(1)}}
++\frac{p_j+1}{h_jp_j(D_j^{(1)})^2}\right\}
+\widehat w_j\widehat w_j^T
+\right\}R_j^T.</mrow>
+      </mdn>
+    </p>
+    <p>
+      To state the odd-iteration step length without expanding the two eigenvalues
+into a long expression, diagonalize
+<m>H_{2j+1}=B_{2j+1}^{-1}</m> as prescribed above.  Denote the resulting oriented
+eigenbasis and normalized coordinates by
+<m>R_j^{(1)},G_j^{(1)},p_j^{(1)},h_j^{(1)},r_j^{(1)}</m>; thus
+      <men xml:id="eq-odd-iteration-data">\begin{aligned}
+g_{2j+1}
+&amp;=G_j^{(1)}R_j^{(1)}
+\binom{1}{p_j^{(1)}r_j^{(1)}},\\
+B_{2j+1}
+&amp;=R_j^{(1)}
+\begin{pmatrix}
+\bigl(h_j^{(1)}p_j^{(1)}(r_j^{(1)})^2\bigr)^{-1}&amp;0\\[1mm]
+0&amp;(h_j^{(1)})^{-1}
+\end{pmatrix}(R_j^{(1)})^T,\\
+\alpha_{2j+1}
+&amp;=\frac{p_j^{(1)}+1}
+{3h_j^{(1)}p_j^{(1)}D_j^{(2)}},
+\qquad
+D_j^{(2)}=1-4\epsilon_jr_j^{(1)}+(r_j^{(1)})^2.
+\end{aligned}</men>
+      Here the secant matrices in the original coordinates are
+<m>R_jA_1(\epsilon_j)R_j^T</m> and
+<m>R_j^{(1)}A_2(\epsilon_j)(R_j^{(1)})^T</m>, respectively.  All formulas in
+<xref ref="eq-even-iteration-data"/><ndash/><xref ref="eq-odd-iteration-data"/> are exact.  They
+follow by applying the entrywise update formulas
+<xref ref="eq-appendix-H-entries"/> and <xref ref="eq-appendix-B-update"/>, followed by
+the parameter-recovery formulas <xref ref="eq-parameter-recovery"/>; see
+Appendix<nbsp/><xref ref="app-algebra" text="global"/>.  Thus the odd-iteration quantities are determined
+explicitly by the even-iteration data, although writing the two eigenvalues
+out in full would obscure the two-step recurrence.
+    </p>
+  </subsection>
+  <subsection xml:id="sec-alternating-sequence-a-local-invariant-graph">
+    <title>A local invariant graph</title>
+    <p>
+      The two-step recurrence is singular at <m>\epsilon=0</m> in the original
+variables.  After the explicit powers of <m>\epsilon</m> are cancelled, its
+derivative has one eigenvalue equal to one and two eigenvalues with modulus
+less than one.  We use the following standard invariant-graph result for a
+discrete system.  In the application, the scalar center variable is
+<m>u=\epsilon</m>, and the stable variable is
+<m>z=(p-2,h-1)\in\R^2</m>.  The auxiliary system has one center variable and
+two stable variables, even though the optimization problem itself is
+two-dimensional.  We state the result for a general stable dimension <m>d_s</m>;
+it also applies to a noninvertible map <xref ref="bib-KarydasSchinas1992"/>.
+    </p>
+    <lemma xml:id="lem-graph-transform">
+      <title>Local invariant graph</title>
+      <statement>
+        <p>
+          Let <m>\nu\ge2</m>, let <m>d_s\ge1</m> be an integer, and let <m>F=(F_c,F_s)</m> be a
+<m>C^\nu</m> map from a neighborhood of <m>(0,0)\in\R\times\R^{d_s}</m> into
+<m>\R\times\R^{d_s}</m>.  Suppose that, for some
+<m>L\in\R^{d_s\times d_s}</m>,
+<me>F(0,0)=(0,0),\qquad
+DF(0,0)=\begin{pmatrix}1&amp;0\\0&amp;L\end{pmatrix},
+\qquad \rho(L)&lt;1.</me>
+Then, after restricting the neighborhood, there is a <m>C^\nu</m> function
+<m>z=\zeta(u)</m> with <m>\zeta(0)=D\zeta(0)=0</m> whose graph is locally forward
+invariant.  The conclusion does not require <m>L</m>, or the full derivative
+<m>DF(0,0)</m>, to be invertible.
+        </p>
+      </statement>
+      <lean project="DFPWolfe" ref="LocalInvariantGraph.existsOfComplexSpectralRadiusLtOne">Lean</lean>
+      <proof>
+        <p>
+          Choose an equivalent norm in the <m>z</m>-space for which
+<m>\norm{L}&lt;\lambda&lt;1</m>.  Write <m>\mathbb B_b</m> and
+<m>\overline{\mathbb B}_b</m> for the open and closed balls of radius <m>b</m> centered
+at the origin in this norm, and fix a small Lipschitz bound
+<m>q_{\rm lip}>0</m>.
+Multiply the nonlinear part of <m>F</m> by a smooth cutoff.  The cutoff equals one
+near the origin and vanishes near the boundary of
+<m>[-a,a]\times\overline{\mathbb B}_b</m>.  At <m>u=\pm a</m>, the modified
+<m>u</m>-component is the identity.  The linear map <m>L</m> sends
+<m>\overline{\mathbb B}_b</m> strictly inside itself.  By
+reducing <m>a</m> and <m>b</m>, we can make the modified map send the cylinder into
+itself and satisfy the following bounds for any fixed small <m>\delta>0</m>:
+          <md>
+            <mrow>|D_uF_c-1|+\norm{D_zF_c}&amp;\le\delta,</mrow>
+            <mrow>\norm{D_uF_s}+\norm{D_zF_s-L}&amp;\le\delta.</mrow>
+          </md>
+          Let <m>\mathcal X</m> be the complete metric space of graphs
+<m>\zeta:[-a,a]\to\overline{\mathbb B}_b</m> with <m>\zeta(0)=0</m> and
+<m>\operatorname{Lip}(\zeta)\le q_{\rm lip}</m>.  We use the uniform norm.  The
+boundary choice ensures that the <m>u</m>-component of each graph maps <m>[-a,a]</m>
+onto itself.  Its image also remains in the cylinder.
+        </p>
+        <p>
+          For <m>\zeta\in\mathcal X</m>, set
+<m>\Theta_\zeta(u)=F_c(u,\zeta(u))</m>.  Its difference quotients lie between
+<m>1-\delta(1+q_{\rm lip})</m> and <m>1+\delta(1+q_{\rm lip})</m>.  The same bounds hold
+for its derivative wherever that derivative exists.  Since
+<m>\Theta_\zeta(\pm a)=\pm a</m>, this map is a strictly increasing bijection of
+<m>[-a,a]</m>.  Its inverse is Lipschitz continuous.
+Define the graph transform by
+<me>(\mathcal T\zeta)(\bar u)
+=F_s(u,\zeta(u)),
+\qquad u=\Theta_\zeta^{-1}(\bar u).</me>
+The derivative bounds show that <m>\mathcal T\mathcal X\subset\mathcal X</m>.  Its
+uniform contraction factor is <m>\lambda+O(\delta)&lt;1</m>.  The map <m>\mathcal T</m>
+has a unique fixed graph on the cutoff cylinder.  On the smaller
+region where the cutoff equals one, that graph is forward invariant for the
+original map <m>F</m>.
+        </p>
+        <p>
+          We next prove the stated regularity.  For each
+<m>1\le r\le\nu</m>, shrink the cylinder until
+          <men xml:id="eq-graph-bunching">(\lambda+O(\delta))
+\{1-\delta(1+q_{\rm lip})\}^{-r}&lt;1.</men>
+          At stage <m>r</m>, consider the closed set of <m>C^r</m> graphs whose derivatives through
+order <m>r-1</m> satisfy the bounds from the earlier stages.  Use a norm that also
+controls the <m>r</m>th derivative.  The chain rule shows that the transformed
+<m>r</m>th derivative is affine in <m>D^r\zeta</m>.  Its linear coefficient is bounded
+by the left-hand side of <xref ref="eq-graph-bunching"/>; all other terms use only
+lower derivatives.  Condition <xref ref="eq-graph-bunching"/> makes the transform a
+contraction at stage <m>r</m>.  Induction from <m>r=1</m> to <m>r=\nu</m> gives a <m>C^\nu</m>
+fixed graph.  Uniqueness in the uniform norm identifies it with the Lipschitz
+graph constructed above.  Differentiating the invariance equation at the
+origin gives <m>D\zeta(0)=L D\zeta(0)</m>.  We have <m>D\zeta(0)=0</m> because
+<m>1\notin\sigma(L)</m>.  This is the standard graph-transform proof of the
+discrete center manifold theorem in <m>C^\nu</m>.  Only the scalar map
+<m>\Theta_\zeta</m> is inverted.  Neither <m>L</m> nor <m>DF(0,0)</m> must be invertible, so
+a zero eigenvalue of <m>L</m> causes no difficulty.
+        </p>
+      </proof>
+    </lemma>
+  </subsection>
+  <subsection xml:id="sec-alternating-sequence-analytic-extension-and-an-invariant">
+    <title>Analytic extension and an invariant center manifold</title>
+    <p>
+      Lemma<nbsp/><xref ref="lem-graph-transform" text="global"/> can be applied only after we remove the
+singularity at <m>\epsilon=0</m> and find the spectrum of the linearized recurrence.
+Let
+<m>\mathcal F(\epsilon,p,h)=(\epsilon_+,p_+,h_+)</m> denote the map obtained by
+applying the two updates in <xref ref="eq-alternating-secant-data"/>.  We then write
+the updated state in the form <xref ref="eq-coordinate-representation"/>.  The next
+lemma verifies the two requirements for <m>\mathcal F</m>.  It also gives the
+leading terms of the map on the center manifold.  These terms determine the
+slow change of the small eigenvalue.
+    </p>
+    <lemma xml:id="lem-center-manifold">
+      <title>Rescaled recurrence and invariant center manifold</title>
+      <statement>
+        <p>
+          After cancellation of the explicit singular factors, <m>\mathcal F</m> has a real
+analytic extension near <m>(0,2,1)</m>.  Its derivative there has one eigenvalue
+equal to <m>1</m> and two other eigenvalues
+<m>-1/9</m> and <m>0</m>, so it has a
+locally invariant one-dimensional <m>C^7</m> center manifold
+<me>p=p(\epsilon),\qquad h=h(\epsilon),</me>
+on which
+          <mdn>
+            <mrow xml:id="eq-center-curve">p(\epsilon)&amp;=2+\frac{198}{5}\epsilon^3
+-\frac95\epsilon^4+O(\epsilon^5),
+&amp;h(\epsilon)&amp;=1+8\epsilon^3+O(\epsilon^5),</mrow>
+            <mrow xml:id="eq-epsilon-map">\epsilon_+&amp;=\epsilon-\frac32\epsilon^4
++\frac54\epsilon^5+O(\epsilon^6).</mrow>
+          </mdn>
+        </p>
+      </statement>
+      <lean project="DFPWolfe" ref="DFP.TwoLeg.stateMapAnalytic">Lean (stateMapAnalytic)</lean>
+      <lean project="DFPWolfe" ref="DFP.TwoLeg.stateMap_fderiv_apply">Lean (stateMap_fderiv_apply)</lean>
+      <lean project="DFPWolfe" ref="DFP.TwoLeg.exists_localForwardInvariantSlowCurve">Lean (exists_localForwardInvariantSlowCurve)</lean>
+      <lean project="DFPWolfe" ref="DFP.TwoLeg.slowGraphSignedRecurrence">Lean (slowGraphSignedRecurrence)</lean>
+      <proof>
+        <p>
+          All operations in one DFP iteration are rational in the matrix entries and the
+secant pair.  At the limiting point in the rescaled variables, every remaining
+denominator is positive after the explicit powers of <m>\epsilon</m> are cancelled.
+The two eigenvalues of the limiting matrix are <m>0</m> and <m>1</m>.  Its oriented
+eigenbasis depends analytically on the entries.  Direct cancellation
+gives the stated analytic extension.  If <m>\widehat r_+</m> denotes the value of
+<m>r</m> after two
+iterations, then <m>\widehat r_+/\epsilon^2</m> has a positive analytic extension
+with value one.  We define
+<me>\epsilon_+=\epsilon
+\sqrt{\widehat r_+/\epsilon^2}.</me>
+For <m>\epsilon>0</m>, this agrees with the positive square root of
+<m>\widehat r_+</m>.  The factor <m>\epsilon</m> makes the three-variable recurrence
+analytic across <m>\epsilon=0</m>.
+        </p>
+        <p>
+          To verify the cancellation explicitly, write the state after iteration
+<m>i\in\{1,2\}</m> in its new oriented eigenbasis as
+<me>\lambda_-^{(i)}=\epsilon^4L_i,\qquad
+\lambda_+^{(i)}=\mathcal H_i,\qquad
+R_i^Tg_i
+=G\binom{\mathcal G_i}{\epsilon^2U_i},\qquad
+r_i=\epsilon^2\mathcal R_i.</me>
+Direct substitution in <xref ref="eq-abstract-step"/> and the DFP determinant
+identity
+<me>\det H_+=\det H\,\frac{s^Ty}{y^THy}</me>
+show that all displayed factors are analytic.  Their values at
+<m>\epsilon=0</m> are
+<me>\begin{array}{c|cccccc}
+i&amp;L_i&amp;\mathcal H_i&amp;\mathcal G_i&amp;U_i&amp;\mathcal R_i&amp;p_i\\ \hline
+1&amp;2&amp;1&amp;1&amp;1&amp;2&amp;1/2\\
+2&amp;2&amp;1&amp;1&amp;2&amp;1&amp;2.
+\end{array}</me>
+Indeed,
+<me>r_i=\frac{\lambda_-^{(i)}}
+{\lambda_+^{(i)}
+ ((R_i^Tg_i)_2/(R_i^Tg_i)_1)}
+=\epsilon^2\frac{L_i\mathcal G_i}{\mathcal H_iU_i}.</me>
+The four expressions used in each iteration are
+<me>g^THg,\qquad (Hg)^TA(Hg),\qquad s^TAs,\qquad (As)^TH(As).</me>
+Each equals <m>\epsilon^4</m> times a factor that is analytic and positive at
+<m>\epsilon=0</m>.
+For the first iteration these four limiting factors are <m>(6,4,4,4)</m>; for the
+second they are <m>(3,1,1,1)</m>.  For example, before the first update,
+          <md>
+            <mrow>g^THg&amp;=hp(p+1)\epsilon^4,</mrow>
+            <mrow>(Hg)^TA_1(Hg)&amp;=h^2p^2\epsilon^4
+ (1+2\epsilon^3+\epsilon^4).</mrow>
+          </md>
+          It follows that every step length, DFP denominator, spectral coordinate, and
+quotient in <xref ref="eq-coordinate-representation"/> has an analytic extension
+across <m>\epsilon=0</m>.  Also,
+<m>\widehat r_+/\epsilon^2=\mathcal R_2\to1</m>, as required in the definition of
+<m>\epsilon_+</m> above.
+        </p>
+        <p>
+          The cancellation also gives explicit formulas for the limiting recurrence.
+If <m>p</m> and <m>h</m> are left independent while <m>\epsilon\to0</m>, then
+          <mdn>
+            <mrow xml:id="eq-limiting-radius">\left.\frac{r_+}{\epsilon^2}\right|_{\epsilon=0}
+&amp;=\frac{9hp(p+1)}{2\{9hp+(p+1)^2\}},</mrow>
+            <mrow xml:id="eq-limiting-ph">\left.p_+\right|_{\epsilon=0}
+&amp;=\frac{4\{9hp+(p+1)^2\}^2}
+{81hp(p+1)^2},
+&amp;\left.h_+\right|_{\epsilon=0}&amp;=1.</mrow>
+          </mdn>
+          At <m>(p,h)=(2,1)</m>, the factor <m>r_+/\epsilon^2</m> equals one.  The limiting
+recurrence also fixes <m>(2,1)</m>.  Differentiating
+<xref ref="eq-limiting-radius"/><ndash/><xref ref="eq-limiting-ph"/>
+gives
+          <men xml:id="eq-limiting-jacobian">D(\epsilon_+,p_+,h_+)(0,2,1)
+=\begin{pmatrix}
+1&amp;0&amp;0\\
+0&amp;-1/9&amp;2/3\\
+0&amp;0&amp;0
+\end{pmatrix}.</men>
+          The derivative has the stated three eigenvalues.
+        </p>
+        <p>
+          To determine the required coefficients, treat <m>r</m> and <m>b</m> as independent
+small variables and set
+<me>p=2+Pb r,\qquad h=1+Jb r.</me>
+Substitute this form into the two DFP updates and use the quadratic formula for
+the two simple eigenvalues.  This gives the following two-variable expansions.
+Here <m>C=x-g</m>, and <m>e</m> is a unit eigenvector for the smaller eigenvalue in the
+original coordinates.  The scalar <m>\phi\in\R</m> is its angle, chosen continuously
+along the sequence:
+          <md>
+            <mrow>r_+-r
+ &amp;=\frac{b(6J+5P-300)}{18}r^2+O(r^3),</mrow>
+            <mrow>p_+-2
+ &amp;=\frac{b(6J-P+348)}9r+O(r^2),</mrow>
+            <mrow>h_+-1&amp;=8br+O(r^2),</mrow>
+            <mrow>\frac{G_+}{G}-1
+ &amp;=\frac{b^2(24J-4P+384)-117}{18}r^2+O(r^3),</mrow>
+            <mrow>\phi_+-\phi&amp;=-3r+O(r^2),</mrow>
+            <mrow>e^T(C_+-C)
+ &amp;=-\frac{2b^2(6J-P+96)}9Gr^2+O(G|b|r^3).</mrow>
+          </md>
+          The remainders are uniform for bounded <m>(b,P,J)</m> in a fixed neighborhood.
+The leading recurrence for <m>(P,J)</m> is
+          <men xml:id="eq-transverse-map">P_+=\frac{6J-P+348}{9}+o(1),
+\qquad J_+=8+o(1).</men>
+          Its linear part is
+<me>L=\begin{pmatrix}-1/9&amp;2/3\\0&amp;0\end{pmatrix},</me>
+and its fixed point is
+<me>(P,J)=\left(\frac{198}{5},8\right).</me>
+Lemma<nbsp/><xref ref="lem-graph-transform" text="global"/> applies with <m>\nu=7</m>.  One eigenvalue is <m>1</m>,
+and the other two, <m>-1/9</m> and <m>0</m>, lie strictly inside the unit disk.  The
+analytic extension gives all required derivatives.  The zero eigenvalue
+belongs to the matrix <m>L</m>, so the lemma gives a <m>C^7</m> invariant graph.
+Because the graph is tangent to the <m>\epsilon</m>-axis, we initially know only
+<m>(p-2,h-1)=O(\epsilon^2)</m>, so the absence of a quadratic term must be checked.
+Writing <m>z=(p-2,h-1)^T</m>, the exact expansion in
+Appendix<nbsp/><xref ref="app-algebra" text="global"/> has the form
+<me>z_+=Lz+O(\epsilon^3+|\epsilon|\norm{z}+\norm{z}^2),
+\qquad \epsilon_+=\epsilon+O(\epsilon^4+|\epsilon|\norm{z}).</me>
+If the invariant graph begins with <m>z=z_2\epsilon^2+O(\epsilon^3)</m>, its
+order-<m>\epsilon^2</m> invariance equation is <m>z_2=Lz_2</m>.  Since
+<m>1\notin\sigma(L)</m>, we have <m>z_2=0</m>.  We may write
+<me>p=2+P_3\epsilon^3+P_4\epsilon^4+O(\epsilon^5),
+\qquad
+h=1+H_3\epsilon^3+H_4\epsilon^4+O(\epsilon^5).</me>
+The <m>p</m>- and <m>h</m>-components of the graph-invariance equation give
+          <men xml:id="eq-graph-coefficient-system">3H_3-5P_3+174=0,\qquad 8-H_3=0,\qquad
+3H_4-5P_4-9=0,\qquad H_4=0.</men>
+          The solution is
+<me>(P_3,H_3,P_4,H_4)=\left(\frac{198}{5},8,-\frac95,0\right).</me>
+For the <m>\epsilon</m>-component, the next two coefficients of
+<m>\epsilon_+-\epsilon</m> are
+<me>\frac{6H_3+5P_3-300}{36}=-\frac32,
+\qquad
+\frac{6H_4+5P_4+54}{36}=\frac54.</me>
+This proves <xref ref="eq-center-curve"/><ndash/><xref ref="eq-epsilon-map"/>.  The leading
+relation also follows from the displayed two-variable expansion:
+<m>r_+=r-3\epsilon r^2+O(\epsilon^6)</m> when
+<m>b=\epsilon</m> and <m>r=\epsilon^2</m>.
+Equation <xref ref="eq-epsilon-map"/> also gives
+<m>0&lt;\epsilon_+&lt;\epsilon</m> for every sufficiently small <m>\epsilon>0</m>.
+Since <m>p(0)=2</m>, <m>h(0)=1</m>, and <m>p(\epsilon)</m> and <m>h(\epsilon)</m> are continuous,
+all forward iterates satisfy <m>p,h,\epsilon>0</m>.
+        </p>
+      </proof>
+    </lemma>
+  </subsection>
+  <subsection xml:id="sec-alternating-sequence-asymptotic-expansions-in-the-original">
+    <title>Asymptotic expansions in the original coordinates</title>
+    <p>
+      Lemma<nbsp/><xref ref="lem-center-manifold" text="global"/> gives the center-manifold expansion in
+normalized variables.  We now return to the original coordinates and track
+<m>G_j</m>, <m>\phi_j</m>, and <m>C_k</m> over a complete cycle.  Fix a neighborhood
+<m>0&lt;\epsilon\le\bar\epsilon&lt;1/4</m> on which all analytic denominators and the
+invariant graph above are defined and the Taylor estimates are uniform.  All
+constants below are chosen on this fixed neighborhood.  They do not depend on
+the final initial parameter
+<m>\epsilon_0\le\bar\epsilon</m>.  Choose such an <m>\epsilon_0>0</m>, take
+<m>(p_0,h_0)=(p(\epsilon_0),h(\epsilon_0))</m>, <m>G_0=1</m>, and <m>R_0=I</m> in
+<xref ref="eq-coordinate-representation"/>, and set <m>x_0=g_0</m>, so that
+<m>C_0=x_0-g_0=0</m>.
+These choices define an infinite sequence that satisfies the DFP update
+identities.
+    </p>
+    <p>
+      The variable <m>C_k=x_k-g_k</m> is the minimizer of the quadratic
+<m>x\mapsto\frac12\|x-C_k\|^2</m>, whose gradient at <m>x_k</m> equals <m>g_k</m>.
+The tail estimate for <m>C_k</m> will be smaller than the distance from <m>x_k</m> to the
+limiting circle.  This difference is used in the interpolation argument.
+    </p>
+    <lemma xml:id="lem-two-step-expansions">
+      <title>Asymptotic expansions over two DFP iterations</title>
+      <statement>
+        <p>
+          Let <m>\phi_j\in\R</m> be the angle of the unit eigenvector for the smaller
+eigenvalue at iteration <m>2j</m>.  Choose this angle continuously along the
+sequence.  Let <m>G_j</m> be the corresponding gradient component in
+<xref ref="eq-coordinate-representation"/>, and define
+<me>C_k=x_k-g_k.</me>
+On the invariant center manifold,
+          <mdn>
+            <mrow xml:id="eq-G-map">\frac{G_{j+1}}{G_j}
+&amp;=1-\frac{13}{2}\epsilon_j^4+O(\epsilon_j^6),</mrow>
+            <mrow xml:id="eq-phi-map">\phi_{j+1}-\phi_j
+&amp;=-3\epsilon_j^2+O(\epsilon_j^4),</mrow>
+            <mrow xml:id="eq-C-map">C_{2j+2}-C_{2j}
+&amp;=-\frac{116}{5}G_j\epsilon_j^6e_j
++O(G_j\epsilon_j^7),</mrow>
+            <mrow xml:id="eq-C-half">\|C_{2j+1}-C_{2j}\|&amp;=O(G_j\epsilon_j^3).</mrow>
+          </mdn>
+          The two consecutive endpoint-gradient polar-angle increments within a cycle are
+respectively
+          <men xml:id="eq-half-angles">-2\epsilon_j^2+o(\epsilon_j^2),
+\qquad -\epsilon_j^2+o(\epsilon_j^2).</men>
+          Here <m>e_j</m> is the unit eigenvector corresponding to the smaller eigenvalue,
+expressed in the original coordinates.
+        </p>
+      </statement>
+      <lean project="DFPWolfe" ref="DFP.TwoLeg.slowCurveAmplitudeDrift">Lean (slowCurveAmplitudeDrift)</lean>
+      <lean project="DFPWolfe" ref="DFP.TwoPhaseOrbit.slowCurveFrameRotation">Lean (slowCurveFrameRotation)</lean>
+      <lean project="DFPWolfe" ref="DFP.TwoPhaseOrbit.slowCurveFullCenterDrift">Lean (slowCurveFullCenterDrift)</lean>
+      <lean project="DFPWolfe" ref="DFP.TwoPhaseOrbit.slowCurveHalfCenterDisplacement">Lean (slowCurveHalfCenterDisplacement)</lean>
+      <lean project="DFPWolfe" ref="slowCurveFirstEndpointAngleIncrement">Lean (slowCurveFirstEndpointAngleIncrement)</lean>
+      <lean project="DFPWolfe" ref="slowCurveSecondEndpointAngleIncrement">Lean (slowCurveSecondEndpointAngleIncrement)</lean>
+      <proof>
+        <p>
+          Set <m>P=198/5</m> and <m>J=8</m>, the leading invariant-manifold coefficients.  Before
+putting <m>b=\epsilon</m>, the same two-variable expansion used in
+<xref ref="eq-transverse-map"/> then gives
+          <md>
+            <mrow>\frac{G_+}{G}
+&amp;=1+\frac{232b^2-65}{10}r^2+O(r^3),</mrow>
+            <mrow>\phi_+-\phi&amp;=-3r+O(r^2),</mrow>
+            <mrow>e^T(C_+-C)&amp;=-\frac{116}{5}Gb^2r^2</mrow>
+            <mrow>&amp;\quad+O(G|b|r^3).</mrow>
+          </md>
+          These remainders are uniform for bounded <m>b</m> in the fixed neighborhood.  The
+last remainder is not <m>o(Gb^2r^2)</m> when <m>b</m> and <m>r</m> vary independently.
+Along the path used here,
+<m>b=\epsilon</m> and <m>r=\epsilon^2</m>, it is
+<m>O(G\epsilon^7)=o(G\epsilon^6)</m>.
+The four center manifold coefficients in <xref ref="eq-center-curve"/>, substituted
+into the analytic recurrence, sharpen these relations to
+          <md>
+            <mrow>\frac{G_+}{G}
+&amp;=1-\frac{13}{2}\epsilon^4
++\frac{116}{5}\epsilon^6+O(\epsilon^7),</mrow>
+            <mrow>\phi_+-\phi&amp;=-3\epsilon^2+O(\epsilon^4),</mrow>
+            <mrow>R_j^T(C_{2j+2}-C_{2j})/G_j
+&amp;=\binom{-\frac{116}{5}\epsilon^6+O(\epsilon^7)}
+{O(\epsilon^8)}.</mrow>
+          </md>
+          Along the single-parameter path <m>b=\epsilon</m>, <m>r=\epsilon^2</m>, the first-step
+formula is
+<me>C_{2j+1}-C_{2j}
+=G_jR_j\binom{2\epsilon^3+o(\epsilon^3)}
+{2\epsilon^5+o(\epsilon^5)}.</me>
+These relations prove <xref ref="eq-G-map"/><ndash/><xref ref="eq-C-half"/>.  A direct expansion
+in the eigenbases before and after the two updates gives
+<xref ref="eq-half-angles"/>.
+        </p>
+      </proof>
+    </lemma>
+  </subsection>
+  <subsection xml:id="sec-alternating-sequence-scalar-asymptotics-and-the-limiting">
+    <title>Scalar asymptotics and the limiting circle</title>
+    <p>
+      Lemma<nbsp/><xref ref="lem-two-step-expansions" text="global"/> gives local relations from one cycle to the
+next.  To use them in the interpolation step, we must show that the recurrence
+remains in the chosen neighborhood for all cycles and convert the one-cycle
+relations into asymptotic estimates for the full sequence.  The lemma below
+does this, introduces the limits <m>G_\infty</m> and <m>C_\infty</m>, and identifies the
+accumulation set of the iterates.
+    </p>
+    <lemma xml:id="lem-scalar-asymptotics">
+      <title>Scalar asymptotics</title>
+      <statement>
+        <p>
+          There are limits <m>G_\infty>0</m> and <m>C_\infty\in\R^2</m> such that
+          <mdn>
+            <mrow xml:id="eq-epsilon-asymptotic">\epsilon_j&amp;\sim\left(\frac92j\right)^{-1/3},</mrow>
+            <mrow xml:id="eq-G-tail">G_j-G_\infty&amp;\sim\frac{13}{3}G_\infty\epsilon_j,</mrow>
+            <mrow xml:id="eq-C-tail">\|C_{2j}-C_\infty\|&amp;=O(\epsilon_j^3),
+\qquad
+\|C_{2j+1}-C_\infty\|=O(\epsilon_j^3).</mrow>
+          </mdn>
+          Also, <m>\phi_j\to-\infty</m>, and the accumulation set of the iterates is
+the full circle
+          <men xml:id="eq-limit-circle">\Gamma=\{C_\infty+G_\infty v:\|v\|=1\}.</men>
+        </p>
+      </statement>
+      <lean project="DFPWolfe" ref="DFP.TwoPhaseOrbit.slowCurveScalarAsymptotics">Lean (slowCurveScalarAsymptotics)</lean>
+      <lean project="DFPWolfe" ref="DFP.TwoPhaseOrbit.slowCurveEndpointClusterSet_eq_limitCircle">Lean (slowCurveEndpointClusterSet_eq_limitCircle)</lean>
+      <proof>
+        <p>
+          Equation <xref ref="eq-epsilon-map"/> gives
+<me>\epsilon_{j+1}^{-3}-\epsilon_j^{-3}
+=\frac92+O(\epsilon_j),</me>
+which proves <xref ref="eq-epsilon-asymptotic"/>.  In particular,
+<me>\sum_j\epsilon_j^4&lt;\infty,
+\qquad
+\sum_j\epsilon_j^2=\infty.</me>
+The infinite product <m>\prod_j(G_{j+1}/G_j)</m> in <xref ref="eq-G-map"/>
+converges to a positive limit <m>G_\infty</m>.  Comparing the tails of
+<xref ref="eq-G-map"/> with
+<xref ref="eq-epsilon-map"/> gives
+<me>\sum_{\ell\ge j}\epsilon_\ell^4\sim\frac23\epsilon_j,</me>
+which proves <xref ref="eq-G-tail"/>.  The series in <xref ref="eq-C-map"/> is absolutely
+convergent, with
+<me>\sum_{\ell\ge j}\epsilon_\ell^6=O(\epsilon_j^3).</me>
+Combining this with <xref ref="eq-C-half"/> proves <xref ref="eq-C-tail"/>.
+        </p>
+        <p>
+          Equation <xref ref="eq-phi-map"/> and the divergent sum of <m>\epsilon_j^2</m> imply
+<m>\phi_j\to-\infty</m>.  The angular increments tend to zero, so every angle
+modulo <m>2\pi</m> is approached by the even subsequence.  Direct substitution in
+<xref ref="eq-abstract-step"/> and <xref ref="eq-coordinate-representation"/> gives
+<m>\|x_{2j+1}-x_{2j}\|=\|s_{2j}\|=O(\epsilon_j^2)</m>, so the odd and even
+subsequences have the same accumulation set.  Equations <xref ref="eq-G-tail"/> and
+<xref ref="eq-C-tail"/> show that this set is the circle in
+<xref ref="eq-limit-circle"/>.
+        </p>
+      </proof>
+    </lemma>
+  </subsection>
+</section>

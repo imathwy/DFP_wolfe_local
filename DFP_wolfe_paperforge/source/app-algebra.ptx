@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appendix xml:id="app-algebra">
+  <title>Algebraic verification of the two-step DFP recurrence</title>
+  <subsection xml:id="app-algebra-one-dfp-update-in-matrix">
+    <title>One DFP update in matrix entries and spectral coordinates</title>
+    <p>
+      This appendix gives the algebraic details used in
+Lemmas<nbsp/><xref ref="lem-center-manifold" text="global"/> and <xref ref="lem-two-step-expansions" text="global"/>.  The proof
+uses the formulas below.  Work in an orthonormal eigenbasis and write
+<me>H=\begin{pmatrix}\ell&amp;0\\0&amp;\eta\end{pmatrix},\qquad
+g=\binom{g_1}{g_2},\qquad
+A=\begin{pmatrix}a&amp;c\\c&amp;d\end{pmatrix}.</me>
+Set
+<me>v_1=\ell g_1,\quad v_2=\eta g_2,\quad
+w_1=av_1+cv_2,\quad w_2=cv_1+dv_2,</me>
+and
+<me>\delta=g_1v_1+g_2v_2,\qquad
+\beta=v_1w_1+v_2w_2,
+\qquad \gamma=\ell w_1^2+\eta w_2^2.</me>
+Proposition<nbsp/><xref ref="prop-one-step" text="global"/> gives, entry by entry,
+      <mdn>
+        <mrow xml:id="eq-appendix-H-entries">(H_+)_{11}&amp;=\ell-\frac{\ell^2w_1^2}{\gamma}
+                    +\frac{v_1^2}{\beta},
+&amp;
+(H_+)_{12}&amp;=-\frac{\ell\eta w_1w_2}{\gamma}
+                    +\frac{v_1v_2}{\beta},</mrow>
+        <mrow number="no">(H_+)_{22}&amp;=\eta-\frac{\eta^2w_2^2}{\gamma}
+                    +\frac{v_2^2}{\beta},
+&amp;
+(g_+)_i&amp;=g_i-\tau\frac{\delta}{\beta}w_i.</mrow>
+      </mdn>
+    </p>
+    <p>
+      These identities also give
+      <men xml:id="eq-dfp-determinant">\det H_+=\det H\,\frac{s^Ty}{y^THy},</men>
+    </p>
+    <p>
+      either by a two-by-two determinant expansion or by the matrix determinant
+lemma.
+    </p>
+    <p>
+      For the explicit formulas in Section<nbsp/><xref ref="sec-alternating-sequence" text="global"/>, it is
+also useful to write the same update for <m>B=H^{-1}</m>.  Since
+<m>Bs=-\alpha g</m> and <m>y=-\alpha w</m>, the corresponding Hessian update is
+      <men xml:id="eq-appendix-B-update">B_+
+=\left(I-\frac{wv^T}{\beta}\right)
+B\left(I-\frac{vw^T}{\beta}\right)
++\frac{ww^T}{\beta}
+=B-\frac{wg^T+gw^T}{\beta}
++\frac{\delta+\beta}{\beta^2}ww^T.</men>
+      This is the inverse of the DFP update; no additional update is introduced.
+    </p>
+    <p>
+      For the matrices used in the alternating two-step construction, the exact
+expressions are explicit.  Start from the coordinate representation
+<xref ref="eq-coordinate-representation"/> and let
+<m>A(\mu)=\left(\begin{smallmatrix}1&amp;\mu\\\mu&amp;1\end{smallmatrix}\right)</m>.
+Then
+      <mdn>
+        <mrow xml:id="eq-generic-vw">v&amp;=Ghp r\binom{r}{1},
+&amp;w&amp;=Ghp r\binom{r+\mu}{1+\mu r},</mrow>
+        <mrow xml:id="eq-generic-delta-beta">\delta&amp;=G^2hp(p+1)r^2,
+&amp;\beta&amp;=G^2h^2p^2r^2D_\mu,</mrow>
+        <mrow xml:id="eq-generic-gamma">\gamma&amp;=G^2h^3p^2r^2
+\{pr^2(r+\mu)^2+(1+\mu r)^2\},
+&amp;D_\mu&amp;=1+2\mu r+r^2,</mrow>
+      </mdn>
+      and
+      <men xml:id="eq-generic-alpha">\alpha=\tau\frac{p+1}{hpD_\mu}.</men>
+      Equations <xref ref="eq-appendix-H-entries"/> and
+<xref ref="eq-generic-vw"/><ndash/><xref ref="eq-generic-alpha"/> are exact rational formulas.
+The first iteration uses <m>(\mu,\tau)=(b,2/3)</m>; after expressing the updated
+quantities in the new eigenbasis, the second uses
+<m>(\mu,\tau)=(-2b,1/3)</m>.  The coefficients for a complete cycle follow from two
+applications of these identities and the spectral formulas below.
+    </p>
+    <p>
+      For a symmetric matrix
+<m>K=\left(\begin{smallmatrix}a_0&amp;b_0\\b_0&amp;d_0\end{smallmatrix}\right)</m>,
+put
+<me>\Delta=\sqrt{(d_0-a_0)^2+4b_0^2},\qquad
+\lambda_\pm=\frac{a_0+d_0\pm\Delta}{2}.</me>
+Near the limiting matrix <m>\operatorname{diag}(0,1)</m>, an analytic eigenvector
+associated with <m>\lambda_-</m> is
+<me>u_-=
+\frac{(d_0-\lambda_-,-b_0)^T}
+{\sqrt{(d_0-\lambda_-)^2+b_0^2}},
+\qquad u_+=u_-^\perp.</me>
+Reverse both signs if needed so that <m>\gamma_-=u_-^Tg>0</m>, and write
+<m>\gamma_+=u_+^Tg</m>.  With the eigenvector choice used in the construction,
+<m>\gamma_+>0</m> for all sufficiently small <m>\epsilon>0</m>; its leading term is a
+positive multiple of <m>\epsilon^2</m>.  The denominators below are nonzero.
+Comparison with <xref ref="eq-coordinate-representation"/> recovers the
+parameters by the exact formulas
+      <men xml:id="eq-parameter-recovery">\begin{aligned}
+G&amp;=\gamma_-, &amp; h&amp;=\lambda_+,\\
+r&amp;=\frac{\lambda_-\gamma_-}{\lambda_+\gamma_+}, &amp;
+p&amp;=\frac{\lambda_+\gamma_+^2}{\lambda_-\gamma_-^2}.
+\end{aligned}</men>
+      Equations <xref ref="eq-appendix-H-entries"/> and
+<xref ref="eq-parameter-recovery"/> give the complete calculation for one DFP
+iteration and are used for both iterations of each cycle.
+    </p>
+  </subsection>
+  <subsection xml:id="app-algebra-two-step-expansion-and-the">
+    <title>Two-step expansion and the invariant graph</title>
+    <p>
+      To identify terms involving both small variables, replace <m>\epsilon</m> in the
+two matrices by an independent variable <m>b</m>, treat <m>r</m> as an independent
+variable, and set
+<me>p=2+Pbr,\qquad h=1+Jbr.</me>
+Applying <xref ref="eq-appendix-H-entries"/>, diagonalizing with the preceding
+quadratic formula, and recovering the parameters with
+<xref ref="eq-parameter-recovery"/> gives
+      <mdn>
+        <mrow xml:id="eq-appendix-r">r_+-r
+ &amp;=\frac{b(6J+5P-300)}{18}r^2+O(r^3),</mrow>
+        <mrow xml:id="eq-appendix-p">p_+-2
+ &amp;=\frac{b(6J-P+348)}9r+O(r^2),</mrow>
+        <mrow xml:id="eq-appendix-h">h_+-1&amp;=8br+O(r^2),</mrow>
+        <mrow xml:id="eq-appendix-G">\frac{G_+}{G}-1
+ &amp;=\frac{b^2(24J-4P+384)-117}{18}r^2+O(r^3),</mrow>
+        <mrow xml:id="eq-appendix-phi">\phi_+-\phi&amp;=-3r+O(r^2),</mrow>
+        <mrow xml:id="eq-appendix-C">e^T(C_+-C)
+ &amp;=-\frac{2b^2(6J-P+96)}9Gr^2+O(G|b|r^3).</mrow>
+      </mdn>
+      The remainders are uniform for bounded <m>(b,P,J)</m> in the fixed Taylor
+neighborhood.  In particular, <xref ref="eq-appendix-C"/> is a joint estimate; only
+after setting <m>b=\epsilon</m> and <m>r=\epsilon^2</m> is its remainder
+<m>o(G\epsilon^6)</m>.
+    </p>
+    <p>
+      For a general invariant graph tangent to the center subspace, first write
+<m>z=(p-2,h-1)^T=z_2\epsilon^2+O(\epsilon^3)</m>.  The order-<m>\epsilon^2</m>
+invariance equation is <m>z_2=Lz_2</m>, and <m>1\notin\sigma(L)</m>, so <m>z_2=0</m>.
+For the remaining expansion
+<me>p=2+P_3\epsilon^3+P_4\epsilon^4+O(\epsilon^5),\qquad
+h=1+H_3\epsilon^3+H_4\epsilon^4+O(\epsilon^5),</me>
+the coefficients of <m>p_+-p(\epsilon_+)</m> and
+<m>h_+-h(\epsilon_+)</m> are as follows:
+    </p>
+    <!-- @forge: table auto-converted; verify formatting -->
+    <tabular>
+      <row>
+        <cell>order</cell>
+        <cell><m>p</m>-component</cell>
+        <cell><m>h</m>-component</cell>
+      </row>
+      <row>
+        <cell><m>\epsilon^3</m></cell>
+        <cell><m>\frac23H_3-\frac{10}{9}P_3+\frac{116}{3}</m></cell>
+        <cell><m>8-H_3</m></cell>
+      </row>
+      <row>
+        <cell><m>\epsilon^4</m></cell>
+        <cell><m>\frac23H_4-\frac{10}{9}P_4-2</m></cell>
+        <cell><m>-H_4</m></cell>
+      </row>
+    </tabular>
+    <p>
+      Setting these four entries to zero gives
+<m>(P_3,H_3,P_4,H_4)=(198/5,8,-9/5,0)</m>, exactly as in
+<xref ref="eq-graph-coefficient-system"/>.
+    </p>
+  </subsection>
+  <subsection xml:id="app-algebra-coefficients-on-the-invariant-center">
+    <title>Coefficients on the invariant center manifold</title>
+    <p>
+      The expansions above still contain the coefficients <m>P_3,H_3,P_4,H_4</m>.
+Restricting them to the invariant center manifold determines the values used
+in Lemmas<nbsp/><xref ref="lem-center-manifold" text="global"/> and<nbsp/><xref ref="lem-two-step-expansions" text="global"/>.
+Substituting these four coefficients into the two-step formulas gives the
+following expansions.  Where needed, they are normalized by the gradient
+component <m>G_j</m> at iteration <m>2j</m>:
+      <md>
+        <mrow>\epsilon_+
+ &amp;=\epsilon-\frac32\epsilon^4+\frac54\epsilon^5+O(\epsilon^6),</mrow>
+        <mrow>\frac{G_+}{G}
+ &amp;=1-\frac{13}{2}\epsilon^4+\frac{116}{5}\epsilon^6
+   -\frac{976}{5}\epsilon^7+O(\epsilon^8),</mrow>
+        <mrow>\phi_+-\phi
+ &amp;=-3\epsilon^2-\frac{196}{5}\epsilon^5
+   +\frac{28}{5}\epsilon^6+O(\epsilon^7),</mrow>
+        <mrow>R_j^T(C_{2j+2}-C_{2j})/G_j
+ &amp;=\binom{-\frac{116}{5}\epsilon^6+\frac{38}{5}\epsilon^7
+           +O(\epsilon^8)}
+          {-\frac{508}{5}\epsilon^8+O(\epsilon^9)}.</mrow>
+      </md>
+      The two consecutive angle increments are
+      <md>
+        <mrow>-2\epsilon^2-\frac{122}{5}\epsilon^5
+ +\frac{88}{15}\epsilon^6+O(\epsilon^7),\qquad
+-\epsilon^2-\frac{104}{5}\epsilon^5
+ +\frac{71}{15}\epsilon^6+O(\epsilon^7).</mrow>
+      </md>
+      The corresponding step and gradient norms are
+      <md>
+        <mrow>\frac{\norm{s_{2j}}}{G_j}
+ &amp;=2\epsilon^2+\frac{112}{5}\epsilon^5
+   -\frac{11}{5}\epsilon^6+O(\epsilon^7),</mrow>
+        <mrow>\frac{\norm{s_{2j+1}}}{G_j}
+ &amp;=\epsilon^2+\frac{114}{5}\epsilon^5
+   -\frac{49}{10}\epsilon^6+O(\epsilon^7),</mrow>
+        <mrow>\frac{\norm{g_{2j}}}{G_j}
+ &amp;=1+2\epsilon^4+O(\epsilon^6),</mrow>
+        <mrow>\frac{\norm{g_{2j+1}}}{G_j}
+ &amp;=1-2\epsilon^3-2\epsilon^4-\frac{112}{5}\epsilon^6
+   +O(\epsilon^7),</mrow>
+        <mrow>\frac{\norm{g_{2j+2}}}{G_j}
+ &amp;=1-\frac92\epsilon^4+\frac{116}{5}\epsilon^6
+   +O(\epsilon^7).</mrow>
+      </md>
+      The identity <xref ref="eq-line-ratio"/> also gives the exact ratios
+<m>s^Ty/(-g^Ts)=2/3</m> and <m>1/3</m> on the first and second iterations,
+respectively.  Every coefficient used in the
+asymptotic recurrence, separation argument, comparison with known results, and
+Wolfe verification follows from the matrix-entry formulas in this appendix.
+    </p>
+  </subsection>
+</appendix>

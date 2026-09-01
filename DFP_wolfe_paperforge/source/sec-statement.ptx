@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="sec-statement">
+  <title>The classical DFP question and its negative answer</title>
+  <p>
+    Here and below, vector norms are Euclidean, matrix norms are spectral, and <m>I</m>
+denotes the identity matrix of the appropriate size.  For symmetric matrices
+<m>A</m> and <m>B</m>, the notation <m>A\preceq B</m> means that <m>B-A</m> is positive
+semidefinite, and <m>A\succ0</m> means that <m>A</m> is positive definite.  Let
+<m>x_k\in\R^n</m> be the <m>k</m>th iterate, let <m>g_k=\nabla f(x_k)</m>, let <m>H_k\succ0</m> be
+the current inverse Hessian approximation, and let <m>\alpha_k>0</m> be the
+accepted step length.  The classical DFP method is
+    <md>
+      <mrow>d_k&amp;=-H_kg_k,&amp;s_k&amp;=\alpha_kd_k,&amp;x_{k+1}&amp;=x_k+s_k,</mrow>
+      <mrow>y_k&amp;=g_{k+1}-g_k,&amp;
+H_{k+1}&amp;=H_k-
+\frac{H_ky_ky_k^TH_k}{y_k^TH_ky_k}
++\frac{s_ks_k^T}{s_k^Ty_k}.</mrow>
+    </md>
+    Thus <m>d_k</m> is the search direction, <m>s_k</m> is the accepted step, and
+<m>y_k</m> is the gradient difference used in the update.
+  </p>
+  <p>
+    The standard weak Wolfe conditions <xref ref="bib-Wolfe1969"/> are
+    <mdn>
+      <mrow xml:id="eq-armijo">f(x_{k+1})&amp;\le f(x_k)+c_1g_k^Ts_k,</mrow>
+      <mrow xml:id="eq-weak-curvature">g_{k+1}^Ts_k&amp;\ge c_2g_k^Ts_k,</mrow>
+    </mdn>
+    where <m>0&lt;c_1&lt;c_2&lt;1</m>.
+  </p>
+  <p>
+    The standard strong Wolfe conditions use <xref ref="eq-armijo"/> and replace
+<xref ref="eq-weak-curvature"/> by
+    <men xml:id="eq-strong-curvature">|g_{k+1}^Ts_k|\le c_2|g_k^Ts_k|.</men>
+  </p>
+  <p>
+    In this paper, a line search accepts a step when its positive step length
+satisfies the stated inequalities at <m>x_k</m> and <m>x_{k+1}</m>.  We do not tie this
+definition to a particular bracketing, interpolation, or zoom procedure.  If
+<m>H_k\succ0</m> and <m>g_k\ne0</m>, then
+<m>g_k^Td_k&lt;0</m>.  Either curvature condition
+implies
+<me>s_k^Ty_k=(g_{k+1}-g_k)^Ts_k
+\ge (c_2-1)g_k^Ts_k>0,</me>
+so the DFP denominators are positive and <m>H_{k+1}\succ0</m>.  In our
+construction, positivity also follows directly from the prescribed secant
+pairs.
+  </p>
+  <p>
+    The classical open question is the following.  Suppose
+<m>f\in C^2(\R^n)</m> satisfies
+<m>mI\preceq\nabla^2f(x)\preceq MI</m> on the relevant level set for constants
+<m>0&lt;m\le M&lt;\infty</m>, let <m>H_0\succ0</m> be arbitrary, and let every accepted
+positive step satisfy <xref ref="eq-armijo"/><ndash/><xref ref="eq-weak-curvature"/>.  Must the
+unmodified DFP iterates satisfy
+    <men xml:id="eq-open-question">\|\nabla f(x_k)\|\longrightarrow0</men>
+    for every sequence of step lengths that satisfies these conditions?  A
+uniformly convex objective has a unique minimizer, so
+<xref ref="eq-open-question"/> is equivalent to
+convergence of the iterates to that minimizer.  The statement covers every
+initial inverse Hessian approximation and every accepted weak Wolfe step.  A
+counterexample needs only one uniformly convex objective, one positive
+definite initial matrix, and one infinite sequence of valid steps for which
+<xref ref="eq-open-question"/> fails.
+  </p>
+  <p>
+    The objective in our counterexample is a locally supported perturbation of a
+quadratic.  The discrete data <m>(x_k,g_k,H_k,\alpha_k)</m> are constructed in
+Sections<nbsp/><xref ref="sec-alternating-sequence" text="global"/><ndash/><xref ref="sec-global-objective" text="global"/>.  They
+satisfy the DFP recurrence before the objective is introduced.  In the formula
+below, <m>x\in\R^2</m> is an arbitrary point, whereas <m>x_k</m> is the <m>k</m>th iterate.
+Let <m>C_\infty=\lim_{k\to\infty}(x_k-g_k)</m>, and let <m>\rho_k>0</m> be the support
+radii defined in <xref ref="eq-rho-k"/>.  We write
+<m>\mathbb B(c,r)=\{u\in\R^2:\|u-c\|&lt;r\}</m> and fix a smooth function
+<m>\chi:\R^2\to[0,1]</m> supported in <m>\mathbb B(0,1)</m> such that <m>\chi=1</m> on
+<m>\mathbb B(0,1/3)</m>.  The final objective has the explicit form
+    <men xml:id="eq-objective">\begin{aligned}
+f(x)&amp;=\frac12\|x-C_\infty\|^2
++\sum_{k=0}^\infty
+\chi\!\left(\frac{x-x_k}{\rho_k}\right)a_k^T(x-x_k),\\
+a_k&amp;=g_k-(x_k-C_\infty).
+\end{aligned}</men>
+  </p>
+  <p>
+    The radii are chosen so that the supports in this sum are pairwise disjoint.
+At every prescribed point, the construction gives
+<me>f(x_k)=\frac12\|x_k-C_\infty\|^2,\qquad
+\nabla f(x_k)=g_k,\qquad
+\nabla^2f(x_k)=I.</me>
+Thus the sequence is used only to specify interpolation data.  Once all the
+data have been fixed, <xref ref="eq-objective"/> defines one function on <m>\R^2</m>;
+the function is not changed during the DFP iteration.  The later sections
+prove that the series defines a globally <m>C^2</m> uniformly convex function and
+that classical DFP with the prescribed step lengths reproduces the sequence.
+The main theorem records the result.  Its accepted steps even satisfy the
+standard strong Wolfe conditions.
+  </p>
+  <theorem xml:id="thm-main">
+    <title>Main theorem</title>
+    <statement>
+      <p>
+        For every pair of constants satisfying
+        <men xml:id="eq-wolfe-range">0&lt;c_1&lt;\frac23,\qquad \frac23\le c_2&lt;1,</men>
+        there exist <m>f\in C^2(\R^2)</m>, <m>x_0\in\R^2</m>, <m>H_0\succ0</m>, and positive step
+lengths <m>\alpha_k</m> such that
+<me>\frac12I\preceq\nabla^2f(x)\preceq\frac32I
+\qquad(x\in\R^2),</me>
+all classical DFP iterates are well defined, every step satisfies
+<xref ref="eq-armijo"/> and <xref ref="eq-strong-curvature"/> with these constants, but
+there is a constant <m>G_\infty>0</m> such that
+<me>\|\nabla f(x_k)\|\longrightarrow G_\infty.</me>
+The same conclusion holds in every dimension <m>n\ge2</m> by an orthogonal direct
+sum.
+      </p>
+    </statement>
+    <lean project="DFPWolfe" ref="DFP.existsStrongWolfeCounterexample_of_parameterRange">Lean (existsStrongWolfeCounterexample_of_parameterRange)</lean>
+    <lean project="DFPWolfe" ref="DFP.main_not_globalWeakWolfeConvergence_of_parameterRange">Lean (main_not_globalWeakWolfeConvergence_of_parameterRange)</lean>
+    <proof>
+      <p>
+        Section<nbsp/><xref ref="sec-alternating-sequence" text="global"/> constructs an infinite
+two-dimensional sequence satisfying the classical DFP search-direction, secant, and update identities.  It also proves that the gradient norms converge to a positive constant.  Section<nbsp/><xref ref="sec-global-objective" text="global"/> establishes a uniform separation bound and realizes the prescribed endpoint
+data by a globally <m>C^2</m> function satisfying
+<m>\frac12 I\preceq\nabla^2 f\preceq\frac32 I</m>.
+Section<nbsp/><xref ref="sec-completion" text="global"/> verifies the Armijo and standard strong Wolfe conditions and extends the construction to every dimension <m>n\ge2</m>.
+The detailed arguments are given in those sections.
+      </p>
+    </proof>
+  </theorem>
+  <p>
+    Equivalently, for every coefficient pair in <xref ref="eq-wolfe-range"/>, the
+fixed-coefficient global weak-Wolfe convergence predicate is false.
+  </p>
+  <p>
+    The Hessian bounds in Theorem<nbsp/><xref ref="thm-main" text="global"/> give a global condition number of
+at most three.  The threshold <m>c_2=2/3</m> is exact for this construction: on the
+two iterations of each cycle, the ratios
+<m>|g_{k+1}^Ts_k|/|g_k^Ts_k|</m> equal <m>1/3</m> and <m>2/3</m>.  The restriction <m>c_1&lt;2/3</m>
+comes from the smaller of the two limiting normalized objective decreases in
+the Armijo condition.  The main theorem does not require the standard
+initialization <m>H_0=I</m>.  This raises a natural question: does the
+nonconvergence depend on the use of a nonidentity initial matrix?
+The affine normalization in the following corollary shows that it does not.
+  </p>
+  <corollary xml:id="cor-identity-initialization">
+    <title>Identity initialization</title>
+    <statement>
+      <p>
+        Fix any pair <m>(c_1,c_2)</m> satisfying <xref ref="eq-wolfe-range"/>.  There exist
+<m>\widetilde f\in C^2(\R^2)</m>, <m>\widetilde x_0\in\R^2</m>, positive step lengths <m>\alpha_k</m>,
+and constants <m>0&lt;\widetilde m\le \widetilde M&lt;\infty</m> such that
+<me>\widetilde m I\preceq\nabla^2\widetilde f(x)
+\preceq\widetilde M I\qquad(x\in\R^2).</me>
+For this objective, classical DFP initialized with <m>\widetilde H_0=I</m> is well
+defined.  Every accepted step satisfies <xref ref="eq-armijo"/> and
+<xref ref="eq-strong-curvature"/>, but
+<me>\liminf_{k\to\infty}\|\nabla\widetilde f(\widetilde x_k)\|>0.</me>
+The same conclusion holds in every dimension <m>n\ge2</m>.
+      </p>
+    </statement>
+    <lean project="DFPWolfe" ref="DFP.existsMatrixIdentityLiminfStrongWolfe_of_parameterRange">Lean</lean>
+  </corollary>
+  <p>
+    Corollary<nbsp/><xref ref="cor-identity-initialization" text="global"/> gives identity initialization, but
+its Hessian bounds depend on the problem.  It does not claim that <m>H_0=I</m> and
+the fixed Hessian bounds <m>[\frac12 I,\frac32 I]</m> hold at the same time.  The
+proof uses an affine change of variables and appears in
+Section<nbsp/><xref ref="sec-completion" text="global"/>, after the two-dimensional example is complete.
+  </p>
+</section>

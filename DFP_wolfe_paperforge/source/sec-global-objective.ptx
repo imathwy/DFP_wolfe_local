@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="sec-global-objective">
+  <title>Construction of a uniformly convex objective</title>
+  <introduction>
+    <p>
+      So far, the matrices <m>A_i(\epsilon)</m> have only defined the secant pairs in the
+recurrence.  We now construct one objective with the prescribed function
+values and gradients at every iterate.  First we show that iterates from
+different turns around the limiting circle remain separated.  This allows
+local interpolation on pairwise disjoint neighborhoods and preserves uniform
+convexity.  For an iterate <m>x_k</m> in cycle <m>j</m>, write <m>r(k)=\epsilon_j^2</m>.
+For a point <m>x</m> and a nonempty set <m>S</m>, write
+<m>\operatorname{dist}(x,S)=\inf_{u\in S}\|x-u\|</m>.
+Convergence to a circle alone does not give disjoint neighborhoods.  Iterates
+from different turns could be much closer than <m>r(k)</m>.
+    </p>
+  </introduction>
+  <subsection xml:id="sec-global-objective-uniform-separation-of-the-iterates">
+    <title>Uniform separation of the iterates</title>
+    <p>
+      The estimate must cover neighboring iterates, near returns after one turn, and
+pairs separated by many turns.  The following lemma gives one uniform lower
+bound for all three cases.  This is the geometric estimate needed for the
+interpolation construction.
+    </p>
+    <lemma xml:id="lem-separation">
+      <title>Uniform separation of the iterates</title>
+      <statement>
+        <p>
+          After decreasing <m>\epsilon_0</m> if necessary, there is a constant <m>c_*>0</m> such
+that, for every <m>k</m>,
+          <men xml:id="eq-separation">\operatorname{dist}\!\left(
+x_k,(\{x_\ell:\ell\ge0\}\cup\Gamma)\setminus\{x_k\}
+\right)
+\ge c_*r(k).</men>
+        </p>
+      </statement>
+      <lean project="DFPWolfe" ref="DFP.TwoPhaseOrbit.slowCurveUniformEndpointSeparation">Lean</lean>
+      <proof>
+        <p>
+          At iteration <m>2j</m>, identify <m>\R^2</m> with <m>\mathbb C</m> in the oriented
+eigenbasis.  Then
+          <men xml:id="eq-polar-boundary">x_{2j}-C_\infty
+=G_je^{i\phi_j}\bigl(1+2i\epsilon_j^2+o(\epsilon_j^2)\bigr).</men>
+          The polar angles of the iterates are strictly decreasing for small
+<m>\epsilon_0</m>.  By <xref ref="eq-half-angles"/>, after one uniform reduction of
+<m>\epsilon_0</m> the two
+consecutive gaps in cycle <m>j</m> lie between <m>r_j/2</m> and <m>3r_j</m>.  We fix
+<m>c_\theta=1/2</m> and <m>C_\theta=3</m> on this neighborhood.
+If needed, enlarge <m>C_\theta</m> so that any block of <m>N</m> cycles with comparable
+scales rotates by at most <m>NC_\theta r_j</m>.  During one
+complete turn, <m>\epsilon</m> changes by only a relative <m>O(\epsilon_j)</m>.
+        </p>
+        <p>
+          For <m>\sigma\in\{0,1\}</m>, corresponding to the first and second iterates in a
+cycle, respectively, the polar radius satisfies
+          <men xml:id="eq-within-cycle-radius">\|x_{2j+\sigma}-C_\infty\|
+=G_j+O(\epsilon_j^3)=G_j+o(r_j),
+\qquad r_j=\epsilon_j^2.</men>
+          We also need a uniform version.  There is a function
+<m>\omega(\eta)\downarrow0</m> such that,
+whenever <m>\epsilon_0\le\eta</m>,
+          <men xml:id="eq-within-cycle-radius-uniform">\left|\norm{x_{2j+\sigma}-C_\infty}-G_j\right|
+\le \omega(\eta)r_j
+\qquad(\sigma=0,1;\ j\ge0).</men>
+          Fix two distinct iterates <m>x_{2j+\sigma}</m> and <m>x_{2\ell+\vartheta}</m>, where
+<m>\sigma,\vartheta\in\{0,1\}</m> and <m>\ell\ge j</m>, and normalize the estimates by
+<m>r_j</m>.  Let <m>\Theta_{j\sigma,\ell\vartheta}>0</m> denote the accumulated
+clockwise angle from the earlier iterate to the later one; strict positivity
+follows from <xref ref="eq-half-angles"/>.  The following three cases cover all
+possibilities.
+        </p>
+        <p>
+          Fix
+          <men xml:id="eq-kappa-choice">\frac1{\sqrt2}&lt;\kappa&lt;1.</men>
+          After reducing <m>\epsilon_0</m> if needed, the recurrence makes <m>\epsilon_j</m>
+strictly decreasing.  For a pair with <m>\ell\ge j</m>, we call
+the scales <em>comparable</em> when
+<m>\kappa\epsilon_j&lt;\epsilon_\ell\le\epsilon_j</m>; otherwise they are separated.
+<em>Separated scales.</em>  Suppose
+<m>\epsilon_\ell\le\kappa\epsilon_j</m>.
+Equations <xref ref="eq-G-tail"/> and
+<xref ref="eq-within-cycle-radius"/> give
+<me>G_j-G_\ell
+=\frac{13}{3}G_\infty(\epsilon_j-\epsilon_\ell)(1+o(1))
+\ge c\epsilon_j\gg r_j.</me>
+The radial component alone gives the required separation.
+        </p>
+        <p>
+          <em>Comparable scales with angular separation.</em>  Suppose the two scales
+are comparable and their angular separation modulo <m>2\pi</m> is at least
+<m>r_j/4</m>.
+Both polar radii have a uniform positive
+lower bound, and the chord formula gives distance at least <m>c r_j</m>.
+This case includes adjacent iterates because their angular gaps are bounded
+below by a fixed multiple of <m>r_j</m>.
+        </p>
+        <p>
+          <em>Comparable scales after one or more complete turns.</em>  It remains to consider
+comparable scales with
+          <men xml:id="eq-unwrapped-return">\Theta_{j\sigma,\ell\vartheta}=2\pi m+\zeta,
+\qquad |\zeta|&lt;r_j/4,</men>
+          for an integer <m>m\ge0</m>.  The lower bound on consecutive
+angular gaps excludes <m>m=0</m>: after decreasing <m>\epsilon_0</m>, each consecutive
+gap is at least <m>r_t/2</m>, while comparability and
+<xref ref="eq-kappa-choice"/> give
+<m>r_t/2\ge\kappa^2r_j/2>r_j/4</m>.  Every near return contains at least
+one complete turn, so <m>m\ge1</m>.
+        </p>
+        <p>
+          Let <m>N=\ell-j</m>.  Here <m>N\ge1</m>; by enlarging <m>C_\theta</m> once, the two
+within-cycle angular offsets are absorbed into the same <m>NC_\theta r_j</m>
+bound.  While the scales are comparable, the expansion
+<xref ref="eq-G-map"/> gives a fixed <m>c_G>0</m> such that
+<m>G_t-G_{t+1}\ge c_G r_j^2</m>.  Equation
+<xref ref="eq-unwrapped-return"/>, together with the upper bound on the accumulated
+angle, gives
+          <men xml:id="eq-cycle-count">NC_\theta r_j\ge 2\pi m-r_j/4,</men>
+          and gives
+          <men xml:id="eq-radial-return-gap">G_j-G_\ell
+\ge Nc_G r_j^2
+\ge \frac{c_G}{C_\theta}(2\pi m-r_j/4)r_j
+\ge c_0m r_j</men>
+          for a uniform <m>c_0>0</m>.  Reduce <m>\epsilon_0</m> once more so that
+<m>2\omega(\epsilon_0)\le c_0/2</m> in
+<xref ref="eq-within-cycle-radius-uniform"/>.  The two error terms for positions
+within cycles are then less than half of the lower bound in
+<xref ref="eq-radial-return-gap"/>, uniformly in the pair and in <m>m</m>.  For <m>m=1</m>,
+summing the leading terms gives the
+sharper one-turn
+formula
+          <men xml:id="eq-one-turn-drop">G_j-G_\ell=\frac{13\pi}{3}G_jr_j(1+o(1)).</men>
+          This estimate covers different positions within a cycle, neighboring turns,
+and returns after several turns.  It does not assume that the radius
+<m>\|x_k-C_\infty\|</m> is monotone at every individual cycle.
+        </p>
+        <p>
+          Equations <xref ref="eq-G-tail"/>, <xref ref="eq-C-tail"/>, and
+<xref ref="eq-polar-boundary"/> imply
+<me>\operatorname{dist}(x_k,\Gamma)
+=\frac{13}{3}G_\infty\epsilon_j(1+o(1))\gg r(k).</me>
+All constants used in the three cases were fixed on the initial neighborhood
+<m>0&lt;\epsilon\le\bar\epsilon</m>.  They do not depend on the final, sufficiently
+small choice of <m>\epsilon_0</m>.  This proves
+<xref ref="eq-separation"/>.
+        </p>
+      </proof>
+    </lemma>
+  </subsection>
+  <subsection xml:id="sec-global-objective-local-interpolation-with-disjoint-supports">
+    <title>Local interpolation with disjoint supports</title>
+    <p>
+      The separation estimate gives disjoint supports.  Since
+<m>C_k-C_\infty=O(\epsilon_j^3)</m> while the support radii are of order
+<m>\epsilon_j^2</m>, the interpolating functions have small second derivatives.
+Define the closed set
+<me>\mathcal E=\Gamma\cup\{x_k:k\ge0\}</me>
+and put
+      <men xml:id="eq-rho-k">\rho_k=\frac14\operatorname{dist}
+\bigl(x_k,\mathcal E\setminus\{x_k\}\bigr).</men>
+      By Lemma<nbsp/><xref ref="lem-separation" text="global"/>, <m>\rho_k\ge c r(k)</m>; the adjacent iterate
+also gives <m>\rho_k\le Cr(k)</m>.  The balls
+<m>\mathbb B(x_k,\rho_k)</m> are pairwise disjoint and avoid <m>\Gamma</m>.  Let
+      <men xml:id="eq-correction-vector">a_k=g_k-(x_k-C_\infty)=C_\infty-C_k.</men>
+      Lemma<nbsp/><xref ref="lem-scalar-asymptotics" text="global"/> gives
+      <men xml:id="eq-ak-bound">\|a_k\|=O(\epsilon_j^3)=O(\epsilon_jr(k)).</men>
+      Using the cutoff function <m>\chi</m> fixed in Section<nbsp/><xref ref="sec-statement" text="global"/>, define
+      <men xml:id="eq-local-interpolants">\psi_k(x)=
+\chi\!\left(\frac{x-x_k}{\rho_k}\right)a_k^T(x-x_k),
+\qquad
+\Psi(x)=\sum_{k=0}^\infty\psi_k(x).</men>
+    </p>
+    <p>
+      The separation estimate makes the supports pairwise disjoint.
+Equation<nbsp/><xref ref="eq-ak-bound"/> makes the second derivatives small.  The next
+lemma shows that <m>\Psi</m> extends across the limiting circle with zero value,
+gradient, and Hessian.  It also gives a uniform Hessian bound.  This step turns
+the prescribed endpoint data into a single <m>C^2</m> perturbation on <m>\R^2</m>.
+    </p>
+    <lemma xml:id="lem-disjoint-interpolation">
+      <title><m>C^2</m> interpolation with disjoint supports</title>
+      <statement>
+        <p>
+          The function <m>\Psi</m>, extended by zero on <m>\Gamma</m>, belongs to
+<m>C^2(\R^2)</m>.  It satisfies
+          <men xml:id="eq-interpolation-jets">\Psi(x_k)=0,\qquad \nabla\Psi(x_k)=a_k,</men>
+          and
+          <men xml:id="eq-interpolation-hessian-bound">\sup_{x\in\R^2}\|\nabla^2\Psi(x)\|
+\le K\epsilon_0.</men>
+        </p>
+      </statement>
+      <lean project="DFPWolfe" ref="DFP.TwoLeg.SlowCurve.bumpCorrectionExtension">Lean (bumpCorrectionExtension)</lean>
+      <lean project="DFPWolfe" ref="DFP.TwoPhaseOrbit.realizedObjective_endpoint">Lean (realizedObjective_endpoint)</lean>
+      <lean project="DFPWolfe" ref="DFP.TwoPhaseOrbit.realizedObjective_gradient_formula_endpoint">Lean (realizedObjective_gradient_formula_endpoint)</lean>
+      <lean project="DFPWolfe" ref="slowCurveRealizedObjectiveHessianBounds">Lean (slowCurveRealizedObjectiveHessianBounds)</lean>
+      <proof>
+        <p>
+          Write <m>u=x-x_k</m> and <m>\xi=u/\rho_k</m>.  Direct differentiation gives
+          <md>
+            <mrow>\nabla\psi_k(x)
+&amp;=\chi(\xi)a_k
++\rho_k^{-1}(a_k^Tu)\nabla\chi(\xi),</mrow>
+            <mrow>\nabla^2\psi_k(x)
+&amp;=\rho_k^{-1}\{a_k\nabla\chi(\xi)^T
++\nabla\chi(\xi)a_k^T\}
++\rho_k^{-2}(a_k^Tu)\nabla^2\chi(\xi).</mrow>
+          </md>
+          On the support, <m>\|u\|\le\rho_k</m>.  The fixed cutoff together with
+<xref ref="eq-rho-k"/> and <xref ref="eq-ak-bound"/> implies
+          <md>
+            <mrow>\|\psi_k\|_\infty&amp;=O(\epsilon_jr(k)^2),</mrow>
+            <mrow>\|\nabla\psi_k\|_\infty&amp;=O(\epsilon_jr(k)),</mrow>
+            <mrow>\|\nabla^2\psi_k\|_\infty&amp;=O(\epsilon_j).</mrow>
+          </md>
+          At most one summand is nonzero at any point.  The centers have no accumulation
+point outside <m>\Gamma</m>, and <m>\rho_k\to0</m>, so the supports are locally finite on
+<m>\R^2\setminus\Gamma</m>.  Define on the circle
+          <men xml:id="eq-zero-circle-jet">\Psi|_\Gamma=0,\qquad
+\nabla\Psi|_\Gamma=0,\qquad
+\nabla^2\Psi|_\Gamma=0.</men>
+          We verify that these values and derivatives agree with the limits from
+<m>\R^2\setminus\Gamma</m>.  Equations
+<xref ref="eq-G-tail"/> and <xref ref="eq-C-tail"/> give
+<me>\operatorname{dist}(x_k,\Gamma)=\Theta(\epsilon_j),
+\qquad \rho_k=O(\epsilon_j^2).</me>
+Every point <m>x</m> in the <m>k</m>th support has
+<m>\operatorname{dist}(x,\Gamma)=\Theta(\epsilon_j)</m>, and
+<me>\frac{|\psi_k(x)|}{\operatorname{dist}(x,\Gamma)^2}=O(\epsilon_j^3),
+\qquad
+\frac{\|\nabla\psi_k(x)\|}{\operatorname{dist}(x,\Gamma)}
+=O(\epsilon_j^2),
+\qquad
+\|\nabla^2\psi_k(x)\|=O(\epsilon_j).</me>
+If <m>x</m> lies outside all supports, the three quantities are already zero.  If
+<m>x</m> lies in the <m>k</m>th support and tends to any <m>\zeta\in\Gamma</m>, then
+<m>\operatorname{dist}(x,\Gamma)\le\norm{x-\zeta}</m>, and the displayed estimates
+imply
+<me>\frac{|\Psi(x)-\Psi(\zeta)-\nabla\Psi(\zeta)^T(x-\zeta)|}
+     {\norm{x-\zeta}^2}\longrightarrow0,
+\qquad
+\frac{\norm{\nabla\Psi(x)-\nabla\Psi(\zeta)}}
+     {\norm{x-\zeta}}\longrightarrow0,</me>
+while <m>\nabla^2\Psi(x)\to0</m>.  The value, gradient, and Hessian in
+<xref ref="eq-zero-circle-jet"/> are continuous at every point of <m>\Gamma</m>, and
+<m>\Psi\in C^2(\R^2)</m>.  The function, gradient, and Hessian tend to zero at
+<m>\Gamma</m>.  No additional extension theorem is needed.
+The cutoff is constant near each point <m>x_k</m>, which gives
+<xref ref="eq-interpolation-jets"/>.  The constants in the separation estimate, the upper
+bound <m>\rho_k\le Cr(k)</m>, and the derivatives of the fixed cutoff were chosen
+on the fixed neighborhood <m>\epsilon\le\bar\epsilon</m>.  They give one constant
+<m>K</m> that does not depend on the later choice of
+<m>\epsilon_0\le\bar\epsilon</m>.  Disjointness and
+<m>\epsilon_j\le\epsilon_0</m> then give
+<xref ref="eq-interpolation-hessian-bound"/>.
+        </p>
+      </proof>
+    </lemma>
+  </subsection>
+  <subsection xml:id="sec-global-objective-definition-of-the-objective">
+    <title>Definition of the objective</title>
+    <p>
+      Lemma<nbsp/><xref ref="lem-disjoint-interpolation" text="global"/> gives a <m>C^2</m> correction with a
+uniformly small Hessian.  Adding it to the reference quadratic gives the
+required objective while preserving the prescribed function values and
+gradients.  With <m>\Psi</m> now constructed, the objective announced in
+<xref ref="eq-objective"/> can be written as
+<m>f(x)=\frac12\|x-C_\infty\|^2+\Psi(x)</m>.
+    </p>
+    <p>
+      After <m>K</m> has been fixed, take
+<m>\epsilon_0\le\min\{\bar\epsilon,(2K)^{-1}\}</m>, together with the earlier
+upper bounds on <m>\epsilon_0</m>.  Then the right-hand side of
+<xref ref="eq-interpolation-hessian-bound"/> is at most <m>1/2</m>, which gives the global
+Hessian bounds in Theorem<nbsp/><xref ref="thm-main" text="global"/>.
+    </p>
+    <p>
+      At every iterate,
+      <men xml:id="eq-endpoint-data">\begin{aligned}
+f(x_k)&amp;=\frac12\|x_k-C_\infty\|^2,\\
+\nabla f(x_k)&amp;=x_k-C_\infty+a_k=g_k,
+&amp;\qquad \nabla^2f(x_k)&amp;=I.
+\end{aligned}</men>
+    </p>
+    <p>
+      The Hessian identity follows because the cutoff is constant near <m>x_k</m> and
+the corresponding correction is linear there.  Thus
+<m>\nabla f(x_k)=g_k</m> for every <m>k</m>.  In particular, each <m>y_k</m> is the
+corresponding gradient difference, and the DFP updates defined above are
+unchanged.
+    </p>
+  </subsection>
+</section>

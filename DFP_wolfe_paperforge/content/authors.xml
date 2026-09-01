@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Canonical overrides for author metadata that tex2ptx cannot express.
+
+  tex2ptx extracts only the draft author's personname, and its repeatable
+  author option carries a name and affiliation lines but no email.  The build
+  therefore reconciles its generated frontmatter against this sidecar after
+  every ingest (scripts/apply-author-metadata.sh): each record REPLACES the
+  generated author whose personname matches one of the record's aliases, so a
+  record must restate everything it overrides (affiliation included), not
+  only the fields it adds.  Author footnotes (e.g. an incoming employment
+  status) live beside, rather than inside, the PreTeXt author element because
+  <support> denotes funding and is not appropriate for such notes; the HTML
+  and LaTeX conversions render them from here.
+
+  With no <record> elements the build step skips quietly and tex2ptx's
+  generated frontmatter stands.  A worked example:
+
+  <record key="jane-doe">
+    <aliases>
+      <personname>Jane Doe</personname>
+      <personname>Jane Q. Doe</personname>
+    </aliases>
+    <author xml:id="author-jane-doe">
+      <personname>Jane Doe</personname>
+      <institution><line>Department of Mathematics</line><line>Example University</line></institution>
+      <email>jane@example.edu</email>
+    </author>
+    <author-footnote marker="*">Incoming, Other Institute</author-footnote>
+  </record>
+-->
+<author-metadata>
+  <record key="benqi-liu">
+    <aliases><personname>Benqi Liu</personname></aliases>
+    <author xml:id="author-benqi-liu">
+      <personname>Benqi Liu</personname>
+      <institution>
+        <line>Beijing International Center for Mathematical Research</line>
+        <line>Peking University</line>
+        <line>Beijing 100871, China</line>
+      </institution>
+      <email>bqliu@pku.edu.cn</email>
+    </author>
+  </record>
+  <record key="zichen-wang">
+    <aliases><personname>Zichen Wang</personname></aliases>
+    <author xml:id="author-zichen-wang">
+      <personname>Zichen Wang</personname>
+      <institution>
+        <line>School of Mathematical Sciences</line>
+        <line>Peking University</line>
+        <line>Beijing 100871, China</line>
+      </institution>
+      <email>zichenwang25@stu.pku.edu.cn</email>
+    </author>
+  </record>
+  <record key="zaiwen-wen">
+    <aliases><personname>Zaiwen Wen</personname></aliases>
+    <author xml:id="author-zaiwen-wen">
+      <personname>Zaiwen Wen</personname>
+      <institution>
+        <line>Beijing International Center for Mathematical Research</line>
+        <line>Peking University</line>
+        <line>Beijing 100871, China</line>
+      </institution>
+      <email>wenzw@pku.edu.cn</email>
+    </author>
+  </record>
+  <record key="liwei-zhang">
+    <aliases><personname>Liwei Zhang</personname></aliases>
+    <author xml:id="author-liwei-zhang">
+      <personname>Liwei Zhang</personname>
+      <institution>
+        <line>National Frontiers Science Center for Industrial Intelligence and Systems Optimization</line>
+        <line>Northeastern University</line>
+        <line>Shenyang 110819, China</line>
+        <line>Key Laboratory of Data Analytics and Optimization for Smart Industry (Northeastern University), Ministry of Education</line>
+      </institution>
+      <email>zhanglw@mail.neu.edu.cn</email>
+    </author>
+  </record>
+  <record key="yaxiang-yuan">
+    <aliases><personname>Yaxiang Yuan</personname></aliases>
+    <author xml:id="author-yaxiang-yuan">
+      <personname>Yaxiang Yuan</personname>
+      <institution>
+        <line>Academy of Mathematics and Systems Science</line>
+        <line>Chinese Academy of Sciences</line>
+        <line>Beijing 100190, China</line>
+      </institution>
+      <email>yyx@lsec.cc.ac.cn</email>
+    </author>
+  </record>
+</author-metadata>

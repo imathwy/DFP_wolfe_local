@@ -1,0 +1,618 @@
+{
+ "snapshot": "current",
+ "source": "inputs/draft/main.tex",
+ "items": {
+  "sec-introduction": {
+   "kind": "section",
+   "label": "sec:introduction",
+   "number": "1",
+   "section": "1"
+  },
+  "sec-statement": {
+   "kind": "section",
+   "label": "sec:statement",
+   "number": "2",
+   "section": "2"
+  },
+  "eq-armijo": {
+   "kind": "align-row",
+   "label": "eq:armijo",
+   "number": "(1)",
+   "section": "2"
+  },
+  "eq-weak-curvature": {
+   "kind": "align-row",
+   "label": "eq:weak-curvature",
+   "number": "(2)",
+   "section": "2"
+  },
+  "eq-strong-curvature": {
+   "kind": "equation",
+   "label": "eq:strong-curvature",
+   "number": "(3)",
+   "section": "2"
+  },
+  "eq-open-question": {
+   "kind": "equation",
+   "label": "eq:open-question",
+   "number": "(4)",
+   "section": "2"
+  },
+  "eq-objective": {
+   "kind": "equation",
+   "label": "eq:objective",
+   "number": "(5)",
+   "section": "2"
+  },
+  "thm-main": {
+   "kind": "theorem",
+   "label": "thm:main",
+   "number": "2.1",
+   "section": "2"
+  },
+  "eq-wolfe-range": {
+   "kind": "equation",
+   "label": "eq:wolfe-range",
+   "number": "(6)",
+   "section": "2"
+  },
+  "cor-identity-initialization": {
+   "kind": "corollary",
+   "label": "cor:identity-initialization",
+   "number": "2.2",
+   "section": "2"
+  },
+  "sec-strategy": {
+   "kind": "section",
+   "label": "sec:strategy",
+   "number": "3",
+   "section": "3"
+  },
+  "sec-strategy-one-dfp-update": {
+   "kind": "subsection",
+   "label": null,
+   "number": "3.1",
+   "section": "3"
+  },
+  "eq-abstract-step": {
+   "kind": "equation",
+   "label": "eq:abstract-step",
+   "number": "(7)",
+   "section": "3"
+  },
+  "eq-line-ratio": {
+   "kind": "equation",
+   "label": "eq:line-ratio",
+   "number": "(8)",
+   "section": "3"
+  },
+  "prop-one-step": {
+   "kind": "proposition",
+   "label": "prop:one-step",
+   "number": "3.1",
+   "section": "3"
+  },
+  "eq-one-step-g": {
+   "kind": "align-row",
+   "label": "eq:one-step-g",
+   "number": "(9)",
+   "section": "3"
+  },
+  "eq-one-step-H": {
+   "kind": "align-row",
+   "label": "eq:one-step-H",
+   "number": "(10)",
+   "section": "3"
+  },
+  "sec-strategy-outline-of-the-proof": {
+   "kind": "subsection",
+   "label": null,
+   "number": "3.2",
+   "section": "3"
+  },
+  "sec-alternating-sequence": {
+   "kind": "section",
+   "label": "sec:alternating-sequence",
+   "number": "4",
+   "section": "4"
+  },
+  "sec-alternating-sequence-coordinate-representation-and-choice-of": {
+   "kind": "subsection",
+   "label": null,
+   "number": "4.1",
+   "section": "4"
+  },
+  "eq-coordinate-representation": {
+   "kind": "equation",
+   "label": "eq:coordinate-representation",
+   "number": "(11)",
+   "section": "4"
+  },
+  "eq-alternating-secant-data": {
+   "kind": "equation",
+   "label": "eq:alternating-secant-data",
+   "number": "(12)",
+   "section": "4"
+  },
+  "eq-even-iteration-data": {
+   "kind": "equation",
+   "label": "eq:even-iteration-data",
+   "number": "(13)",
+   "section": "4"
+  },
+  "eq-first-updated-gradient": {
+   "kind": "align-row",
+   "label": "eq:first-updated-gradient",
+   "number": "(14)",
+   "section": "4"
+  },
+  "eq-first-updated-B": {
+   "kind": "align-row",
+   "label": "eq:first-updated-B",
+   "number": "(15)",
+   "section": "4"
+  },
+  "eq-odd-iteration-data": {
+   "kind": "equation",
+   "label": "eq:odd-iteration-data",
+   "number": "(16)",
+   "section": "4"
+  },
+  "sec-alternating-sequence-a-local-invariant-graph": {
+   "kind": "subsection",
+   "label": null,
+   "number": "4.2",
+   "section": "4"
+  },
+  "lem-graph-transform": {
+   "kind": "lemma",
+   "label": "lem:graph-transform",
+   "number": "4.1",
+   "section": "4"
+  },
+  "eq-graph-bunching": {
+   "kind": "equation",
+   "label": "eq:graph-bunching",
+   "number": "(17)",
+   "section": "4"
+  },
+  "sec-alternating-sequence-analytic-extension-and-an-invariant": {
+   "kind": "subsection",
+   "label": null,
+   "number": "4.3",
+   "section": "4"
+  },
+  "lem-center-manifold": {
+   "kind": "lemma",
+   "label": "lem:center-manifold",
+   "number": "4.2",
+   "section": "4"
+  },
+  "eq-center-curve": {
+   "kind": "align-row",
+   "label": "eq:center-curve",
+   "number": "(18)",
+   "section": "4"
+  },
+  "eq-epsilon-map": {
+   "kind": "align-row",
+   "label": "eq:epsilon-map",
+   "number": "(19)",
+   "section": "4"
+  },
+  "eq-limiting-radius": {
+   "kind": "align-row",
+   "label": "eq:limiting-radius",
+   "number": "(20)",
+   "section": "4"
+  },
+  "eq-limiting-ph": {
+   "kind": "align-row",
+   "label": "eq:limiting-ph",
+   "number": "(21)",
+   "section": "4"
+  },
+  "eq-limiting-jacobian": {
+   "kind": "equation",
+   "label": "eq:limiting-jacobian",
+   "number": "(22)",
+   "section": "4"
+  },
+  "eq-transverse-map": {
+   "kind": "equation",
+   "label": "eq:transverse-map",
+   "number": "(23)",
+   "section": "4"
+  },
+  "eq-graph-coefficient-system": {
+   "kind": "equation",
+   "label": "eq:graph-coefficient-system",
+   "number": "(24)",
+   "section": "4"
+  },
+  "sec-alternating-sequence-asymptotic-expansions-in-the-original": {
+   "kind": "subsection",
+   "label": null,
+   "number": "4.4",
+   "section": "4"
+  },
+  "lem-two-step-expansions": {
+   "kind": "lemma",
+   "label": "lem:two-step-expansions",
+   "number": "4.3",
+   "section": "4"
+  },
+  "eq-G-map": {
+   "kind": "align-row",
+   "label": "eq:G-map",
+   "number": "(25)",
+   "section": "4"
+  },
+  "eq-phi-map": {
+   "kind": "align-row",
+   "label": "eq:phi-map",
+   "number": "(26)",
+   "section": "4"
+  },
+  "eq-C-map": {
+   "kind": "align-row",
+   "label": "eq:C-map",
+   "number": "(27)",
+   "section": "4"
+  },
+  "eq-C-half": {
+   "kind": "align-row",
+   "label": "eq:C-half",
+   "number": "(28)",
+   "section": "4"
+  },
+  "eq-half-angles": {
+   "kind": "equation",
+   "label": "eq:half-angles",
+   "number": "(29)",
+   "section": "4"
+  },
+  "sec-alternating-sequence-scalar-asymptotics-and-the-limiting": {
+   "kind": "subsection",
+   "label": null,
+   "number": "4.5",
+   "section": "4"
+  },
+  "lem-scalar-asymptotics": {
+   "kind": "lemma",
+   "label": "lem:scalar-asymptotics",
+   "number": "4.4",
+   "section": "4"
+  },
+  "eq-epsilon-asymptotic": {
+   "kind": "align-row",
+   "label": "eq:epsilon-asymptotic",
+   "number": "(30)",
+   "section": "4"
+  },
+  "eq-G-tail": {
+   "kind": "align-row",
+   "label": "eq:G-tail",
+   "number": "(31)",
+   "section": "4"
+  },
+  "eq-C-tail": {
+   "kind": "align-row",
+   "label": "eq:C-tail",
+   "number": "(32)",
+   "section": "4"
+  },
+  "eq-limit-circle": {
+   "kind": "equation",
+   "label": "eq:limit-circle",
+   "number": "(33)",
+   "section": "4"
+  },
+  "sec-global-objective": {
+   "kind": "section",
+   "label": "sec:global-objective",
+   "number": "5",
+   "section": "5"
+  },
+  "sec-global-objective-uniform-separation-of-the-iterates": {
+   "kind": "subsection",
+   "label": null,
+   "number": "5.1",
+   "section": "5"
+  },
+  "lem-separation": {
+   "kind": "lemma",
+   "label": "lem:separation",
+   "number": "5.1",
+   "section": "5"
+  },
+  "eq-separation": {
+   "kind": "equation",
+   "label": "eq:separation",
+   "number": "(34)",
+   "section": "5"
+  },
+  "eq-polar-boundary": {
+   "kind": "equation",
+   "label": "eq:polar-boundary",
+   "number": "(35)",
+   "section": "5"
+  },
+  "eq-within-cycle-radius": {
+   "kind": "equation",
+   "label": "eq:within-cycle-radius",
+   "number": "(36)",
+   "section": "5"
+  },
+  "eq-within-cycle-radius-uniform": {
+   "kind": "equation",
+   "label": "eq:within-cycle-radius-uniform",
+   "number": "(37)",
+   "section": "5"
+  },
+  "eq-kappa-choice": {
+   "kind": "equation",
+   "label": "eq:kappa-choice",
+   "number": "(38)",
+   "section": "5"
+  },
+  "eq-unwrapped-return": {
+   "kind": "equation",
+   "label": "eq:unwrapped-return",
+   "number": "(39)",
+   "section": "5"
+  },
+  "eq-cycle-count": {
+   "kind": "equation",
+   "label": "eq:cycle-count",
+   "number": "(40)",
+   "section": "5"
+  },
+  "eq-radial-return-gap": {
+   "kind": "equation",
+   "label": "eq:radial-return-gap",
+   "number": "(41)",
+   "section": "5"
+  },
+  "eq-one-turn-drop": {
+   "kind": "equation",
+   "label": "eq:one-turn-drop",
+   "number": "(42)",
+   "section": "5"
+  },
+  "sec-global-objective-local-interpolation-with-disjoint-supports": {
+   "kind": "subsection",
+   "label": null,
+   "number": "5.2",
+   "section": "5"
+  },
+  "eq-rho-k": {
+   "kind": "equation",
+   "label": "eq:rho-k",
+   "number": "(43)",
+   "section": "5"
+  },
+  "eq-correction-vector": {
+   "kind": "equation",
+   "label": "eq:correction-vector",
+   "number": "(44)",
+   "section": "5"
+  },
+  "eq-ak-bound": {
+   "kind": "equation",
+   "label": "eq:ak-bound",
+   "number": "(45)",
+   "section": "5"
+  },
+  "eq-local-interpolants": {
+   "kind": "equation",
+   "label": "eq:local-interpolants",
+   "number": "(46)",
+   "section": "5"
+  },
+  "lem-disjoint-interpolation": {
+   "kind": "lemma",
+   "label": "lem:disjoint-interpolation",
+   "number": "5.2",
+   "section": "5"
+  },
+  "eq-interpolation-jets": {
+   "kind": "equation",
+   "label": "eq:interpolation-jets",
+   "number": "(47)",
+   "section": "5"
+  },
+  "eq-interpolation-hessian-bound": {
+   "kind": "equation",
+   "label": "eq:interpolation-hessian-bound",
+   "number": "(48)",
+   "section": "5"
+  },
+  "eq-zero-circle-jet": {
+   "kind": "equation",
+   "label": "eq:zero-circle-jet",
+   "number": "(49)",
+   "section": "5"
+  },
+  "sec-global-objective-definition-of-the-objective": {
+   "kind": "subsection",
+   "label": null,
+   "number": "5.3",
+   "section": "5"
+  },
+  "eq-endpoint-data": {
+   "kind": "equation",
+   "label": "eq:endpoint-data",
+   "number": "(50)",
+   "section": "5"
+  },
+  "sec-completion": {
+   "kind": "section",
+   "label": "sec:completion",
+   "number": "6",
+   "section": "6"
+  },
+  "sec-completion-armijo-decrease-and-the-strong": {
+   "kind": "subsection",
+   "label": null,
+   "number": "6.1",
+   "section": "6"
+  },
+  "eq-armijo-ratio": {
+   "kind": "align-row",
+   "label": "eq:armijo-ratio",
+   "number": "(51)",
+   "section": "6"
+  },
+  "sec-completion-nonconvergence-and-extension-to-higher": {
+   "kind": "subsection",
+   "label": null,
+   "number": "6.2",
+   "section": "6"
+  },
+  "sec-completion-identity-initialization-under-an-affine": {
+   "kind": "subsection",
+   "label": null,
+   "number": "6.3",
+   "section": "6"
+  },
+  "sec-known-results": {
+   "kind": "subsection",
+   "label": "sec:known-results",
+   "number": "6.4",
+   "section": "6"
+  },
+  "sec-completion-scope-of-the-construction": {
+   "kind": "subsection",
+   "label": null,
+   "number": "6.5",
+   "section": "6"
+  },
+  "sec-numerics": {
+   "kind": "section",
+   "label": "sec:numerics",
+   "number": "7",
+   "section": "7"
+  },
+  "sec-conclusion": {
+   "kind": "section",
+   "label": "sec:conclusion",
+   "number": "8",
+   "section": "8"
+  },
+  "app-algebra": {
+   "kind": "appendix",
+   "label": "app:algebra",
+   "number": "A",
+   "section": "A"
+  },
+  "app-algebra-one-dfp-update-in-matrix": {
+   "kind": "subsection",
+   "label": null,
+   "number": "A.1",
+   "section": "A"
+  },
+  "eq-appendix-H-entries": {
+   "kind": "align-row",
+   "label": "eq:appendix-H-entries",
+   "number": "(52)",
+   "section": "A"
+  },
+  "eq-dfp-determinant": {
+   "kind": "equation",
+   "label": "eq:dfp-determinant",
+   "number": "(53)",
+   "section": "A"
+  },
+  "eq-appendix-B-update": {
+   "kind": "equation",
+   "label": "eq:appendix-B-update",
+   "number": "(54)",
+   "section": "A"
+  },
+  "eq-generic-vw": {
+   "kind": "align-row",
+   "label": "eq:generic-vw",
+   "number": "(55)",
+   "section": "A"
+  },
+  "eq-generic-delta-beta": {
+   "kind": "align-row",
+   "label": "eq:generic-delta-beta",
+   "number": "(56)",
+   "section": "A"
+  },
+  "eq-generic-gamma": {
+   "kind": "align-row",
+   "label": "eq:generic-gamma",
+   "number": "(57)",
+   "section": "A"
+  },
+  "eq-generic-alpha": {
+   "kind": "equation",
+   "label": "eq:generic-alpha",
+   "number": "(58)",
+   "section": "A"
+  },
+  "eq-parameter-recovery": {
+   "kind": "equation",
+   "label": "eq:parameter-recovery",
+   "number": "(59)",
+   "section": "A"
+  },
+  "app-algebra-two-step-expansion-and-the": {
+   "kind": "subsection",
+   "label": null,
+   "number": "A.2",
+   "section": "A"
+  },
+  "eq-appendix-r": {
+   "kind": "align-row",
+   "label": "eq:appendix-r",
+   "number": "(60)",
+   "section": "A"
+  },
+  "eq-appendix-p": {
+   "kind": "align-row",
+   "label": "eq:appendix-p",
+   "number": "(61)",
+   "section": "A"
+  },
+  "eq-appendix-h": {
+   "kind": "align-row",
+   "label": "eq:appendix-h",
+   "number": "(62)",
+   "section": "A"
+  },
+  "eq-appendix-G": {
+   "kind": "align-row",
+   "label": "eq:appendix-G",
+   "number": "(63)",
+   "section": "A"
+  },
+  "eq-appendix-phi": {
+   "kind": "align-row",
+   "label": "eq:appendix-phi",
+   "number": "(64)",
+   "section": "A"
+  },
+  "eq-appendix-C": {
+   "kind": "align-row",
+   "label": "eq:appendix-C",
+   "number": "(65)",
+   "section": "A"
+  },
+  "app-algebra-coefficients-on-the-invariant-center": {
+   "kind": "subsection",
+   "label": null,
+   "number": "A.3",
+   "section": "A"
+  },
+  "sec-acknowledgments": {
+   "kind": "appendix",
+   "label": null,
+   "number": "B",
+   "section": "B"
+  }
+ }
+}

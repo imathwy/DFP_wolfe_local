@@ -75,9 +75,11 @@ the two targeted proof-interface checks completed successfully.
 
 ## Code scale
 
-The figures below are measured from the tracked source tree (2026-08-31). Build
-products, local proof-stage state, generated audits, manuscript working copies,
-and temporary probes are excluded by `.gitignore`.
+The figures below are measured from the Lean source tree (2026-08-31). The
+adjacent `DFP_counterexample/` and `DFP_wolfe_paperforge/` directories contain
+publication and presentation sidecars; they are excluded from these Lean-code
+metrics. Build products, local proof-stage state, generated audits, manuscript
+working copies, and temporary probes are excluded by `.gitignore`.
 
 | Metric | Value |
 | --- | ---: |

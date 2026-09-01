@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<section xml:id="sec-completion">
+  <title>Verification of the counterexample</title>
+  <introduction>
+    <p>
+      For the objective just constructed, <m>(x_k,g_k,H_k)</m> is a classical DFP
+sequence.  We verify the line-search inequalities, prove nonconvergence in
+every dimension, and compare the example with earlier DFP convergence results.
+    </p>
+  </introduction>
+  <subsection xml:id="sec-completion-armijo-decrease-and-the-strong">
+    <title>Armijo decrease and the strong Wolfe curvature condition</title>
+    <p>
+      It remains to verify that the prescribed positive steps are valid for the
+objective just constructed.  We first prove the Armijo inequality
+from the endpoint values and then use the exact secant ratio to verify the
+strong Wolfe curvature condition.  Let <m>q_k=-g_k^Ts_k>0</m>.  Since
+<m>\Psi(x_k)=0</m> at every iterate,
+<xref ref="eq-endpoint-data"/> gives
+      <mdn>
+        <mrow xml:id="eq-armijo-ratio">\frac{f(x_k)-f(x_{k+1})}{q_k}
+&amp;=1-\frac{\|s_k\|^2}{2q_k}
++\frac{a_k^Ts_k}{q_k}.</mrow>
+      </mdn>
+    </p>
+    <p>
+      The expansions in Section<nbsp/><xref ref="sec-alternating-sequence" text="global"/> give
+<m>\|s_k\|=\Theta(r(k))</m> and
+<m>q_k=\Theta(r(k)^2)</m>.  Equations <xref ref="eq-ak-bound"/> and
+<xref ref="eq-line-ratio"/>, together with <m>A_i(\epsilon)\to I</m>, imply
+<me>\frac{a_k^Ts_k}{q_k}=O(\epsilon_j),
+\qquad
+\frac{\|s_k\|^2}{q_k}=\tau_k+O(\epsilon_j).</me>
+The two limits of <xref ref="eq-armijo-ratio"/> are
+<me>1-\frac12\frac23=\frac23,
+\qquad
+1-\frac12\frac13=\frac56.</me>
+The error terms are uniform for <m>0&lt;\epsilon_j\le\epsilon_0</m>.  Given any
+<m>c_1&lt;2/3</m>, one final reduction of <m>\epsilon_0</m> makes every ratio in
+<xref ref="eq-armijo-ratio"/> at least <m>c_1</m>.  This proves the Armijo inequality
+throughout the range in <xref ref="eq-wolfe-range"/>.
+    </p>
+    <p>
+      The curvature calculation is exact and does not depend on objective values:
+<me>g_{k+1}^Ts_k=g_k^Ts_k+s_k^Ty_k
+=-(1-\tau_k)q_k.</me>
+Since <m>g_k^Ts_k=-q_k</m>, the ratio in the strong Wolfe curvature condition is
+<me>\frac{|g_{k+1}^Ts_k|}{|g_k^Ts_k|}=1-\tau_k
+\in\left\{\frac13,\frac23\right\}.</me>
+Both iterations in each cycle satisfy <xref ref="eq-strong-curvature"/> exactly when
+<m>c_2\ge2/3</m>.  They also satisfy the weak Wolfe curvature inequality.  This
+proves the claim for every pair in <xref ref="eq-wolfe-range"/>.  The sequence is fixed once
+<m>\epsilon_0</m> is chosen; only the required upper bound on <m>\epsilon_0</m> may
+depend on <m>c_1</m>.  This verification concerns the accepted positive steps; it
+does not assert that a particular strong Wolfe line-search algorithm must
+generate them.
+    </p>
+  </subsection>
+  <subsection xml:id="sec-completion-nonconvergence-and-extension-to-higher">
+    <title>Nonconvergence and extension to higher dimensions</title>
+    <p>
+      We now verify the failure of global convergence.  We then embed the
+two-dimensional construction in higher dimensions.
+Lemma<nbsp/><xref ref="lem-scalar-asymptotics" text="global"/> and
+<xref ref="eq-coordinate-representation"/> give <m>\|g_{2j}\|\to G_\infty</m>.  On the
+first iteration of each cycle,
+<m>\|g_{2j+1}-g_{2j}\|=\|y_{2j}\|=O(\epsilon_j^2)</m>, so
+<me>\|g_k\|\longrightarrow G_\infty>0.</me>
+    </p>
+    <p>
+      All <m>H_k</m> remain positive definite because <m>s_k^Ty_k=s_k^TA_ks_k>0</m> and
+DFP preserves positive definiteness.
+    </p>
+    <p>
+      This completes the construction in dimension two.  For <m>n>2</m>, define
+<me>\widehat f(x,w)=f(x)+\frac12\|w\|^2,
+\qquad
+\widehat H_0=H_0\oplus I,
+\qquad w_0=0.</me>
+The entire iteration remains in the first two coordinates, so all identities
+and inequalities are unchanged.  This completes the detailed verification of Theorem<nbsp/><xref ref="thm-main" text="global"/>.
+    </p>
+  </subsection>
+  <subsection xml:id="sec-completion-identity-initialization-under-an-affine">
+    <title>Identity initialization under an affine change of variables</title>
+    <p>
+      The remaining claim from Section<nbsp/><xref ref="sec-statement" text="global"/> concerns the standard
+initialization <m>H_0=I</m>.  The affine covariance of DFP allows us to normalize
+the initial matrix without changing the accepted step lengths or the Wolfe
+inequalities.
+    </p>
+    <proof>
+      <title>Proof of Corollary<nbsp/><xref ref="cor-identity-initialization" text="global"/></title>
+      <p>
+        We obtain the identity-initialized version by applying an affine change of
+variables to the two-dimensional example.  Take the example in
+Theorem<nbsp/><xref ref="thm-main" text="global"/>, and let
+<m>L=H_0^{1/2}</m> be the symmetric positive definite square root.  Define
+<me>\widetilde f(x)=f(Lx),\quad \widetilde x_k=L^{-1}x_k,\quad
+\widetilde g_k=\nabla\widetilde f(\widetilde x_k)=L^Tg_k,\quad
+\widetilde H_k=L^{-1}H_kL^{-T}.</me>
+Then <m>\widetilde H_0=I</m>, and the transformed search direction satisfies
+<me>\widetilde d_k:=-\widetilde H_k\widetilde g_k
+=L^{-1}d_k.</me>
+The same step length <m>\alpha_k</m> gives
+<m>\widetilde s_k=L^{-1}s_k</m> and
+<m>\widetilde y_k=\widetilde g_{k+1}-\widetilde g_k=L^Ty_k</m>.  We also have
+<me>\widetilde s_k^T\widetilde y_k=s_k^Ty_k,
+\qquad
+\widetilde y_k^T\widetilde H_k\widetilde y_k=y_k^TH_ky_k.</me>
+      </p>
+      <p>
+        Substitution in the DFP update gives
+<m>\widetilde H_{k+1}=L^{-1}H_{k+1}L^{-T}</m>, so the complete DFP recurrence is
+preserved.
+      </p>
+      <p>
+        The line functions and their directional derivatives are also unchanged:
+<me>\widetilde f(\widetilde x_k+\alpha\widetilde d_k)
+=f(x_k+\alpha d_k),\qquad
+\nabla\widetilde f(\widetilde x_k+\alpha\widetilde d_k)^T\widetilde d_k
+=\nabla f(x_k+\alpha d_k)^Td_k.</me>
+The Armijo and strong Wolfe curvature inequalities hold with the same
+constants.  Also,
+<me>\nabla^2\widetilde f(x)=L^T\nabla^2f(Lx)L,</me>
+and Theorem<nbsp/><xref ref="thm-main" text="global"/> gives
+<me>\frac12\lambda_{\min}(H_0)I
+\preceq\nabla^2\widetilde f(x)
+\preceq\frac32\lambda_{\max}(H_0)I.</me>
+We may take
+<m>\widetilde m=\frac12\lambda_{\min}(H_0)</m> and
+<m>\widetilde M=\frac32\lambda_{\max}(H_0)</m>.  In addition,
+<me>\|\nabla\widetilde f(\widetilde x_k)\|=\|L^Tg_k\|
+\ge \sqrt{\lambda_{\min}(H_0)}\,\|g_k\|,</me>
+so the positive gradient limit in Theorem<nbsp/><xref ref="thm-main" text="global"/> gives a positive
+lower limit.  Applying the same normalization after the orthogonal
+direct-sum extension proves the statement for every <m>n\ge2</m>.
+      </p>
+    </proof>
+  </subsection>
+  <subsection xml:id="sec-known-results">
+    <title>Relation to known sufficient conditions</title>
+    <p>
+      The sequence lies outside the additional hypotheses in the known conditional
+convergence theorems.  The exact expansions in
+Appendix<nbsp/><xref ref="app-algebra" text="global"/>, normalized by the gradient component <m>G_j</m>, give
+      <md>
+        <mrow>\norm{g_{2j}}/G_j
+ &amp;=1+2\epsilon_j^4+O(\epsilon_j^6),</mrow>
+        <mrow>\norm{g_{2j+1}}/G_j
+ &amp;=1-2\epsilon_j^3-2\epsilon_j^4+O(\epsilon_j^6),</mrow>
+        <mrow>\norm{g_{2j+2}}/G_j
+ &amp;=1-\frac92\epsilon_j^4+O(\epsilon_j^6).</mrow>
+      </md>
+      The first iteration decreases the gradient norm by order <m>\epsilon_j^3</m>.  The
+second increases it by the same order, so eventual monotonicity fails.  The
+    </p>
+    <p>
+      step lengths satisfy
+<me>\norm{s_{2j}}/G_j=2\epsilon_j^2+o(\epsilon_j^2),
+\qquad
+\norm{s_{2j+1}}/G_j=\epsilon_j^2+o(\epsilon_j^2).</me>
+Since <m>G_j\to G_\infty>0</m> and <m>\sum_j\epsilon_j^2=\infty</m>, the total step
+length <m>\sum_k\norm{s_k}</m> diverges.  Neither Yuan's eventual gradient-norm
+monotonicity condition nor his assumption <m>\sum_k\norm{s_k}&lt;\infty</m>
+<xref ref="bib-Yuan1995"/> applies.  The construction also lies outside Xu's theorem:
+    </p>
+    <p>
+      for the final function, <m>m=1/2</m> and <m>M=3/2</m>, but Xu
+<xref ref="bib-Xu1997"/> assumes, in addition to an eventual monotonicity condition on an
+iteration-dependent scalar, that <m>c_2&lt;(m/M)^3</m>.  Every parameter pair in
+<xref ref="eq-wolfe-range"/> instead satisfies
+<me>c_2\ge\frac23>
+\left(\frac{1/2}{3/2}\right)^3=\frac1{27},</me>
+so its parameter hypothesis is violated.
+    </p>
+    <p>
+      Powell's uniformly convex theorem <xref ref="bib-Powell1971"/> uses exact line search.
+His later two-dimensional result <xref ref="bib-Powell2000"/> assumes that each line
+search finds the first local minimizer.  In both settings the accepted
+endpoint is stationary along the search line.  Our steps instead satisfy
+<me>g_{k+1}^Td_k=\alpha_k^{-1}g_{k+1}^Ts_k
+=-\alpha_k^{-1}(1-\tau_k)q_k\ne0,</me>
+so neither exact line-search assumption applies.  The sequence also fails to
+converge: its accumulation set is the circle <m>\Gamma</m>.  It lies outside
+Pu and Yu's conditional result for a convergent iterate sequence
+<xref ref="bib-PuYu1990"/>.  Pu's later theorem assumes, in addition, a uniformly
+positive and bounded Hessian together with Hessian Lipschitz continuity.  In
+Pu's notation, the theorem replaces the fixed Wolfe coefficients by
+<m>\rho_k^{\mathrm{Pu}}=\rho\xi_k</m> and
+<m>\sigma_k^{\mathrm{Pu}}=\sigma\xi_k</m>, with, for example,
+<me>\xi_k=\min\left\{1,
+\frac{\|R_kH_kg_k\|}{\|Q_kg_k\|}\right\},</me>
+where the positive semidefinite matrices <m>R_k</m> and positive definite matrices
+<m>Q_k</m> satisfy additional uniform spectral conditions
+<xref ref="bib-Pu2002"/>.  This metric-dependent requirement can make the corresponding
+directional-derivative ratio much smaller than the fixed constant in the
+standard strong Wolfe condition.  It does not follow from
+<xref ref="eq-armijo"/> and <xref ref="eq-strong-curvature"/>.  The result of Liu, Jing,
+and Han uses their proposed inexact line search <xref ref="bib-LiuJingHan2002"/>.  It
+does not cover arbitrary accepted steps that satisfy only the two standard
+strong Wolfe inequalities.  Powell's 1976 result concerns BFGS
+<xref ref="bib-Powell1976"/>.  The global Broyden-class theorem of Byrd, Nocedal, and
+Yuan <xref ref="bib-ByrdNocedalYuan1987"/> excludes DFP.  The counterexample does not
+contradict any of these results.  Each theorem has an extra assumption that
+the constructed sequence does not satisfy.
+    </p>
+  </subsection>
+  <subsection xml:id="sec-completion-scope-of-the-construction">
+    <title>Scope of the construction</title>
+    <p>
+      The iteration uses the standard inverse-Hessian form of the DFP update.  Its
+fixed positive definite matrix <m>H_0</m> comes from
+<xref ref="eq-coordinate-representation"/> at a chosen point on the invariant center
+manifold.  Once <m>(c_1,c_2)</m> is fixed in <xref ref="eq-wolfe-range"/>, we choose the
+initial parameter sufficiently small and then fix the objective
+<xref ref="eq-objective"/>.  Its Hessian satisfies the same global bounds at every
+point.  The construction uses no exact line search, damping, restart, or
+projection.  It also does not assume a uniform bound on the condition numbers
+of <m>H_k</m>. The matrices in <xref ref="eq-alternating-secant-data"/> generate the prescribed
+secant pairs.  We do not claim that they are Hessians of <m>f</m> at the iterates.
+After the gradients have been interpolated, the actual secants of <m>f</m> equal
+the prescribed secants.  A search segment may cross the support of another
+interpolation function.  This does not affect the proof.  The Wolfe tests use
+only endpoint values and endpoint directional derivatives.  The fundamental
+theorem of calculus, applied to the gradient along the segment, gives the same
+prescribed secant vector.
+    </p>
+  </subsection>
+</section>

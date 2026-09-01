@@ -1,0 +1,180 @@
+/* paperforge "paper look": research-article styling over the PreTeXt modern
+   theme. Goals: LaTeX-familiar fonts, black-and-white, a wide single column,
+   and quiet knowl/detail boundaries (light background, no heavy chrome). */
+
+/* -- 6. Computer Modern webfonts (the LaTeX look). Math is already Modern
+      via MathJax; this aligns the prose. -- */
+@import url("fonts-cm.css");   /* vendored locally, CDN-free */
+
+:root:not(.dark-mode) {
+  /* -- 5. black and white: the theme derives nearly everything from these -- */
+  --primary-color: #111111;
+  --secondary-color: #222222;
+  --doc-title-color: #111111;
+  --byline-color: #333333;
+  --banner-background: #ffffff;
+  --navbar-background: #f6f6f6;
+  --toc-border-color: #dddddd;
+  --tocitem-highlight-background: #e8e8e8;
+  --tocitem-highlight-text-color: #111111;
+  --activated-content-bg: #ececec;
+  /* paper-look palette (dark counterparts below) */
+  --paper-ink: #111111;
+  --paper-underline: #bbbbbb;
+  --paper-field: #f5f5f5;      /* born-hidden knowl field */
+  --paper-field-xref: #f7f7f7; /* injected xref knowl field */
+  --paper-layer: #ffffff;      /* nested knowl layer */
+  --paper-hairline: #dddddd;
+  --paper-toc-bg: #fafafa;
+  --paper-toc-ink: #222222;
+  --paper-toc-active-bg: #e8e8e8;
+  --paper-toc-active-ink: #111111;
+}
+/* dark mode keys on the theme's .dark-mode class on :root
+   (readability-options.js sets it from the system preference and the user
+   toggle; theme.css has no media queries, so neither may we). The palette
+   sits a step off the theme's dark body (#23241f). */
+:root.dark-mode {
+  --activated-content-bg: rgba(255, 255, 255, 0.08);
+  --paper-ink: #f2f2f2;
+  --paper-underline: #66665f;
+  --paper-field: #2c2d27;
+  --paper-field-xref: #2a2b25;
+  --paper-layer: #1d1e19;
+  --paper-hairline: #4a4b44;
+  --paper-toc-bg: #202119;
+  --paper-toc-ink: #cfd0ca;
+  --paper-toc-active-bg: #33342c;
+  --paper-toc-active-ink: #f2f2f2;
+}
+
+/* the theme flashes the :target element for orientation after a fragment
+   jump; its 10s salmon fade reads as an error on a B/W page — keep the
+   affordance, neutral and brief */
+:target { animation-duration: 1.5s; }
+
+/* light TOC sidebar: a paper's margin, not a book's chrome (the dark
+   counterpart values live on the variables above) */
+.ptx-sidebar .ptx-toc, .ptx-toc {
+  background: var(--paper-toc-bg);
+}
+.ptx-toc .toc-item, .ptx-toc .toc-title-box a, .ptx-toc a {
+  background: transparent;
+  color: var(--paper-toc-ink);
+}
+.ptx-toc .toc-item.active, .ptx-toc .toc-current a {
+  background: var(--paper-toc-active-bg);
+  color: var(--paper-toc-active-ink);
+}
+
+/* one-page build: prev/up/next render as permanently-disabled placeholders
+   (navbar and content footer) — hide them; a chunked build re-enables them
+   automatically since only .disabled is hidden */
+.ptx-navbar .treebuttons .button.disabled,
+.ptx-content-footer .button.disabled { display: none; }
+
+/* -- 2. wider content column: the theme hardcodes 696px on .ptx-content -- */
+.ptx-main > .ptx-content { max-width: 58rem; }
+.ptx-content-footer { max-width: 58rem; }
+
+
+/* -- 6 cont.: prose in Computer Modern -- */
+.ptx-content, .ptx-content .para, .ptx-page, .ptx-masthead .title-container {
+  font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+}
+.ptx-content .frontmatter .author-status-note {
+  margin-top: 0.2rem;
+  font-size: 0.92em;
+}
+.ptx-content .heading, .ptx-content h1, .ptx-content h2, .ptx-content h3,
+.ptx-content h4, .ptx-content h5 {
+  font-family: "Computer Modern Serif", "Latin Modern Roman", Georgia, serif;
+}
+/* division-heading ladder: the theme's subsection/subsubsection sizes
+   (1.15em) fall below theorem-like headings (1.25em); keep every division
+   heading at least lemma-sized, ordered by depth under section (1.3em) */
+.ptx-content section.subsection > .heading { font-size: 1.275em; }
+.ptx-content section.subsubsection > .heading { font-size: 1.25em; }
+
+/* -- 5 cont.: links quiet (papers are ink); keep affordance on hover -- */
+.ptx-content a.internal, .ptx-content .xref {
+  color: var(--paper-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--paper-underline);
+  text-underline-offset: 2px;
+}
+.ptx-content a.internal:hover, .ptx-content .xref:hover {
+  text-decoration-color: var(--paper-ink);
+}
+/* knowl links already carry the theme's state-aware dotted border (hidden
+   on :hover/:focus/[open]) — adding our underline gave them a double line
+   that flickered with focus. One affordance only. */
+.ptx-content a.xref[data-knowl], .ptx-content a.xref[data-knowl]:hover {
+  text-decoration: none;
+}
+
+/* -- 3. quiet knowls: light gray field instead of borders/boxes -- */
+.ptx-content details.born-hidden-knowl {
+  border: none;
+  background: var(--paper-field);
+  border-radius: 4px;
+  padding: 0.35rem 0.7rem;
+  margin: 0.6rem 0;
+}
+.ptx-content details.born-hidden-knowl > summary.knowl__link {
+  color: var(--paper-ink);
+  font-style: italic;
+  text-decoration: none;
+  list-style-position: outside;
+}
+.ptx-content details.born-hidden-knowl > summary.knowl__link .heading {
+  color: var(--paper-ink);
+}
+.ptx-content details.born-hidden-knowl .knowl__content {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0.2rem 0 0.1rem;
+}
+/* nested knowls: a knowl surface opened inside another knowl surface is
+   grey-on-grey without a boundary. Step the inner one to white with a
+   hairline so it reads as a layer. Injected xref knowls are the
+   div.knowl__content[id^=knowl-uid-] elements (knowl.js); born-hidden
+   details and .lean-knowl doc panels are the other two surfaces. */
+.ptx-content details.born-hidden-knowl div.knowl__content[id^="knowl-uid-"],
+.ptx-content details.born-hidden-knowl details.born-hidden-knowl,
+.ptx-content details.born-hidden-knowl .lean-knowl,
+.ptx-content details.born-hidden-knowl .section-knowl,
+.ptx-content div.knowl__content[id^="knowl-uid-"] div.knowl__content[id^="knowl-uid-"],
+.ptx-content div.knowl__content[id^="knowl-uid-"] details.born-hidden-knowl,
+.ptx-content div.knowl__content[id^="knowl-uid-"] .lean-knowl,
+.ptx-content div.knowl__content[id^="knowl-uid-"] .section-knowl {
+  background: var(--paper-layer);
+  border: 1px solid var(--paper-hairline);
+  border-radius: 4px;
+  padding: 0.35rem 0.7rem;
+}
+
+/* theorem-like blocks: no colored bars or boxes — amsart is flat -- */
+.ptx-content article.theorem-like,
+.ptx-content article.definition-like,
+.ptx-content article.remark-like {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding-left: 0;
+}
+
+/* xref preview knowls (click-to-open cross references) — same quiet field */
+.ptx-content .knowl__content {
+  background: var(--paper-field-xref);
+  border: none;
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+/* ToC visible by default on wide screens (owner request 2026-07-27). The
+   theme's toggle still works: closing adds .hidden, which wins here. */
+@media screen and (min-width: 1000px) {
+  .ptx-sidebar:not(.hidden) { display: block; }
+}

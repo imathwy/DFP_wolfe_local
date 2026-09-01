@@ -1,0 +1,26 @@
+{
+  "thm-main": [
+    {
+      "decl": "DFP.existsStrongWolfeCounterexample_of_parameterRange",
+      "via": "manual-candidate",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Theorem_Main_theorem.lean",
+      "line": 17,
+      "cited": "Theorem 1",
+      "kind": "theorem",
+      "flagged": true,
+      "note": "Superseded locally by crosswalk/lean-decl-map.json after statement audit."
+    }
+  ],
+  "cor-identity-initialization": [
+    {
+      "decl": "DFP.existsMatrixIdentityLiminfStrongWolfe_of_parameterRange",
+      "via": "manual-candidate",
+      "file": "DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Theorem_Main_theorem.lean",
+      "line": 155,
+      "cited": "Corollary 2",
+      "kind": "theorem",
+      "flagged": true,
+      "note": "Superseded locally by crosswalk/lean-decl-map.json after statement audit."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reproducibility · DFP Wolfe Counterexample</title>
+  <style>
+    body { max-width: 54rem; margin: 3rem auto; padding: 0 1.5rem;
+      color: #17221d; font: 16px/1.6 system-ui, sans-serif; }
+    h1, h2 { font-family: Georgia, serif; }
+    pre { overflow-x: auto; padding: 1rem; background: #f3f7f4; }
+    code { font-family: ui-monospace, monospace; }
+    a { color: #1b6a4a; }
+  </style>
+</head>
+<body>
+  <p><a href="../">Back to the project</a></p>
+  <h1>Reproducibility</h1>
+  <p>The Lean project is pinned to Lean 4 <code>v4.32.0</code> and mathlib
+    <code>v4.32.0</code>. The rendered declaration links use the audited
+    source snapshot recorded in the correspondence manifest.</p>
+  <h2>Lean check</h2>
+  <pre><code>cd DFP_wolfe_local
+lake lean DFPWolfe.lean</code></pre>
+  <h2>Comparator check</h2>
+  <p>The key proof interfaces have been checked with
+    <a href="https://github.com/leanprover/comparator">leanprover/comparator</a>
+    under Landlock using the real <code>landrun</code> implementation. The
+    checked targets are listed in the
+    <a href="https://github.com/imathwy/DFP_wolfe_local#comparator-verification">Lean repository README</a>;
+    both returned <code>Your solution is okay!</code>.</p>
+  <p>The accepted proof footprint is
+    <code>propext</code>, <code>Classical.choice</code>, and
+    <code>Quot.sound</code>. Comparator checks kernel acceptance and declaration
+    identity; it does not replace the paper-to-formalization semantic review.</p>
+</body>
+</html>

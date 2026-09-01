@@ -25,6 +25,8 @@
 *.log
 *.jsonl
 *.tmp
+**/__pycache__/
+*.pyc
 
 # AI/session coordination material; keep local copies out of the source repo.
 /parallel_tasks/
