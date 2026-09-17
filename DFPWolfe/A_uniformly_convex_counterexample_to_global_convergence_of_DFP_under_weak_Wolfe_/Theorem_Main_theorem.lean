@@ -12,6 +12,8 @@ public import ReasLib.Optimization.DFP.WolfeCounterexample.ParameterizedTranspor
 public import ReasLib.Optimization.DFP.WolfeCounterexample.ParameterizedIdentityInitialization
 public import ReasLib.Optimization.DFP.WolfeCounterexample.AutomaticMatrixIdentityLiminf
 public import ReasLib.Optimization.DFP.PlanarConvergence
+public import ReasLib.Optimization.DFP.SecantDegeneration
+public import ReasLib.Optimization.DFP.WolfeCounterexample.HolderSharpness
 
 /-!
 # Main DFP counterexample and planar convergence statements
@@ -19,6 +21,14 @@ public import ReasLib.Optimization.DFP.PlanarConvergence
 The counterexample interfaces cover the paper's Wolfe parameter range.
 The planar convergence interfaces apply to arbitrary fixed admissible Wolfe
 coefficients under local Hessian Lipschitz regularity near the initial sublevel.
+
+The strengthened counterexample is exported as
+`existsStrongWolfeCounterexampleHolderSharp_of_dimension_ge_two`: its single
+objective has a globally one-half Hölder Hessian, and no greater exponent works
+on its initial sublevel. `existsMatrixIdentityLiminfStrongWolfeHolder` preserves
+the Hölder bound with identity initialization.
+`SecantIteration.planarDegeneration` requires only a positive-definite search
+sequence and the secant equation, and includes vanishing of the smallest eigenvalue.
 -/
 
 public section
