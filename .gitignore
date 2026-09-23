@@ -35,4 +35,9 @@
 /OPEN_PROBLEM_DFP_C3.md
 /PARALLEL_INFRASTRUCTURE_ROADMAP.md
 /source/
-/main-new.tex
+
+# Local manuscript and presentation material; publish only the Lean project.
+/DFP_counterexample/
+/DFP_wolfe_paperforge/
+/main-new*.tex
+/main-new*.pdf

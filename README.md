@@ -124,10 +124,11 @@ and convergence theorems.
 ## Code scale
 
 The figures below are measured from the reorganized Lean source tree (2026-09-23). The
-adjacent `DFP_counterexample/` and `DFP_wolfe_paperforge/` directories contain
-publication and presentation sidecars; they are excluded from these Lean-code
-metrics. Build products, local proof-stage state, generated audits, manuscript
-working copies, and temporary probes are excluded by `.gitignore`.
+local `DFP_counterexample/` and `DFP_wolfe_paperforge/` directories contain
+publication and presentation material. They are ignored and not included in the
+published source tree or these Lean-code metrics. Build products, local
+proof-stage state, generated audits, manuscript working copies, and temporary
+probes are also excluded by `.gitignore`.
 
 | Metric | Value |
 | --- | ---: |
