@@ -34,19 +34,65 @@ standard strong Wolfe conditions*
 
 ```sh
 lake lean DFPWolfe.lean
-lake lean DFPWolfe/A_uniformly_convex_counterexample_to_global_convergence_of_DFP_under_weak_Wolfe_/Theorem_Main_theorem.lean
+lake lean DFPWolfe/Paper.lean
+lake lean DFPWolfe/Main.lean
 ```
 
-The main exported declarations include:
+The [paper correspondence index](DFPWolfe/README.md) maps the current manuscript's
+eleven numbered statements to individual files directly in `DFPWolfe/` and to
+their Lean proof declarations. The main exports include:
 
 - `DFP.main_not_globalWeakWolfeConvergence_of_parameterRange`
 - `DFP.not_PaperRangeGlobalWeakWolfeConvergence`
 - `DFP.not_PaperRangeLevelSetGlobalWeakWolfeConvergence`
 - `DFP.existsMatrixIdentityLiminfStrongWolfe_of_parameterRange`
+- `DFP.existsStrongWolfeCounterexampleHolderSharp_of_dimension_ge_two`
+- `DFP.existsMatrixIdentityLiminfStrongWolfeHolder`
+- `DFP.main_planarWeakWolfeConvergence`
+- `DFP.main_planarStrongWolfeConvergence`
+- `DFP.SecantIteration.planarDegeneration`
+
+`DFPWolfe/Main.lean` provides the convergence and nonconvergence interfaces;
+`DFPWolfe/Paper.lean` also exports the independent results used in the paper,
+including the local invariant graph and the complete limiting-circle statement.
+Each paper statement has a numbered navigation file with its LaTeX label,
+mathematical summary, and `#check` commands for the existing declarations,
+including all components of multi-part results. Proofs are organized by
+mathematical topic in `ReasLib`. Obsolete numbered wrappers, generic
+infrastructure checks, and unused implementation branches remain removed;
+the eleven current paper navigation files are intentionally retained.
+
+The September 23, 2026 reorganization passed all three checks above. An ephemeral
+`#print axioms` audit of 27 principal declarations, covering all eleven numbered
+paper results and the convergence-negation interfaces, found only `propext`,
+`Classical.choice`, and `Quot.sound`. Source scans found no proof placeholders
+or custom axioms. Navigation `#check` commands are confined to the eleven
+paper correspondence files in `DFPWolfe`; no `#check` or `#print` commands
+are retained in `ReasLib`. Existing style warnings
+remain; these checks do not claim a warning-free tree.
+
+A subsequent source-polishing pass preserved all declaration signatures while
+simplifying the matrix identity-initialization bridges and the minimizer-uniqueness
+proof. Three inactive proof blocks (692 lines) were removed. Targeted `lake lean`
+checks and the root check passed; an expanded audit of 36 declarations, including
+the modified interfaces, again found only the three standard axioms above.
+
+A second polishing pass reused the radius limit in the limiting-circle proof and
+the existing quadratic coefficients in the truncated Taylor-germ interface. It
+removed redundant simplification arguments and inactive tactics, eliminating 66
+warning diagnostics in the four modified modules. Their declaration signatures
+were preserved. Targeted checks, the root check, and an expanded 85-declaration
+axiom audit passed; other modules still have existing style warnings.
+
+The paper navigation pass added eleven correspondence files containing 32
+declaration checks. Each file, `Paper.lean`, and the root entry point passed
+`lake lean`. A fresh 36-declaration axiom audit covered every navigation target
+and the principal convergence-negation interfaces, with only the three standard
+axioms above. No proof declarations or signatures changed in this pass.
 
 ## Comparator verification
 
-The key proof interfaces were independently checked with
+Before the September 2026 source reorganization, two proof interfaces were checked with
 [`leanprover/comparator`](https://github.com/leanprover/comparator), using its
 `v4.32.0` release to match this project's Lean toolchain. The checks used the
 real `landrun` implementation (v0.1.18), so the Challenge build, export, and
@@ -71,11 +117,13 @@ axiom budget. It does not by itself establish that every formal definition has
 the intended correspondence with the paper; that remains the subject of the
 separate semantic-fidelity review. A one-shot export of the entire root module
 was intentionally not used because it exceeded the practical memory budget;
-the two targeted proof-interface checks completed successfully.
+the two targeted proof-interface checks completed successfully. These are historical
+results, not a comparator validation of the reorganized tree or the newer regularity
+and convergence theorems.
 
 ## Code scale
 
-The figures below are measured from the Lean source tree (2026-08-31). The
+The figures below are measured from the reorganized Lean source tree (2026-09-23). The
 adjacent `DFP_counterexample/` and `DFP_wolfe_paperforge/` directories contain
 publication and presentation sidecars; they are excluded from these Lean-code
 metrics. Build products, local proof-stage state, generated audits, manuscript
@@ -83,20 +131,29 @@ working copies, and temporary probes are excluded by `.gitignore`.
 
 | Metric | Value |
 | --- | ---: |
-| Tracked files | 830 |
-| Lean source files | 823 |
-| Physical Lean lines | 153,149 |
-| Non-blank Lean lines | 142,936 |
-| Lean source size | 6.80 MiB |
-| Declaration heads | 3,694 |
-| `ReasLib` Lean files | 616 |
-| `DFPWolfe` Lean files | 205 |
+| Lean source files, including the two root modules | 447 |
+| Physical Lean lines | 113,931 |
+| Non-blank Lean lines | 107,119 |
+| Lean source size | 5.11 MiB |
+| Declaration heads | 3,707 |
+| `ReasLib/` Lean files | 432 |
+| `DFPWolfe/` Lean files | 13 |
 
-The declaration-head total is a reproducible source-level count of lines whose
-declaration keyword is one of `theorem`, `lemma`, `def`, `abbrev`, `structure`,
-or `instance`; it is not a count of the full imported mathlib environment.
-The breakdown is 2,996 theorems, 185 lemmas, 408 definitions, 13 abbreviations,
-86 structures, and 6 instances.
+The declaration-head total counts active source declarations introduced by
+`theorem`, `lemma`, `def`, `abbrev`, `structure`, or `instance`. Nested block
+comments, line comments, and string literals are excluded; leading attributes
+and declaration modifiers are recognized. It is not a count of the full imported
+mathlib environment. The breakdown is 2,866 theorems, 290 lemmas, 492 definitions,
+3 abbreviations, 51 structures, and 5 instances, including private declarations.
+This corrects the earlier line-based count, which included commented-out text
+and omitted declarations with attributes on the same line.
+
+Before reorganization the tracked Lean tree had 828 files and 159,815 physical
+lines. The cleanup removes generic diagnostic wrappers, unused proof branches,
+and the obsolete fixed-parameter compatibility results. Every remaining source
+module belongs to the import closure of `DFPWolfe` or the empty `ReasLib` root.
+The paper's sixth-order amplitude estimate is retained; its polynomial expansion
+reuses the canonical proof instead of a second copy of that calculation.
 
 ## License
 
