@@ -16,12 +16,15 @@
 /.m2f_locks/
 /.m2f_memory/
 /.m2f_source_manifest.json
+/.m2f_responsibility_baselines/
+/.m2f_transient_sources/
 /M2FQualityAudits/
 /undefined/
 **/M2FProofAxiomAudit_*.lean
 
 # Temporary local probes and command logs.
 /Scratch*.lean
+/.work/
 *.log
 *.jsonl
 *.tmp
