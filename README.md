@@ -194,7 +194,7 @@ probes are also excluded by `.gitignore`.
 | Metric | Value |
 | --- | ---: |
 | Lean source files, including the two root modules | 501 |
-| Physical Lean lines | 144,500 |
+| Physical Lean lines | 144,498 |
 | Non-blank Lean lines | 135,434 |
 | Lean source size | 6.66 MiB |
 | Declaration heads | 5,550 |
