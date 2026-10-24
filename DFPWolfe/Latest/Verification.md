@@ -49,6 +49,29 @@ open balls and eventual support radii comparable to `εⱼ²`. The Section 6
 endpoint result is not an unconditional global interpolated counterexample.
 The general-polar construction proves its own separation unconditionally.
 
+## Independent review follow-up
+
+Three independent agent reviews of the above proof commit identified a coverage
+boundary in the general-control design paragraph and two documentation/audit
+issues. The added [CenterDesign](CenterDesign.lean) and
+[CenterDesignRecovery](CenterDesignRecovery.lean) address the mathematical boundary:
+
+- `spectralMetricRecovery` and `spectralGradientRecovery` recover the first
+  actual DFP output in its updated eigenbasis. The next stage uses these outputs.
+- `sourceCycle_exists_eventually` constructs the two attached actual steps for
+  all sufficiently small positive scales and every positive initial amplitude.
+  All spectral admissibility conditions follow from `p(ε) → q > 0`, `h(ε) → 1`.
+- `actualSourceCenterDisplacementLimits` derives the normalized center limits
+  `(q c₁ + c₂, q c₁ + (q − 1)c₂)`. The exact vertical factor `−b + C L`
+  includes the first frame rotation; no coefficient expansion is assumed.
+- `actualControls_of_centerCancellation` applies these derived limits to actual
+  vanishing leading displacements and obtains `q = 2`, `c₂ = −2c₁` when `c₁ ≠ 0`.
+
+The quantitative normalization comment now distinguishes the original accepted
+step lengths from the gradient norms of the normalized planar trajectory, which
+are preserved by its dimension extension. The theorem itself was already correct.
+The optional manuscript-hash check below closes the audit metadata issue.
+
 No statement mismatch or proof gap was found in these checks. Existing imported
 library style warnings remain; this is not a claim that every helper has had a
 new line-by-line style review.
@@ -78,10 +101,10 @@ Use `--lake /path/to/project/lake-wrapper` when a workspace supplies a check
 wrapper. In remote-only mode the script uses `m2f-agent-lean-check` instead.
 The script invokes target checks, never `lake build`.
 
-The [audit manifest](../../scripts/latest_audit.json) contains 38 actual
+The [audit manifest](../../scripts/latest_audit.json) contains 47 actual
 declarations, including all eight numbered navigation targets, the main source
 construction, quantitative normalization, same-orbit comparisons and Section 6
-refinements. The script:
+refinements, including the new actual general-control derivation. The script:
 
 1. Scans all `DFPWolfe` and `ReasLib` Lean sources and both root entries for
    placeholders and custom axioms, ignoring nested comments and strings.
@@ -103,7 +126,15 @@ are different checks: the script verifies the former audit conditions; the
 table above records the latter review. Numerical experiments, floating-point
 plots and MATLAB performance comparisons are outside this Lean proof coverage.
 
-The local rerun for this review passed: 538 Lean source files scanned, the
+The original local rerun for this review passed: 538 Lean source files scanned, the
 combined root checked, all 38 declaration audit results received, and only the
 three permitted axioms found. All six regression tests passed. The source hashes
 were unchanged through the check and the temporary audit source was removed.
+
+The independent-review follow-up passed with 540 Lean source files scanned, the
+combined root checked, and all 47 declaration audit results received with only
+the three permitted axioms. All ten regression tests passed. The supplied
+`arXiv.tex` matched the recorded SHA256 before and after validation; all Lean
+source hashes stayed unchanged, and the ephemeral probe was removed. Independent
+review of the final general-control derivation confirmed that the earlier
+coverage gap is closed.

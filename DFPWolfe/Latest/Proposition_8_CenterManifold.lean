@@ -2,7 +2,7 @@ module
 
 public import DFPWolfe.V21.CenterManifold
 public import DFPWolfe.V21.CenterInterpolation
-public import DFPWolfe.Latest.CenterEndpoints
+public import DFPWolfe.Latest.CenterDesign
 
 /-!
 # Proposition 8 — the independent alternating center-manifold recurrence
@@ -19,6 +19,10 @@ and conditional explicit interpolation. The new quadratic endpoint entry
 proves the phase decreases `2/3`, `5/6` and endpoint Wolfe inequalities
 before imposing any interpolation-support separation condition.
 The two constructions are independent; they need not produce the same orbit.
+The general-control design entry derives the cubic and quintic cancellation
+coefficients from two attached actual spectral steps, including the first
+step's eigenbasis rotation. Its existence and validity follow from the source
+limits before fixing shape two and the control ratio minus two.
 -/
 
 #check DFPWolfe.V21.CenterManifold.centerProposition
@@ -26,3 +30,6 @@ The two constructions are independent; they need not produce the same orbit.
 #check DFPWolfe.V21.CenterInterpolation.centerManifoldConditionalInterpolation
 #check DFPWolfe.Latest.CenterEndpoints.quadraticEndpointRatioErrors
 #check DFPWolfe.Latest.CenterEndpoints.sourceFamilyWithEndpointProperties
+#check DFPWolfe.Latest.CenterDesign.sourceCycle_exists_eventually
+#check DFPWolfe.Latest.CenterDesign.actualSourceCenterDisplacementLimits
+#check DFPWolfe.Latest.CenterDesign.actualControls_of_centerCancellation

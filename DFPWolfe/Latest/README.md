@@ -60,6 +60,13 @@ iterates and inverse-cubic scale. The same section retains the center
 cancellation coefficient `−116/5`, limiting-amplitude coefficient `13/3`,
 positive gradient limit and complete limiting circle.
 
+[CenterDesign](CenterDesign.lean) derives the parameter choice from the general
+spectral recurrence. Under only `p(ε) → q > 0` and `h(ε) → 1`, actual attached
+DFP steps exist at sufficiently small positive scales. Their normalized cubic
+and quintic center changes tend to `q c₁ + c₂` and `q c₁ + (q − 1)c₂`.
+The second coefficient includes the first step's eigenbasis rotation.
+Thus cancellation with `c₁ ≠ 0` forces `q = 2` and `c₂ = −2c₁`.
+
 [CenterEndpoints](CenterEndpoints.lean) proves the translated quadratic
 endpoint decrease ratios with uniform `O(εⱼ)` remainders, their exact limits
 `2/3` and `5/6`, and endpoint Wolfe inequalities for
@@ -72,6 +79,9 @@ produce the same trajectory.
 
 | Section 6 refinement | Declaration |
 | --- | --- |
+| Existence of the actual general spectral cycle | [`sourceCycle_exists_eventually`](CenterDesign.lean#L328) |
+| General-control center coefficients | [`actualSourceCenterDisplacementLimits`](CenterDesign.lean#L415) |
+| Parameter choice from actual center cancellation | [`actualControls_of_centerCancellation`](CenterDesign.lean#L431) |
 | Control cancellation | [`centerControlCancellation`](CenterEndpoints.lean#L20) |
 | Uniform endpoint ratio errors | [`quadraticEndpointRatioErrors`](CenterEndpoints.lean#L60) |
 | Same-source endpoint Wolfe family | [`sourceFamilyWithEndpointProperties`](CenterEndpoints.lean#L299) |
@@ -102,7 +112,7 @@ and [GradientOscillation](../../ReasLib/Optimization/DFP/Polar/General/GradientO
 The [correctness and correspondence review](Verification.md) records the
 quantifier, same-witness and Section 6 scope checks. Run
 `python3 -B scripts/audit_latest.py` from the repository root to repeat the
-combined entry check, source scan and 38-declaration axiom audit. CI runs the
+combined entry check, source scan and 47-declaration axiom audit. CI runs the
 same audit and its failure-handling tests.
 Supply `--manuscript /path/to/arXiv.tex` to check the local manuscript hash;
 otherwise the audit result explicitly records that the manuscript was not checked.
