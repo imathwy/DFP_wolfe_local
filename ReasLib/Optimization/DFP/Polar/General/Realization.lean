@@ -319,4 +319,27 @@ theorem sourceSecantDenominator_ne (p : Parameters)
   exact (p.secant_pairing_pos k (hbalance k)
     (zero_lt_one.trans (p.radius_gt_one hFactor hLog (k + 1))) (hSin k) (hSigma k)).ne'
 
+
+/-- Helper for thm:main: the actual source gradient norm is the same
+positive radial multiplier times the same tail-product radius. -/
+theorem gradients_norm (p : Parameters) (k : ℕ) (hr : 0 ≤ p.radius k) :
+    ‖p.gradients k‖ = p.zeta k * p.radius k := by
+  rw [gradients_def, norm_smul, point_norm p k hr, Real.norm_eq_abs,
+    abs_of_nonneg (p.zeta_pos k).le]
+
+/-- Helper for thm:main: the source radius and multiplier limits give the
+exact actual gradient-norm limit one. -/
+theorem gradients_norm_tendsto_one (p : Parameters) (hr : ∀ k, 0 ≤ p.radius k)
+    (hradius : Tendsto p.radius atTop (𝓝 1)) (hzeta : Tendsto p.zeta atTop (𝓝 1)) :
+    Tendsto (fun k ↦ ‖p.gradients k‖) atTop (𝓝 1) := by
+  simpa only [gradients_norm p _ (hr _), one_mul] using hzeta.mul hradius
+
+/-- Helper for eq:polar-endpoint-data: the same explicit objective has the
+source prescribed half squared radius values at every interpolation center. -/
+theorem objective_center_value (p : Parameters) (κ : ℝ)
+    (hGeometry : DFP.Polar.InterpolationSum.Geometry p.point (p.supportRadius κ) p.correction)
+    (k : ℕ) (hr : 0 ≤ p.radius k) :
+    p.objective κ (p.point k) = (1 / 2 : ℝ) * p.radius k ^ 2 := by
+  rw [objective_def, DFP.Polar.InterpolationSum.objective_center hGeometry, point_norm p k hr]
+
 end DFP.Polar.General.Parameters
