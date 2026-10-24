@@ -1,7 +1,7 @@
-# Latest manuscript: general polar construction
+# Latest manuscript: general polar and independent center-manifold constructions
 
-Import `DFPWolfe.Latest.Paper` for the manuscript supplied as `2.zip` on
-October 24, 2026. It has seven numbered results. Its counterexample covers
+Import `DFPWolfe.Latest.Paper` for the latest `arXiv.tex` checked on
+October 24, 2026. It has eight numbered results. Its counterexample covers
 every `0 < η₁ < η₂ < 1`, every `β ∈ (0,1)`, every Hessian accuracy
 `ε ∈ (0,1)`, and every dimension `n ≥ 2`.
 
@@ -27,6 +27,7 @@ numbered navigation file records the source label and mathematical statement.
 | Lemma 5 | `lem:polar-geometry` | [Lemma 5](Lemma_5_PolarGeometry.lean) | [existsSourceGeometry](../../ReasLib/Optimization/DFP/Polar/General/ActualGeometry.lean#L52) |
 | Lemma 6 | `lem:polar-interpolation` | [Lemma 6](Lemma_6_PolarInterpolation.lean) | [existsSourceObjectiveData](../../ReasLib/Optimization/DFP/Polar/General/Objective.lean#L774) |
 | Lemma 7 | `lem:planar-degeneration` | [Lemma 7](Lemma_7_PlanarSecantDegeneration.lean) | [planarDegeneration](SecantDegeneration.lean#L24) |
+| Proposition 8 | `cm-center-proposition` | [Proposition 8](Proposition_8_CenterManifold.lean) | [centerProposition](../V21/CenterManifold.lean#L2068) |
 
 Theorem 1 proves strong Wolfe at every step, gradient norms tending to one,
 globally `β`-Hölder Hessians within `ε` of identity, the unique origin
@@ -48,6 +49,32 @@ Theorem 3 allows arbitrary initial data and the full weak Wolfe range,
 with finite stationary termination or convergence of both iterates and
 gradients. Lemma 7 applies to general positive definite secant sequences;
 it requires neither a DFP update nor a Lipschitz Hessian.
+
+## Independent center-manifold analysis
+
+[Proposition 8 and Section 6](Proposition_8_CenterManifold.lean) reuse the
+actual spectral recurrence and C⁷ invariant graph in
+[centerProposition](../V21/CenterManifold.lean#L2068), with derivative eigenvalues
+`1`, `−1/9`, `0`, graph coefficients `198/5` and `8`, positive definite
+iterates and inverse-cubic scale. The same section retains the center
+cancellation coefficient `−116/5`, limiting-amplitude coefficient `13/3`,
+positive gradient limit and complete limiting circle.
+
+[CenterEndpoints](CenterEndpoints.lean) proves the translated quadratic
+endpoint decrease ratios with uniform `O(εⱼ)` remainders, their exact limits
+`2/3` and `5/6`, and endpoint Wolfe inequalities for
+`0 < η₁ < 2/3` and `2/3 ≤ η₂ < 1`. These concern the same actual
+center-manifold trajectory and require no support separation premise.
+[Conditional interpolation](../V21/CenterInterpolation.lean) preserves
+the source's pairwise-disjoint open balls and eventual `εⱼ²` support radii.
+The general polar counterexample and this independent recurrence need not
+produce the same trajectory.
+
+| Section 6 refinement | Declaration |
+| --- | --- |
+| Control cancellation | [`centerControlCancellation`](CenterEndpoints.lean#L20) |
+| Uniform endpoint ratio errors | [`quadraticEndpointRatioErrors`](CenterEndpoints.lean#L60) |
+| Same-source endpoint Wolfe family | [`sourceFamilyWithEndpointProperties`](CenterEndpoints.lean#L299) |
 
 ## Comparisons on the same orbit
 
@@ -72,10 +99,11 @@ and [GradientOscillation](../../ReasLib/Optimization/DFP/Polar/General/GradientO
 
 ## Source and validation
 
-The manuscript archive has SHA256
-`f985dd7e5569baa86cf09e352ec7b7396ba0bc413b42aacadcc2a844c7e0f963`.
-Its source labels, rather than the older revisions' numbers, determine this
-index. The new manuscript omits v21's independent center-manifold section.
+The current `arXiv.tex` has SHA256
+`3b1bf3c932b7ad3f2d24e6246a354224f52049015584a2902ed5db64d52f9101`.
+Its source labels determine this index. The general polar proof was first
+completed against `2.zip`; this revision restores Proposition 8 and the
+independent center-manifold section.
 
 ```sh
 lake lean DFPWolfe/Latest/Paper.lean
@@ -83,9 +111,15 @@ lake lean DFPWolfe/Latest/Sequences.lean
 lake lean DFPWolfe.lean
 ```
 
-These entries and all seven numbered navigation files pass Lean 4.32.0.
-The final audit of 26 principal declarations, the 114-declaration sequence
-audit, and the 11-declaration gradient audit use only `propext`,
+These entries and all eight numbered navigation files pass Lean 4.32.0.
+The general-polar audit of 26 principal declarations, the 114-declaration
+sequence audit, and the 11-declaration gradient audit use only `propext`,
 `Classical.choice`, and `Quot.sound`. The source contains no proof
 placeholders or custom axioms; temporary audit commands are removed after
 checking. Style warnings remain in the imported library.
+
+The `arXiv.tex` update additionally checks the restored Proposition 8 entry,
+the pure quadratic endpoint module and the combined paper/root entries.
+Its fresh 19-declaration axiom audit includes the new endpoint proofs,
+Proposition 8, conditional interpolation and the general-polar main results.
+It uses the same three permitted logical foundations.

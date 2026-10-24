@@ -13,18 +13,22 @@ public import DFPWolfe.Latest.Lemma_5_PolarGeometry
 public import DFPWolfe.Latest.Lemma_6_PolarInterpolation
 public import DFPWolfe.Latest.Lemma_7_PlanarSecantDegeneration
 public import DFPWolfe.Latest.Sequences
+public import DFPWolfe.Latest.Proposition_8_CenterManifold
 
 /-!
 # DFP counterexample — the general polar construction
 
-This entry follows the manuscript supplied as `2.zip`: Theorem 1, Corollary 2,
-Theorem 3 and Lemmas 4–7, together with the unnumbered comparisons on the same
-actual Wolfe orbit. Both Wolfe parameters and the Hessian Hölder exponent
+This entry follows the latest `arXiv.tex`: Theorem 1, Corollary 2,
+Theorem 3, Lemmas 4–7 and the independent Proposition 8, together with the
+unnumbered comparisons on the same actual Wolfe orbit. Both Wolfe parameters
+and the Hessian Hölder exponent
 range over their full admissible intervals. The quantitative identity
 normalization and all-dimensional extension retain the prescribed source data.
 
 The earlier center-manifold and fixed-exponent polar constructions remain
 available through `DFPWolfe.Paper` and `DFPWolfe.V21.Paper`. The latest
-manuscript has seven numbered results and does not include the independent
-center-manifold section of v21. See `DFPWolfe/Latest/README.md` for correspondence.
+manuscript has eight numbered results and restores the independent
+center-manifold section. Its endpoint-value Wolfe estimates are proved without
+separation hypotheses; the interpolation entry retains the stated disjoint-ball
+condition. See `DFPWolfe/Latest/README.md` for correspondence.
 -/

@@ -21,7 +21,7 @@ The repository contains the reusable `ReasLib` infrastructure, the paper-facing
 
 | Route | Public entry | Status |
 | --- | --- | --- |
-| October 24, 2026 general polar construction (`2.zip`) | [Latest paper](DFPWolfe/Latest/Paper.lean) · [Correspondence](DFPWolfe/Latest/README.md) | All seven numbered results and the comparisons on the same Wolfe orbit. |
+| October 24, 2026 general polar construction (`arXiv.tex`) | [Latest paper](DFPWolfe/Latest/Paper.lean) · [Correspondence](DFPWolfe/Latest/README.md) | All eight numbered results and the comparisons on the same Wolfe orbit. |
 | Original center-manifold construction | [Original paper](DFPWolfe/Paper.lean) · [Correspondence](DFPWolfe/README.md) | Complete; preserved alongside v21. |
 | October 9, 2026 v21 polar construction | [v21 paper](DFPWolfe/V21/Paper.lean) · [Correspondence](DFPWolfe/V21/README.md) | Complete numbered results 1–8, with the source refinements and conditional Section 6 interpolation. |
 
@@ -109,7 +109,7 @@ declaration checks. Each file, `Paper.lean`, and the root entry point passed
 and the principal convergence-negation interfaces, with only the three standard
 axioms above. No proof declarations or signatures changed in this pass.
 
-## General polar proof (`2.zip`)
+## Latest general polar and center-manifold proof (`arXiv.tex`)
 
 Import `DFPWolfe.Latest.Paper` for the latest manuscript. The construction
 covers every `0 < η₁ < η₂ < 1`, every Hessian Hölder exponent `β ∈ (0,1)`,
@@ -119,7 +119,7 @@ contraction, slow invariant tube, tail-product radii and explicit cutoff sum.
 The general planar convergence and secant degeneration proofs are reused
 from the earlier revision.
 
-The [latest correspondence](DFPWolfe/Latest/README.md) links each of the seven
+The [latest correspondence](DFPWolfe/Latest/README.md) links each of the eight
 numbered results to its proof and navigation file. The principal entries are:
 
 - `DFPWolfe.Latest.main`
@@ -138,11 +138,19 @@ the curvature limit, and determinant and free-coefficient equivalents.
 The identity entry retains the precise spectral Hessian bounds and positive
 gradient liminf from the same square-root transformation.
 
-The latest paper entry, its seven numbered navigation files, the sequence
-entry and the combined repository root pass `lake lean`. A final audit of
-26 principal declarations, together with the 114-declaration sequence and
+The latest paper entry, its eight numbered navigation files, the sequence
+entry and the combined repository root pass `lake lean`. The general-polar
+audit of 26 principal declarations, together with the 114-declaration sequence and
 11-declaration gradient audits, found only `propext`, `Classical.choice`,
 and `Quot.sound`. Source scans found no proof placeholders or custom axioms.
+
+The latest revision also exports the independent center-manifold Proposition 8
+and its limiting scales. Its quadratic endpoint decrease ratios have exact
+limits `2/3` and `5/6`; the endpoint Wolfe conclusions are proved before
+interpolation, while the separate interpolation entry retains the manuscript's
+explicit open-ball separation condition. A fresh 19-declaration axiom audit
+covers the restored center-manifold entries, these endpoint proofs and the
+general-polar main results, with the same three permitted foundations.
 
 ## v21 polar proof
 
