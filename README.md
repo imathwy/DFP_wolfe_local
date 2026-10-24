@@ -48,6 +48,15 @@ standard strong Wolfe conditions*
 
 ## Checks
 
+The latest [correctness review](DFPWolfe/Latest/Verification.md) documents the
+source correspondence and exact coverage. The reproducible audit checks all
+latest navigation targets and rejects placeholders or unapproved axiom
+dependencies:
+
+```sh
+python3 -B scripts/audit_latest.py
+```
+
 ```sh
 lake lean DFPWolfe.lean
 lake lean DFPWolfe/Latest/Paper.lean

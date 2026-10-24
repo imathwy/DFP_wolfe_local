@@ -12,3 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: leanprover/lean-action@v1
+      - name: Check audit failure handling
+        run: python3 -B -m unittest discover -s scripts -p 'test_*.py'
+      - name: Audit latest paper declarations and source placeholders
+        run: python3 -B scripts/audit_latest.py
