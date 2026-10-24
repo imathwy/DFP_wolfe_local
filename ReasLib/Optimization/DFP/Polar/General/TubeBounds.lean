@@ -252,7 +252,7 @@ theorem tubeBounds_of_updateEstimates {β q C N M K : ℝ}
       (hindices j).1 (hindices j).2 (hu j) hj.1 hj.2
       (hfast j hj.1 hj.2) (hslow j hj.1 hj.2)
 
-/-- lem:polar-continuation (general source barriers). Choose the fast width `N`,
+/-- Helper for lem:polar-continuation: (general source barriers). Choose the fast width `N`,
 then the slow width `M`, and finally a common starting index `J`. For every
 `j0 ≥ J`, every sequence satisfying the source update estimates and the initial
 tube bounds remains in both barriers at every cycle, inside the fixed compact
