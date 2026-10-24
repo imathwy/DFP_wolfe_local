@@ -10,7 +10,7 @@ Yaxiang Yuan. The formalization author is **Zichen Wang**.
 The formalization develops a uniformly convex, globally Hessian-bounded
 counterexample for the classical inverse-form Davidon-Fletcher-Powell (DFP)
 method. It formalizes the weak-Wolfe global-convergence question, a stronger
-strong-Wolfe counterexample in the paper's coefficient range, all-dimensional
+strong-Wolfe counterexample for every admissible Wolfe pair, all-dimensional
 transport, level-set semantics, and the identity-initialized matrix
 `liminf` corollary.
 
@@ -21,6 +21,7 @@ The repository contains the reusable `ReasLib` infrastructure, the paper-facing
 
 | Route | Public entry | Status |
 | --- | --- | --- |
+| October 24, 2026 general polar construction (`2.zip`) | [Latest paper](DFPWolfe/Latest/Paper.lean) · [Correspondence](DFPWolfe/Latest/README.md) | All seven numbered results and the comparisons on the same Wolfe orbit. |
 | Original center-manifold construction | [Original paper](DFPWolfe/Paper.lean) · [Correspondence](DFPWolfe/README.md) | Complete; preserved alongside v21. |
 | October 9, 2026 v21 polar construction | [v21 paper](DFPWolfe/V21/Paper.lean) · [Correspondence](DFPWolfe/V21/README.md) | Complete numbered results 1–8, with the source refinements and conditional Section 6 interpolation. |
 
@@ -49,6 +50,8 @@ standard strong Wolfe conditions*
 
 ```sh
 lake lean DFPWolfe.lean
+lake lean DFPWolfe/Latest/Paper.lean
+lake lean DFPWolfe/Latest/Sequences.lean
 lake lean DFPWolfe/Paper.lean
 lake lean DFPWolfe/V21/Paper.lean
 lake lean DFPWolfe/Main.lean
@@ -105,6 +108,41 @@ declaration checks. Each file, `Paper.lean`, and the root entry point passed
 `lake lean`. A fresh 36-declaration axiom audit covered every navigation target
 and the principal convergence-negation interfaces, with only the three standard
 axioms above. No proof declarations or signatures changed in this pass.
+
+## General polar proof (`2.zip`)
+
+Import `DFPWolfe.Latest.Paper` for the latest manuscript. The construction
+covers every `0 < η₁ < η₂ < 1`, every Hessian Hölder exponent `β ∈ (0,1)`,
+every accuracy `ε ∈ (0,1)`, and every dimension `n ≥ 2`. It uses the
+manuscript's stable two-cycle, two-parameter normalized map, Lyapunov fast
+contraction, slow invariant tube, tail-product radii and explicit cutoff sum.
+The general planar convergence and secant degeneration proofs are reused
+from the earlier revision.
+
+The [latest correspondence](DFPWolfe/Latest/README.md) links each of the seven
+numbered results to its proof and navigation file. The principal entries are:
+
+- `DFPWolfe.Latest.main`
+- `DFPWolfe.Latest.identityInitialization`
+- `DFPWolfe.Latest.identityInitializationQuantitative`
+- `DFPWolfe.Latest.planarConvergenceCases`
+- `DFPWolfe.Latest.planarDegeneration`
+- `DFPWolfe.Latest.planarCounterexampleWithSequenceProperties`
+- `DFPWolfe.Latest.mainWithSequenceProperties`
+
+The sequence entry retains the actual source objective and orbit used by the
+counterexample. It includes both gradient-ratio expansions and failures of
+eventual monotonicity, divergent total step length, Xu's phase equivalents
+and failure of eventual nonincrease, nonzero accepted-endpoint derivatives,
+the curvature limit, and determinant and free-coefficient equivalents.
+The identity entry retains the precise spectral Hessian bounds and positive
+gradient liminf from the same square-root transformation.
+
+The latest paper entry, its seven numbered navigation files, the sequence
+entry and the combined repository root pass `lake lean`. A final audit of
+26 principal declarations, together with the 114-declaration sequence and
+11-declaration gradient audits, found only `propext`, `Classical.choice`,
+and `Quot.sound`. Source scans found no proof placeholders or custom axioms.
 
 ## v21 polar proof
 
@@ -212,7 +250,7 @@ and omitted declarations with attributes on the same line.
 
 Before reorganization the tracked Lean tree had 828 files and 159,815 physical
 lines. The cleanup removes generic diagnostic wrappers, unused proof branches,
-and the obsolete fixed-parameter compatibility results. Both proof routes are exported through `DFPWolfe`; `ReasLib` is the empty
+and the obsolete fixed-parameter compatibility results. All three proof revisions are exported through `DFPWolfe`; `ReasLib` is the empty
 library root.
 The paper's sixth-order amplitude estimate is retained; its polynomial expansion
 reuses the canonical proof instead of a second copy of that calculation.
