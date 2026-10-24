@@ -70,7 +70,7 @@ theorem min_inverse_scales_le_holderPower {ρ d β : ℝ} (hρ : 0 < ρ) (hd : 0
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E]
 
-/-- lem:polar-interpolation (arbitrary-exponent single correction estimate).
+/-- Helper for lem:polar-interpolation: (arbitrary-exponent single correction estimate).
 The Hessian of the manuscript's explicit cutoff-times-affine correction is
 globally `β`-Hölder with coefficient `Cχ ‖a‖ ρ^(-(1+β))`. One cutoff constant
 works for every `β ∈ [0,1]` and all centers, radii, and affine coefficients. -/
