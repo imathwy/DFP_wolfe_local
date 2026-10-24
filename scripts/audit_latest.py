@@ -106,11 +106,27 @@ def parse_axioms(log, expected):
     return found
 
 
+def check_manuscript(path, expected):
+    """Check an optional manuscript input; never imply an omitted input was checked."""
+    if not re.fullmatch(r"[0-9a-f]{64}", expected):
+        raise ValueError("Invalid manuscript SHA256 in manifest")
+    if path is None:
+        return {"status": "not_checked", "expected_sha256": expected}
+    path = Path(path).resolve()
+    actual = hashlib.sha256(path.read_bytes()).hexdigest()
+    if actual != expected:
+        raise ValueError(f"Manuscript SHA256 mismatch: expected {expected}, got {actual}")
+    return {"status": "matched", "path": str(path), "sha256": actual}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--lake", default="lake", help="Lake executable or project wrapper")
+    parser.add_argument("--manuscript", type=Path,
+                        help="Check this manuscript against the manifest SHA256")
     args = parser.parse_args()
     manifest = json.loads((ROOT / "scripts/latest_audit.json").read_text())
+    manuscript = check_manuscript(args.manuscript, manifest["manuscript_sha256"])
     declarations = manifest["declarations"]
     if not declarations or len(declarations) != len(set(declarations)):
         raise ValueError("Empty or duplicated declaration manifest")
@@ -133,7 +149,8 @@ def main():
     cache.mkdir(exist_ok=True)
     env.setdefault("XDG_CACHE_HOME", str(cache))
     probe = run / "Audit.lean"
-    result = {"status": "failed", "source_sha256": hashes, "checks": []}
+    result = {"status": "failed", "source_sha256": hashes,
+              "manuscript": manuscript, "checks": []}
     print(f"Audit logs: {run}", flush=True)
     try:
         probe.write_text("import DFPWolfe.Latest.Paper\n\n" + "\n".join(
@@ -153,6 +170,8 @@ def main():
         result["axioms"] = parse_axioms((run / "axioms.log").read_text(), declarations)
         if source_scan() != hashes:
             raise RuntimeError("Lean sources changed during the audit")
+        if check_manuscript(args.manuscript, manifest["manuscript_sha256"]) != manuscript:
+            raise RuntimeError("Manuscript changed during the audit")
         result["status"] = "passed"
         print(f"Passed: {len(hashes)} source files, {len(declarations)} declarations", flush=True)
     finally:

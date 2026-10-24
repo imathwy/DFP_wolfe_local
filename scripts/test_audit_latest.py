@@ -1,8 +1,11 @@
 """Regression checks for audit rejection paths; no Lean compilation required."""
 
 import unittest
+import hashlib
+from pathlib import Path
+from unittest.mock import patch
 
-from audit_latest import code_only, parse_axioms
+from audit_latest import check_manuscript, code_only, parse_axioms
 
 
 class AuditTests(unittest.TestCase):
@@ -36,6 +39,28 @@ class AuditTests(unittest.TestCase):
     def test_duplicate_output_rejected(self):
         with self.assertRaises(ValueError):
             parse_axioms("'A' does not depend on any axioms\n" * 2, ["A"])
+
+    def test_omitted_manuscript_is_not_checked(self):
+        result = check_manuscript(None, "0" * 64)
+        self.assertEqual(result["status"], "not_checked")
+
+    def test_matching_manuscript(self):
+        data = b"manuscript"
+        expected = hashlib.sha256(data).hexdigest()
+        with patch.object(Path, "read_bytes", return_value=data):
+            result = check_manuscript(Path("paper.tex"), expected)
+        self.assertEqual(result["status"], "matched")
+        self.assertEqual(result["sha256"], expected)
+
+    def test_changed_manuscript_rejected(self):
+        with patch.object(Path, "read_bytes", return_value=b"changed"):
+            with self.assertRaisesRegex(ValueError, "Manuscript SHA256 mismatch"):
+                check_manuscript(Path("paper.tex"), "0" * 64)
+
+    def test_missing_manuscript_rejected(self):
+        with patch.object(Path, "read_bytes", side_effect=FileNotFoundError):
+            with self.assertRaises(FileNotFoundError):
+                check_manuscript(Path("missing.tex"), "0" * 64)
 
 
 if __name__ == "__main__":

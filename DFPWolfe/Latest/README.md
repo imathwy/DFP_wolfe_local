@@ -104,6 +104,8 @@ quantifier, same-witness and Section 6 scope checks. Run
 `python3 -B scripts/audit_latest.py` from the repository root to repeat the
 combined entry check, source scan and 38-declaration axiom audit. CI runs the
 same audit and its failure-handling tests.
+Supply `--manuscript /path/to/arXiv.tex` to check the local manuscript hash;
+otherwise the audit result explicitly records that the manuscript was not checked.
 
 The current `arXiv.tex` has SHA256
 `3b1bf3c932b7ad3f2d24e6246a354224f52049015584a2902ed5db64d52f9101`.

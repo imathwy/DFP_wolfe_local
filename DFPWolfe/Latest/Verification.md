@@ -62,6 +62,18 @@ python3 -B -m unittest discover -s scripts -p 'test_*.py'
 python3 -B scripts/audit_latest.py
 ```
 
+To check a local manuscript against the recorded version as well, use:
+
+```sh
+python3 -B scripts/audit_latest.py --manuscript /path/to/arXiv.tex
+```
+
+The manuscript SHA256 is checked before and after Lean validation. A mismatch
+or a missing supplied file fails the audit. Without this option, the JSON result
+explicitly records `manuscript.status = "not_checked"`; CI does not have a copy
+of the manuscript. A matching hash identifies the reviewed text, but does not
+automatically verify its mathematical correspondence to the Lean declarations.
+
 Use `--lake /path/to/project/lake-wrapper` when a workspace supplies a check
 wrapper. In remote-only mode the script uses `m2f-agent-lean-check` instead.
 The script invokes target checks, never `lake build`.
@@ -83,9 +95,10 @@ refinements. The script:
    validation. Logs and JSON results stay under ignored `.work/`; the probe is
    removed even if a check fails.
 
-The same checks run in CI. Six parser regression tests include missing output,
+The same checks run in CI. Parser regression tests include missing output,
 malformed output, unexpected declarations, duplicate output, and rejection of
-`sorryAx` and project-defined axioms. Kernel acceptance and source correspondence
+`sorryAx` and project-defined axioms. Four further tests check omitted, matching,
+changed and missing manuscript inputs. Kernel acceptance and source correspondence
 are different checks: the script verifies the former audit conditions; the
 table above records the latter review. Numerical experiments, floating-point
 plots and MATLAB performance comparisons are outside this Lean proof coverage.

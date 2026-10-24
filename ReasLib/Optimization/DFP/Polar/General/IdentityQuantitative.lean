@@ -16,8 +16,8 @@ namespace DFP.Polar.General.IdentityQuantitative
 
 /-- Helper for cor:identity-initialization: the same arbitrary-exponent planar source witness has
 the exact square-root spectral bounds and gradient lower limit from the manuscript.
-Normalization precedes the identity-block dimension extension; every gradient norm and
-accepted step length retains its source value. -/
+The identity-block extension preserves the normalized planar gradient norms;
+normalization and extension preserve the original accepted step lengths. -/
 theorem quantitativeIdentityExtension (n : ℕ) (hn : 2 ≤ n) {β ε c1 c2 : ℝ}
     (source : DFP.StrongWolfeCounterexample (Fin 2) (1 / 2) (3 / 2) c1 c2)
     (h : Transport.CounterexampleProperties β ε source LinearIsometry.id) (hβ : 0 ≤ β) :
