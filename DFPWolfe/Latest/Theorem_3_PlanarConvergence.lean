@@ -5,7 +5,7 @@ public import DFPWolfe.Latest.PlanarConvergence
 /-!
 # Theorem 3 — planar convergence with a locally Lipschitz Hessian
 
-Source label: `thm:planar-convergence` in the manuscript supplied as `2.zip`.
+Source label: `thm:planar-convergence` in the manuscript `20251117-DFP/arXiv.tex`.
 For an arbitrary initial point and positive definite initial matrix, a
 globally strongly convex planar objective with Hessian locally Lipschitz
 near the initial level set has finite stationary termination or convergence

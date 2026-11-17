@@ -1,5 +1,5 @@
 {
-  "manuscript_sha256": "3b1bf3c932b7ad3f2d24e6246a354224f52049015584a2902ed5db64d52f9101",
+  "manuscript_sha256": "2a22ecf8e12959dd584a11732ba1836319eb16dd583059c283e4513b3dbbbdca",
   "declarations": [
     "DFP.Polar.General.ActualGeometry.existsSourceGeometry",
     "DFP.Polar.General.Continuation.existsContinuationEstimates",
@@ -16,23 +16,6 @@
     "DFP.Polar.General.Transport.extendPlanarCertificate",
     "DFP.Polar.General.Transport.normalizeCertificateWithProperties",
     "DFP.Polar.General.strictWolfeBaseExists",
-    "DFPWolfe.Latest.CenterDesign.IsSourceCycle.centerDisplacement",
-    "DFPWolfe.Latest.CenterDesign.SourceRegularData.frame_oriented",
-    "DFPWolfe.Latest.CenterDesign.actualControls_of_centerCancellation",
-    "DFPWolfe.Latest.CenterDesign.actualSourceCenterDisplacementLimits",
-    "DFPWolfe.Latest.CenterDesign.sourceCycle_exists_eventually",
-    "DFPWolfe.Latest.CenterDesign.sourceRegularData_eventually",
-    "DFPWolfe.Latest.CenterDesignRecovery.existsActualSpectralCycle",
-    "DFPWolfe.Latest.CenterDesignRecovery.spectralGradientRecovery",
-    "DFPWolfe.Latest.CenterDesignRecovery.spectralMetricRecovery",
-    "DFPWolfe.Latest.CenterEndpoints.EndpointProperties.armijo",
-    "DFPWolfe.Latest.CenterEndpoints.centerControlCancellation",
-    "DFPWolfe.Latest.CenterEndpoints.phaseDecreaseLimit_eq",
-    "DFPWolfe.Latest.CenterEndpoints.quadraticDecreaseRatio_tendsto",
-    "DFPWolfe.Latest.CenterEndpoints.quadraticEndpointArmijoRatios",
-    "DFPWolfe.Latest.CenterEndpoints.quadraticEndpointRatioErrors",
-    "DFPWolfe.Latest.CenterEndpoints.quadraticEndpointRatio_identity",
-    "DFPWolfe.Latest.CenterEndpoints.sourceFamilyWithEndpointProperties",
     "DFPWolfe.Latest.PlanarConstruction.sequenceProperties",
     "DFPWolfe.Latest.identityInitialization",
     "DFPWolfe.Latest.identityInitializationQuantitative",
@@ -44,9 +27,6 @@
     "DFPWolfe.Latest.planarConvergenceCases",
     "DFPWolfe.Latest.planarCounterexampleWithSequenceProperties",
     "DFPWolfe.Latest.planarDegeneration",
-    "DFPWolfe.Latest.planarSource",
-    "DFPWolfe.V21.CenterInterpolation.centerManifoldConditionalInterpolation",
-    "DFPWolfe.V21.CenterManifold.centerManifoldAsymptotics",
-    "DFPWolfe.V21.CenterManifold.centerProposition"
+    "DFPWolfe.Latest.planarSource"
   ]
 }

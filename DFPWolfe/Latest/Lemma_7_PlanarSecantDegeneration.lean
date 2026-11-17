@@ -5,7 +5,7 @@ public import DFPWolfe.Latest.SecantDegeneration
 /-!
 # Lemma 7 — degeneration of general planar secant sequences
 
-Source label: `lem:planar-degeneration` in the manuscript supplied as `2.zip`.
+Source label: `lem:planar-degeneration` in the manuscript `20251117-DFP/arXiv.tex`.
 If a nonstationary weak-Wolfe planar sequence does not converge to its
 strongly convex objective's minimizer, its free secant coefficient
 `λₖ = κₖ₋₁ det Hₖ` is bounded by a constant times the product of consecutive

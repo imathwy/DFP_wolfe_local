@@ -5,7 +5,7 @@ public import DFPWolfe.Latest.Main
 /-!
 # Corollary 2 — identity initialization
 
-Source label: `cor:identity-initialization` in the manuscript supplied as `2.zip`.
+Source label: `cor:identity-initialization` in the manuscript `20251117-DFP/arXiv.tex`.
 The positive square root of the actual planar initial matrix gives an
 identity-initialized strong-Wolfe counterexample for every admissible Wolfe
 pair and exponent. Its globally Hölder Hessian has positive global bounds,

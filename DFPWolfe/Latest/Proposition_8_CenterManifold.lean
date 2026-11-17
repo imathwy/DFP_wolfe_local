@@ -7,7 +7,7 @@ public import DFPWolfe.Latest.CenterDesign
 /-!
 # Proposition 8 — the independent alternating center-manifold recurrence
 
-Source label: `cm-center-proposition` in the latest `arXiv.tex`.
+Historical source label: `cm-center-proposition`; this module is preserved from the preceding manuscript revision and is not imported by `DFPWolfe.Latest.Paper`.
 The exact spectral recurrence has derivative eigenvalues `1`, `−1/9`, `0`,
 a locally invariant C⁷ graph, the source cubic graph coefficients `198/5`
 and `8`, and inverse-cubic slow scale. Its literal initialized trajectory
@@ -24,12 +24,3 @@ coefficients from two attached actual spectral steps, including the first
 step's eigenbasis rotation. Its existence and validity follow from the source
 limits before fixing shape two and the control ratio minus two.
 -/
-
-#check DFPWolfe.V21.CenterManifold.centerProposition
-#check DFPWolfe.V21.CenterManifold.centerManifoldAsymptotics
-#check DFPWolfe.V21.CenterInterpolation.centerManifoldConditionalInterpolation
-#check DFPWolfe.Latest.CenterEndpoints.quadraticEndpointRatioErrors
-#check DFPWolfe.Latest.CenterEndpoints.sourceFamilyWithEndpointProperties
-#check DFPWolfe.Latest.CenterDesign.sourceCycle_exists_eventually
-#check DFPWolfe.Latest.CenterDesign.actualSourceCenterDisplacementLimits
-#check DFPWolfe.Latest.CenterDesign.actualControls_of_centerCancellation

@@ -5,7 +5,7 @@ public import ReasLib.Optimization.DFP.Polar.General.Objective
 /-!
 # Lemma 6 — explicit interpolation with a prescribed Hölder exponent
 
-Source label: `lem:polar-interpolation` in the manuscript supplied as `2.zip`.
+Source label: `lem:polar-interpolation` in the manuscript `20251117-DFP/arXiv.tex`.
 The source's explicit smooth cutoff realizes all prescribed endpoint jets.
 The infinite correction sum is globally C² with a globally `β`-Hölder
 Hessian; its value, gradient and Hessian vanish on the limiting circle.
