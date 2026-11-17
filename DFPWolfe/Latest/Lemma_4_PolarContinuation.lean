@@ -3,7 +3,7 @@ module
 public import ReasLib.Optimization.DFP.Polar.General.Continuation
 
 /-!
-# Lemma 4 — infinite continuation of the actual matrix recurrence
+# Lemma 7 — infinite continuation of the actual matrix recurrence
 
 Source label: `lem:polar-continuation` in the manuscript `20251117-DFP/arXiv.tex`.
 The normalized trajectory has slow error `O(τ^(1-β))` and fast error

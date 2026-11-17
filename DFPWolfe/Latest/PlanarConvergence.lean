@@ -3,7 +3,7 @@ module
 public import DFPWolfe.V21.PlanarConvergence
 
 /-!
-Latest manuscript Theorem 3 (`thm:planar-convergence`). The mathematical statement
+Latest manuscript Theorem 13 (`thm:planar-convergence`). The mathematical statement
 and corrected-log proof are unchanged from the completed v21 proof. The source
 initial Hessian, neighborhood regularity and complete weak-Wolfe parameter range
 are retained. Finite termination is represented by constant continuation.

@@ -15,7 +15,7 @@ open DFP.Polar.General
 # Comparisons on the same actual Wolfe orbit
 
 The unnumbered comparisons in `sec:known-results` and following
-`lem:planar-degeneration` concern the very source retained by Theorem 1.
+`lem:planar-degeneration` concern the very source retained by Theorem 10.
 The packages below include gradient-norm oscillation with both quadratic
 remainder bounds, infinite total step length, Xu's phase equivalents and
 failure of eventual nonincrease, nonzero accepted-endpoint derivatives,
@@ -24,7 +24,7 @@ failure of iterate convergence. No separate comparison orbit is selected.
 -/
 
 /-- Helper for sec:known-results and lem:planar-degeneration: every actual
-planar construction retained by Theorem 1 satisfies all source and canonical
+planar construction retained by Theorem 10 satisfies all source and canonical
 sequence comparisons on its own objective, points, gradients and matrices. -/
 theorem PlanarConstruction.sequenceProperties {c1 c2 β ε : ℝ}
     (s : PlanarConstruction c1 c2 β ε) (hβ : β ∈ Set.Ioo 0 1) :

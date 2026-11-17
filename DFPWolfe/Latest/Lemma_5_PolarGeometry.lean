@@ -3,7 +3,7 @@ module
 public import ReasLib.Optimization.DFP.Polar.General.ActualGeometry
 
 /-!
-# Lemma 5 — polar geometry and uniform separation
+# Lemma 8 — polar geometry and uniform separation
 
 Source label: `lem:polar-geometry` in the manuscript `20251117-DFP/arXiv.tex`.
 The actual tail-product radius excesses above one have principal term

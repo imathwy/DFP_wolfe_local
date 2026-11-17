@@ -3,7 +3,7 @@ module
 public import DFPWolfe.Latest.PlanarConvergence
 
 /-!
-# Theorem 3 — planar convergence with a locally Lipschitz Hessian
+# Theorem 13 — planar convergence with a locally Lipschitz Hessian
 
 Source label: `thm:planar-convergence` in the manuscript `20251117-DFP/arXiv.tex`.
 For an arbitrary initial point and positive definite initial matrix, a

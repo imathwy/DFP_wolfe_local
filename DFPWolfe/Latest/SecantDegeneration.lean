@@ -3,7 +3,7 @@ module
 public import DFPWolfe.V21.SecantDegeneration
 
 /-!
-Latest manuscript Lemma 7 (`lem:planar-degeneration`). The general secant argument
+Latest manuscript Lemma 12 (`lem:planar-degeneration`). The general secant argument
 is unchanged. It uses positive definite search matrices and their secant equation,
 without a DFP update or a Lipschitz Hessian assumption.
 -/

@@ -3,7 +3,7 @@ module
 public import DFPWolfe.Latest.Main
 
 /-!
-# Corollary 2 — identity initialization
+# Corollary 11 — identity initialization
 
 Source label: `cor:identity-initialization` in the manuscript `20251117-DFP/arXiv.tex`.
 The positive square root of the actual planar initial matrix gives an
