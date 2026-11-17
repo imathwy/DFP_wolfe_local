@@ -5,13 +5,25 @@ Import `DFPWolfe.Latest.Paper` for the manuscript in
 `2a22ecf8e12959dd584a11732ba1836319eb16dd583059c283e4513b3dbbbdca`.
 The current entry has seven numbered results: Theorem 1, Corollary 2,
 Theorem 3 and Lemmas 4–7. The preliminary polar direction, Wolfe, realization
-and two-cycle statements are exposed by the supporting general modules.
+and two-cycle statements are exposed by the supporting general modules and the
+corresponding navigation files in this directory.
 
 The counterexample covers every `0 < η₁ < η₂ < 1`, every `β ∈ (0,1)`, every
 `ε ∈ (0,1)` and every dimension `n ≥ 2`. The construction uses the actual
 two-cycle, normalized matrix recurrence, fast contraction, slow tube, paired
 tail-product radii and explicit cutoff interpolation. The planar convergence
 and secant-degeneration proofs use the same hypotheses as the manuscript.
+
+## Preliminary polar correspondence
+
+| Paper label | Navigation | Supporting declaration |
+| --- | --- | --- |
+| `lem:polar-direction-update` | [direction update](Lemma_PolarDirectionUpdate.lean) | `PhysicalRecurrence.matrix_step` |
+| `lem:polar-endpoint-wolfe` | [endpoint Wolfe](Lemma_PolarEndpointWolfe.lean) | `WolfeRatios.sourceStrongWolfe_of_phaseMargins` |
+| `prop:polar-realization` | [realization](Proposition_PolarRealization.lean) | `PlanarCounterexample.existsSourceCertificate` |
+| `lem:polar-limiting-cycle` | [limiting cycle](Lemma_PolarLimitingCycle.lean) | `cycleMatchingEven`, `cycleMatchingOdd` |
+| `lem:polar-parameter-choice` | [parameter choice](Lemma_PolarParameterChoice.lean) | `strictWolfeBaseExists` |
+| `lem:polar-cycle-estimates` | [cycle estimates](Lemma_PolarCycleEstimates.lean) | `Continuation.existsTrajectoryBounds` |
 
 ## Numbered correspondence
 
@@ -75,7 +87,7 @@ lake lean DFPWolfe.lean
 python3 -B scripts/audit_latest.py --manuscript /path/to/20251117-DFP/arXiv.tex
 ```
 
-The audit manifest contains 27 declarations for the current general-polar
+The audit manifest contains 32 declarations for the current general-polar
 results and same-orbit comparisons. The preserved historical modules are
 checked through their own exported roots.
 All audited declarations use only `propext`, `Classical.choice` and

@@ -3,7 +3,7 @@
 Reviewed manuscript: `20251117-DFP/arXiv.tex`, SHA256
 `2a22ecf8e12959dd584a11732ba1836319eb16dd583059c283e4513b3dbbbdca`.
 The current Lean entry is the general polar construction and its seven numbered
-results. The older center-manifold route is retained separately and is not
+results, with six preliminary polar labels mapped by dedicated navigation files. The older center-manifold route is retained separately and is not
 presented as a result of this manuscript.
 
 ## Statement and proof checks
@@ -17,6 +17,8 @@ presented as a result of this manuscript.
 | Lemma 5 | `existsSourceGeometry` combines the same radial trajectory with angular estimates and all-pair separation. Physical step bounds and the complete circle cluster set are conclusions. |
 | Lemma 6 | `existsSourceObjectiveData` constructs the explicit cutoff objective from the proved geometry, endpoint jets, global regularity, convexity and initial-level-set Hölder obstruction. |
 | Lemma 7 | `planarDegeneration` uses a general positive-definite secant iteration and weak Wolfe conditions. It is conditional on nonconvergence and adds neither a DFP update nor Lipschitz Hessian regularity. |
+
+The six preliminary polar navigation files expose the actual matrix-step, Wolfe-ratio, realization, two-cycle, parameter-choice and trajectory-bound interfaces used by the numbered results.
 
 The general construction follows the manuscript's stable two-cycle, normalized
 matrix recurrence, fast contraction, slow restoring tube, paired radial
@@ -50,7 +52,7 @@ python3 -B scripts/audit_latest.py \
 ```
 
 The supplied manuscript hash is checked before and after Lean validation. The
-manifest contains 27 declarations for the current general-polar results and
+manifest contains 32 declarations for the current general-polar results and
 same-orbit comparisons. The preserved historical modules remain checked
 through their own exported roots.
 The script scans all Lean sources and both roots for placeholders and custom

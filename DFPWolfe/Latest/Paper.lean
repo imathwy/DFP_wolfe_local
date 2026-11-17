@@ -13,6 +13,12 @@ public import DFPWolfe.Latest.Lemma_5_PolarGeometry
 public import DFPWolfe.Latest.Lemma_6_PolarInterpolation
 public import DFPWolfe.Latest.Lemma_7_PlanarSecantDegeneration
 public import DFPWolfe.Latest.Sequences
+public import DFPWolfe.Latest.Lemma_PolarDirectionUpdate
+public import DFPWolfe.Latest.Lemma_PolarEndpointWolfe
+public import DFPWolfe.Latest.Proposition_PolarRealization
+public import DFPWolfe.Latest.Lemma_PolarLimitingCycle
+public import DFPWolfe.Latest.Lemma_PolarParameterChoice
+public import DFPWolfe.Latest.Lemma_PolarCycleEstimates
 
 /-!
 # DFP counterexample — the general polar construction

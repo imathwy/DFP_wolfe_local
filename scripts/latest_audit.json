@@ -27,6 +27,11 @@
     "DFPWolfe.Latest.planarConvergenceCases",
     "DFPWolfe.Latest.planarCounterexampleWithSequenceProperties",
     "DFPWolfe.Latest.planarDegeneration",
-    "DFPWolfe.Latest.planarSource"
+    "DFPWolfe.Latest.planarSource",
+    "DFP.Polar.General.Parameters.matrix_step",
+    "DFP.Polar.General.WolfeRatios.sourceStrongWolfe_of_phaseMargins",
+    "DFP.Polar.General.cycleMatchingEven",
+    "DFP.Polar.General.cycleMatchingOdd",
+    "DFP.Polar.General.Continuation.existsTrajectoryBounds"
   ]
 }
