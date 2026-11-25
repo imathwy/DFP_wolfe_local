@@ -139,7 +139,7 @@ theorem lemma3_polarInverseUpdate (Z : Matrix (Fin 2) (Fin 2) ℝ)
         (WithLp.ofLp (ζNext • (rNext • DFP.Polar.polarUnit (θ + δ)) -
           ζ • (r • DFP.Polar.polarUnit θ))) := by
   exact DFP.Polar.PhysicalRealization.physicalInverseHessian_step Z θ δ r rNext ζ ζNext
-    hr hrNext hsin hσ
+    hr hZ hrNext hsin hσ
 
 /-- Helper for `lem:polar-dfp`: a nonzero search direction has a unique scalar
 step coefficient. -/
@@ -160,10 +160,10 @@ theorem lemma3_radiusBalance_iff (p : Parameters) (k : ℕ)
       p.radius (k + 1) = p.radius k / p.radiusRatio k := by
   constructor
   · intro h
-    apply (eq_div_iff₀ hW).2
+    apply (eq_div_iff hW.ne').2
     simpa [mul_comm] using h
   · intro h
-    have h' := (eq_div_iff₀ hW).mp h
+    have h' := (eq_div_iff hW.ne').mp h
     simpa [mul_comm] using h'.symm
 
 /-- Helper for `lem:polar-dfp`: the geometric radius balance is exactly the
@@ -175,7 +175,7 @@ theorem lemma3_radiusCondition_iff (Z : Matrix (Fin 2) (Fin 2) ℝ)
   rw [DFP.Polar.radiusRatioOf_def, DFP.Polar.omegaOf_def]
   exact eq_comm
 
- /-- Theorem 4 of `20251124-DFP/MP.zip`: the fixed `(1/4,1/2)` and
+/-- Theorem 4 of `20251124-DFP/MP.zip`: the fixed `(1/4,1/2)` and
 `beta=1/2` construction exposes its actual objective, Wolfe orbit, and
 regularity certificate. -/
 theorem theorem4_concrete :
@@ -195,7 +195,7 @@ theorem theorem4_concrete :
           ((s.parameters.withStartIndex s.startIndex).objective s.supportScale)
           ((s.parameters.withStartIndex s.startIndex).point k)
           ((s.parameters.withStartIndex s.startIndex).point (k + 1) -
-            (s.parameters.withStartIndex s.startIndex).point k) := by
+            (s.parameters.withStartIndex s.startIndex).point k)) := by
   obtain ⟨s⟩ := DFPWolfe.Latest.planarSource (1 / 4) (1 / 2) (1 / 2) (1 / 2)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
   refine ⟨s, s.supportScale_pos, s.sourceData.objectiveEstimates.contDiff,
