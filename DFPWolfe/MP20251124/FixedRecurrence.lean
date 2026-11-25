@@ -6,6 +6,7 @@ Authors: Zichen Wang
 module
 
 public import ReasLib.Optimization.DFP.Polar.General.PhysicalRecurrence
+public import DFPWolfe.MP20251124.FixedCycle
 
 public section
 noncomputable section
@@ -23,7 +24,7 @@ def tau (j0 j : ℕ) : ℝ := DFP.Polar.General.scale (1 / 2) j0 j
 def inverseIndex (j0 j : ℕ) : ℝ := (((j0 + j : ℕ) : ℝ))⁻¹
 
 /-- Helper for `eq:fixed-feedback`: the fixed manuscript feedback gain. -/
-def feedbackGain (γ : ℝ) : ℝ := 3 / (4 * γ * Real.sqrt (1 - 2 / γ))
+abbrev feedbackGain := FixedCycle.gain
 
 /-- Helper for `eq:fixed-initial`: the prescribed initial polar Hessian matrix. -/
 def initialMatrix (t : ℝ) : Matrix (Fin 2) (Fin 2) ℝ :=
@@ -83,8 +84,8 @@ def normalizedState (j0 j : ℕ) : ℝ × ℝ × ℝ :=
 
 /-- Helper for `eq:fixed-feedback`: the public formula for the fixed gain. -/
 theorem feedbackGain_formula (γ : ℝ) :
-    feedbackGain γ = 3 / (4 * γ * Real.sqrt (1 - 2 / γ)) := by
-  rfl
+    feedbackGain γ = 3 / (4 * γ * Real.sqrt (1 - 2 / γ)) :=
+  FixedCycle.gain_formula γ
 
 /-- Helper for `eq:fixed-initial`: the four entries of the initial matrix. -/
 theorem initialMatrix_apply (t : ℝ) :

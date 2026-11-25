@@ -21,6 +21,7 @@ The repository contains the reusable `ReasLib` infrastructure, the paper-facing
 
 | Route | Public entry | Status |
 | --- | --- | --- |
+| 20251124 MP draft | [Paper entry](DFPWolfe/MP20251124/Paper.lean) | Polar search criterion and uniqueness, general single-step limit, and fixed-cycle recurrence and linearization. The fixed construction in Theorem 4 remains partial. |
 | October 24, 2026 general polar construction (`arXiv.tex`) | [Latest paper](DFPWolfe/Latest/Paper.lean) · [Correspondence](DFPWolfe/Latest/README.md) | All eight numbered results and the comparisons on the same Wolfe orbit. |
 | Original center-manifold construction | [Original paper](DFPWolfe/Paper.lean) · [Correspondence](DFPWolfe/README.md) | Complete; preserved alongside v21. |
 | October 9, 2026 v21 polar construction | [v21 paper](DFPWolfe/V21/Paper.lean) · [Correspondence](DFPWolfe/V21/README.md) | Complete numbered results 1–8, with the source refinements and conditional Section 6 interpolation. |

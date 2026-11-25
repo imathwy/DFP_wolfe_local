@@ -393,7 +393,7 @@ theorem lemma6_cycleAnalytic (p : Parameters) (hβ : 0 < p.beta)
   · exact hC
   · exact hCNext
 
-/-- Source-facing form of `lem:fixed-cycle`: the normalized two-step map has
+/-- General-family support for `lem:fixed-cycle`: the normalized two-step map has
 the uniform local fast, slow, and regularity estimates used by the
 continuation argument. -/
 theorem lemma6_localCycleBounds (p : Parameters) (hβ : 0 < p.beta) :
@@ -401,14 +401,14 @@ theorem lemma6_localCycleBounds (p : Parameters) (hβ : 0 < p.beta) :
       Continuation.LocalCycleBounds p C r ρ ε := by
   exact Continuation.exists_localCycleBounds p hβ
 
-/-- Lemma 6 of `20251124-DFP/MP.zip`: the normalized recurrence has a
+/-- General-family support for `lem:fixed-cycle`: the normalized recurrence has a
 uniform trajectory bound before the starting index is chosen. -/
 theorem lemma6_fixedCycle (p : Parameters) (hβ : 0 < p.beta) (hβone : p.beta < 1) :
     ∃ N > 0, ∃ M > 0, ∃ J : ℕ, 0 < J ∧
       ∀ j0 : ℕ, J ≤ j0 → Continuation.TrajectoryBounds p j0 N M := by
   exact Continuation.existsTrajectoryBounds p hβ hβone
 
-/-- Lemma 7 of `20251124-DFP/MP.zip`: the actual recurrence remains feasible
+/-- General-family support for `lem:fixed-continuation`: the parameterized recurrence remains feasible
 for every later index and its odd phase has a uniform transverse estimate. -/
 theorem lemma7_fixedContinuation (p : Parameters) (hβ : 0 < p.beta) (hβone : p.beta < 1) :
     ∃ N > 0, ∃ M > 0, ∃ K : ℝ, 0 < K ∧ ∃ J : ℕ, 0 < J ∧ ∀ j0 : ℕ, J ≤ j0 →
@@ -432,7 +432,7 @@ theorem lemma7_fixedContinuation (p : Parameters) (hβ : 0 < p.beta) (hβone : p
   intro j
   exact ⟨htrajectory.fast_bound j, htrajectory.slow_bound j⟩
 
-/-- Lemma 8 of `20251124-DFP/MP.zip`: the actual points have uniform
+/-- General-family support for `lem:fixed-geometry`: the parameterized orbit has uniform
 separation, linear step bounds and the complete unit-circle cluster set. -/
 theorem lemma8_fixedGeometry (p : Parameters) (hβ : 0 < p.beta) (hβone : p.beta < 1) :
     ∃ N > 0, ∃ M > 0, ∃ B > 0, ∃ K > 0, ∃ c > 0, ∃ U > 0,
@@ -441,7 +441,7 @@ theorem lemma8_fixedGeometry (p : Parameters) (hβ : 0 < p.beta) (hβone : p.bet
           ActualGeometry.SourceGeometricData p j0 N M B K c U a b s V := by
   exact ActualGeometry.existsSourceGeometry p hβ hβone
 
-/-- Lemma 9 of `20251124-DFP/MP.zip`: the explicit cutoff sum realizes
+/-- General-family support for `lem:fixed-realization`: the explicit cutoff sum realizes
 all endpoint jets and the requested global Hessian bounds. -/
 theorem lemma9_fixedRealization (p : Parameters) (hβ : 0 < p.beta) (hβone : p.beta < 1)
     (ε : ℝ) (hεpos : 0 < ε) (hε : ε < 1) :

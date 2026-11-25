@@ -23,6 +23,10 @@ def separation (γ : ℝ) : ℝ := Real.sqrt (1 - 2 / γ)
 /-- Helper for `lem:fixed-cycle`: the prescribed gain at the start of each two-step cycle. -/
 def gain (γ : ℝ) : ℝ := 3 / (4 * γ * separation γ)
 
+/-- Helper for `eq:fixed-feedback`: the gain used by both the raw recurrence and its linearization. -/
+theorem gain_formula (γ : ℝ) : gain γ = 3 / (4 * γ * Real.sqrt (1 - 2 / γ)) := by
+  rfl
+
 /-- Helper for `lem:fixed-cycle`: the positive distinct roots give a regular cycle for both unit angles. -/
 theorem referenceDomain {γ : ℝ} (hγ : 2 < γ) : CycleDomain 1 1 (separation γ) := by
   have hpos : 0 < γ := lt_trans zero_lt_two hγ
