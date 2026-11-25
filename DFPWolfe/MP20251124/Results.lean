@@ -85,7 +85,7 @@ theorem lemma3_matrixStep (p : Parameters) (hβ : 0 < p.beta)
   · exact p.inverseHessian_step hβ hstart k hbalance hZ
       hrNext hsin hσ
 
- /-- Helper for `lem:polar-dfp`: the explicit polar search step and its
+/-- Helper for `lem:polar-dfp`: the explicit polar search step and its
  positive coefficient for one feasible source stage. -/
  theorem lemma3_polarSearchStep (Z : Matrix (Fin 2) (Fin 2) ℝ)
      (θ δ r rNext ζ : ℝ) (hZ : Z.PosDef) (hC : 0 < Z 0 1)
@@ -103,6 +103,77 @@ theorem lemma3_matrixStep (p : Parameters) (hβ : 0 < p.beta)
    · exact DFP.Polar.PhysicalRealization.stepLength_pos Z δ ζ hZ hC hζ hsin hW
    · exact DFP.Polar.PhysicalRealization.search_step Z θ δ r rNext ζ hr
        hZ.isHermitian hC.ne' hZ.det_pos.ne' hζ.ne' hW.ne'
+
+/-- Helper for `lem:polar-dfp`: a positive polar secant scalar gives the
+strict physical curvature and hence the nonzero DFP denominator. -/
+theorem lemma3_polarSecantPairing_pos (Z : Matrix (Fin 2) (Fin 2) ℝ)
+    (θ δ r rNext ζ ζNext : ℝ) (hZ : Z.PosDef) (hC : 0 < Z 0 1)
+    (hζ : 0 < ζ) (hsin : 0 < Real.sin δ)
+    (hW : 0 < DFP.Polar.radiusRatioOf Z δ)
+    (hr : rNext * DFP.Polar.radiusRatioOf Z δ = r)
+    (hrNext : 0 < rNext)
+    (hσ : 0 < DFP.Polar.sigmaOf Z δ ζ ζNext) :
+    0 <
+      WithLp.ofLp (rNext • DFP.Polar.polarUnit (θ + δ) -
+        r • DFP.Polar.polarUnit θ) ⬝ᵥ
+        WithLp.ofLp (ζNext • (rNext • DFP.Polar.polarUnit (θ + δ)) -
+          ζ • (r • DFP.Polar.polarUnit θ)) := by
+  exact DFP.Polar.PhysicalRealization.secant_pairing_pos Z θ δ r rNext ζ ζNext
+    hr hrNext hsin hσ
+
+/-- Helper for `lem:polar-dfp`: the positive polar secant scalar makes the
+inverse DFP update agree with the prescribed rotated matrix update. -/
+theorem lemma3_polarInverseUpdate (Z : Matrix (Fin 2) (Fin 2) ℝ)
+    (θ δ r rNext ζ ζNext : ℝ) (hZ : Z.PosDef) (hsin : 0 < Real.sin δ)
+    (hr : rNext * DFP.Polar.radiusRatioOf Z δ = r)
+    (hrNext : 0 < rNext)
+    (hσ : 0 < DFP.Polar.sigmaOf Z δ ζ ζNext) :
+    DFP.Polar.rotationMatrix (θ + δ) *
+        (DFP.Polar.matrixStep Z δ ζ ζNext)⁻¹ *
+        (DFP.Polar.rotationMatrix (θ + δ)).transpose =
+      Matrix.inverseDFPUpdate
+        (DFP.Polar.rotationMatrix θ * Z⁻¹ *
+          (DFP.Polar.rotationMatrix θ).transpose)
+        (WithLp.ofLp (rNext • DFP.Polar.polarUnit (θ + δ) -
+          r • DFP.Polar.polarUnit θ))
+        (WithLp.ofLp (ζNext • (rNext • DFP.Polar.polarUnit (θ + δ)) -
+          ζ • (r • DFP.Polar.polarUnit θ))) := by
+  exact DFP.Polar.PhysicalRealization.physicalInverseHessian_step Z θ δ r rNext ζ ζNext
+    hr hrNext hsin hσ
+
+/-- Helper for `lem:polar-dfp`: a nonzero search direction has a unique scalar
+step coefficient. -/
+theorem lemma3_stepCoefficient_unique {E : Type*} [NormedAddCommGroup E]
+    [NormedSpace ℝ E] {v : E} (hv : v ≠ 0) {α₁ α₂ : ℝ}
+    (hα : (-α₁) • v = (-α₂) • v) : α₁ = α₂ := by
+  have hz : ((-α₁) - (-α₂)) • v = 0 := by
+    rw [sub_smul, hα, sub_self]
+  rcases smul_eq_zero.mp hz with hcoeff | hv'
+  · linarith
+  · exact (hv hv').elim
+
+/-- Helper for `lem:polar-dfp`: the source radius balance is equivalent to
+the multiplicative radius recurrence used by the actual parameter sequence. -/
+theorem lemma3_radiusBalance_iff (p : Parameters) (k : ℕ)
+    (hW : 0 < p.radiusRatio k) :
+    p.radius k = p.radiusRatio k * p.radius (k + 1) ↔
+      p.radius (k + 1) = p.radius k / p.radiusRatio k := by
+  constructor
+  · intro h
+    apply (eq_div_iff₀ hW).2
+    simpa [mul_comm] using h
+  · intro h
+    have h' := (eq_div_iff₀ hW).mp h
+    simpa [mul_comm] using h'.symm
+
+/-- Helper for `lem:polar-dfp`: the geometric radius balance is exactly the
+paper's scalar condition `r = rNext * (cos δ + h sin δ)`. -/
+theorem lemma3_radiusCondition_iff (Z : Matrix (Fin 2) (Fin 2) ℝ)
+    (δ r rNext : ℝ) :
+    rNext * DFP.Polar.radiusRatioOf Z δ = r ↔
+      r = rNext * (Real.cos δ + (Z 1 1 / Z 0 1) * Real.sin δ) := by
+  rw [DFP.Polar.radiusRatioOf_def, DFP.Polar.omegaOf_def]
+  exact eq_comm
 
  /-- Theorem 4 of `20251124-DFP/MP.zip`: the fixed `(1/4,1/2)` and
 `beta=1/2` construction exposes its actual objective, Wolfe orbit, and
@@ -204,6 +275,14 @@ theorem lemma6_cycleAnalytic (p : Parameters) (hβ : 0 < p.beta)
     exact p.deltaOdd_pos.ne'
   · exact hC
   · exact hCNext
+
+/-- Source-facing form of `lem:fixed-cycle`: the normalized two-step map has
+the uniform local fast, slow, and regularity estimates used by the
+continuation argument. -/
+theorem lemma6_localCycleBounds (p : Parameters) (hβ : 0 < p.beta) :
+    ∃ C > 0, ∃ r > 0, ∃ ρ > 0, ∃ ε > 0,
+      Continuation.LocalCycleBounds p C r ρ ε := by
+  exact Continuation.exists_localCycleBounds p hβ
 
 /-- Lemma 6 of `20251124-DFP/MP.zip`: the normalized recurrence has a
 uniform trajectory bound before the starting index is chosen. -/
