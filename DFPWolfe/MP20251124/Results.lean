@@ -165,12 +165,24 @@ for every later index and its odd phase has a uniform transverse estimate. -/
 theorem lemma7_fixedContinuation (p : Parameters) (hβ : 0 < p.beta) (hβone : p.beta < 1) :
     ∃ N > 0, ∃ M > 0, ∃ K : ℝ, 0 < K ∧ ∃ J : ℕ, 0 < J ∧ ∀ j0 : ℕ, J ≤ j0 →
       Continuation.TrajectoryBounds p j0 N M ∧
+        (∀ j : ℕ,
+          Continuation.fastSize p (Continuation.stateAt p j0 j) ≤
+              N / ((j0 + j : ℕ) : ℝ) ∧
+            |Continuation.slowError p (Continuation.stateAt p j0 j)| ≤
+              M * scale p.beta j0 j ^ (1 - p.beta)) ∧
         (∀ k : ℕ, Continuation.RawFeasible (p.withStartIndex j0) k) ∧
         ∀ j : ℕ,
           ‖(p.withStartIndex j0).normalizedOddState j -
               p.oddReference (Continuation.stateAt p j0 j).1‖ ≤
             K / ((j0 + j : ℕ) : ℝ) := by
-  exact Continuation.existsContinuationEstimates p hβ hβone
+  obtain ⟨N, hN, M, hM, K, hK, J, hJ, h⟩ :=
+    Continuation.existsContinuationEstimates p hβ hβone
+  refine ⟨N, hN, M, hM, K, hK, J, hJ, ?_⟩
+  intro j0 hj0
+  obtain ⟨htrajectory, hraw, hodd⟩ := h j0 hj0
+  refine ⟨htrajectory, ?_, hraw, hodd⟩
+  intro j
+  exact ⟨htrajectory.fast_bound j, htrajectory.slow_bound j⟩
 
 /-- Lemma 8 of `20251124-DFP/MP.zip`: the actual points have uniform
 separation, linear step bounds and the complete unit-circle cluster set. -/
@@ -204,13 +216,20 @@ theorem lemma11_generalContinuation (p : Parameters) (hβ : 0 < p.beta)
     (hβone : p.beta < 1) :
     ∃ N > 0, ∃ M > 0, ∃ K : ℝ, 0 < K ∧ ∃ J : ℕ, 0 < J ∧ ∀ j0 : ℕ, J ≤ j0 →
       Continuation.TrajectoryBounds p j0 N M ∧
+        (∀ j : ℕ,
+          Continuation.fastSize p (Continuation.stateAt p j0 j) ≤
+              N / ((j0 + j : ℕ) : ℝ) ∧
+            |Continuation.slowError p (Continuation.stateAt p j0 j)| ≤
+              M * scale p.beta j0 j ^ (1 - p.beta)) ∧
         (∀ k : ℕ, Continuation.RawFeasible (p.withStartIndex j0) k) := by
   obtain ⟨N, hN, M, hM, K, hK, J, hJ, h⟩ :=
     Continuation.existsContinuationEstimates p hβ hβone
   refine ⟨N, hN, M, hM, K, hK, J, hJ, ?_⟩
   intro j0 hj0
   have hdata := h j0 hj0
-  exact ⟨hdata.1, hdata.2.1⟩
+  refine ⟨hdata.1, ?_, hdata.2.1⟩
+  intro j
+  exact ⟨hdata.1.fast_bound j, hdata.1.slow_bound j⟩
 
 /-- Corollary 12 of `20251124-DFP/MP.zip`: identity initialization in every
 finite dimension at least two. -/
