@@ -78,7 +78,7 @@ theorem lemma3_matrixStep (p : Parameters) (hβ : 0 < p.beta)
       p.inverseHessian (k + 1) = Matrix.inverseDFPUpdate (p.inverseHessian k)
         (WithLp.ofLp (p.point (k + 1) - p.point k))
         (WithLp.ofLp (p.gradients (k + 1) - p.gradients k)) := by
-  refine ⟨Parameters.matrix_step p hβ hstart k, ?_, ?_, ?_⟩
+  refine ⟨Parameters.matrix_step p hβ hstart k, ?_, ?_, ?_, ?_⟩
   · exact p.stepLength_pos k hZ hC hsin hr
   · exact p.chord_search k hZ hC hr hbalance
   · exact p.secant_pairing_pos k hbalance hrNext hsin hσ
@@ -172,7 +172,9 @@ theorem lemma5_fixedSingleLimit_general (a : ℝ) (x : ℝ × ℝ × ℝ)
         simp [Normalized.stageSigma_def, Normalized.stepV_def,
           Normalized.stepW_def])
     simpa only using h
-  simpa only [Normalized.stage_zero] using hAnalytic.continuousAt
+  have hcont : Tendsto (fun t : ℝ ↦ Normalized.stage a t x 1 1) (𝓝 0)
+      (𝓝 (Normalized.stage a 0 x 1 1)) := hAnalytic.continuousAt
+  simpa only [Normalized.stage_zero] using hcont
 
 /-- Helper for lem:fixed-single-limit: the canceled normalized stage at zero
 scale is the explicit limiting map used in the manuscript. -/
