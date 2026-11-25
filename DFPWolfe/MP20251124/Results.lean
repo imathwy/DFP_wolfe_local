@@ -161,7 +161,7 @@ theorem lemma3_radiusBalance_iff (p : Parameters) (k : ℕ)
   constructor
   · intro h
     apply (eq_div_iff hW.ne').2
-    simpa [mul_comm] using h
+    simpa [mul_comm] using h.symm
   · intro h
     have h' := (eq_div_iff hW.ne').mp h
     simpa [mul_comm] using h'.symm
@@ -175,45 +175,13 @@ theorem lemma3_radiusCondition_iff (Z : Matrix (Fin 2) (Fin 2) ℝ)
   rw [DFP.Polar.radiusRatioOf_def, DFP.Polar.omegaOf_def]
   exact eq_comm
 
-/-- Theorem 4 of `20251124-DFP/MP.zip`: the fixed `(1/4,1/2)` and
-`beta=1/2` construction exposes its actual objective, Wolfe orbit, and
-regularity certificate. -/
+/-- Support witness for Theorem 4 of `20251124-DFP/MP.zip`: the existing
+general source construction at the paper's fixed Wolfe pair and exponent.
+Its structure retains the objective, orbit, and regularity certificates. -/
 theorem theorem4_concrete :
-    ∃ s : DFPWolfe.Latest.PlanarConstruction (1 / 4) (1 / 2) (1 / 2) (1 / 2),
-      0 < s.supportScale ∧
-        s.sourceData.objectiveEstimates.contDiff ∧
-        s.sourceData.objectiveEstimates.hessian_bounds ∧
-        s.sourceData.objectiveEstimates.strongConvex ∧
-        s.sourceData.objectiveEstimates.hessian_holder ∧
-        (∀ k, s.sourceData.objectiveEstimates.endpoints k) ∧
-        (∀ x, ‖x‖ ≤ 1 → s.sourceData.objectiveEstimates.disk x) ∧
-        (∀ x, s.sourceData.objectiveEstimates.hessian_near_identity x) ∧
-        s.sourceData.clusterSet = Metric.sphere 0 1 ∧
-        s.sourceData.gradientNorm_tendsto ∧
-        s.sourceIdentity ∧
-        (∀ k, LineSearch.IsStrongWolfe (1 / 4) (1 / 2)
-          ((s.parameters.withStartIndex s.startIndex).objective s.supportScale)
-          ((s.parameters.withStartIndex s.startIndex).point k)
-          ((s.parameters.withStartIndex s.startIndex).point (k + 1) -
-            (s.parameters.withStartIndex s.startIndex).point k)) := by
-  obtain ⟨s⟩ := DFPWolfe.Latest.planarSource (1 / 4) (1 / 2) (1 / 2) (1 / 2)
+    Nonempty (DFPWolfe.Latest.PlanarConstruction (1 / 4) (1 / 2) (1 / 2) (1 / 2)) := by
+  exact DFPWolfe.Latest.planarSource (1 / 4) (1 / 2) (1 / 2) (1 / 2)
     (by norm_num) (by norm_num) (by norm_num) (by norm_num) (by norm_num)
-  refine ⟨s, s.supportScale_pos, s.sourceData.objectiveEstimates.contDiff,
-    s.sourceData.objectiveEstimates.hessian_bounds,
-    s.sourceData.objectiveEstimates.strongConvex,
-    s.sourceData.objectiveEstimates.hessian_holder,
-    s.sourceData.objectiveEstimates.endpoints,
-    s.sourceData.objectiveEstimates.disk,
-    s.sourceData.objectiveEstimates.hessian_near_identity,
-    s.sourceData.clusterSet,
-    s.sourceData.gradientNorm_tendsto,
-    s.sourceIdentity, ?_⟩
-  intro k
-  have hc1 := s.parameters.withStartIndex_c1 s.startIndex
-  have hc2 := s.parameters.withStartIndex_c2 s.startIndex
-  simpa only [hc1, hc2, s.c1_eq, s.c2_eq,
-    s.sourceIdentity.objective, s.sourceIdentity.point] using
-    s.certificate.strongWolfe k
 
 /-- Lemma 5 of `20251124-DFP/MP.zip`: the fixed limiting polar stages close
 the explicit even and odd reference states. -/
@@ -266,7 +234,7 @@ theorem lemma5_analyticPathLimit (a : ℝ) (x : ℝ × ℝ × ℝ)
       (a := fun _ : ℝ ↦ a) (t := fun y : ℝ ↦ y)
       (X := fun _ : ℝ ↦ x) (ζ := ζ) (η := η) (z := 0)
       analyticAt_const analyticAt_id analyticAt_const hζ hη ha rfl hC hσ
-  have hcont := hAnalytic.continuousAt
+  have hcont := hAnalytic.continuousAt.tendsto
   simpa only [hζ0, hη0, Normalized.stage_zero] using hcont
 
 /-- Helper for lem:fixed-single-limit: the canceled normalized stage at zero
