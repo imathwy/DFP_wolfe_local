@@ -21,7 +21,7 @@ public section
 noncomputable section
 
 open Filter
-open scoped Topology
+open scoped Matrix Topology
 
 namespace DFPWolfe.MP20251124
 
@@ -82,7 +82,7 @@ theorem lemma3_matrixStep (p : Parameters) (hβ : 0 < p.beta)
   · exact p.stepLength_pos k hZ hC hsin hr
   · exact p.chord_search k hZ hC hr hbalance
   · exact p.secant_pairing_pos k hbalance hrNext hsin hσ
-  · exact p.inverseHessian_step k hβ hstart hbalance hZ
+  · exact p.inverseHessian_step hβ hstart k hbalance hZ
       hrNext hsin hσ
 
  /-- Helper for `lem:polar-dfp`: the explicit polar search step and its
