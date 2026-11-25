@@ -55,13 +55,32 @@ theorem theorem2
           Tendsto (fun k ↦ ‖gradient f (x k)‖) atTop (𝓝 0))) := by
   exact DFPWolfe.Latest.planarConvergenceCases orbit hf hμ hHessian hH₀ hWolfe hNeighborhood
 
-/-- Lemma 3 of `20251124-DFP/MP.zip`: the exact raw matrix recurrence
-used by the fixed and general polar constructions. -/
+/-- Lemma 3 of `20251124-DFP/MP.zip`: the exact polar step interface.
+The source search step, positive step length, inverse DFP update, and raw
+matrix recurrence are exposed on one actual `Parameters` orbit. -/
 theorem lemma3_matrixStep (p : Parameters) (hβ : 0 < p.beta)
-    (hstart : 0 < p.startIndex) (k : ℕ) :
+    (hstart : 0 < p.startIndex) (k : ℕ)
+    (hZ : (p.matrix k).PosDef) (hC : 0 < p.matrix k 0 1)
+    (hsin : 0 < Real.sin (p.angleIncrement k))
+    (hr : 0 < p.radiusRatio k)
+    (hbalance : p.radius k = p.radiusRatio k * p.radius (k + 1))
+    (hrNext : 0 < p.radius (k + 1))
+    (hσ : 0 < DFP.Polar.sigmaOf (p.matrix k) (p.angleIncrement k)
+      (p.zeta k) (p.zeta (k + 1))) :
     p.matrix (k + 1) = DFP.Polar.matrixStep (p.matrix k) (p.angleIncrement k)
-      (p.zeta k) (p.zeta (k + 1)) := by
-  exact Parameters.matrix_step p hβ hstart k
+        (p.zeta k) (p.zeta (k + 1)) ∧
+      0 < p.stepLength k ∧
+      WithLp.ofLp (p.point (k + 1) - p.point k) =
+        (-p.stepLength k) •
+          (p.inverseHessian k *ᵥ WithLp.ofLp (p.gradients k)) ∧
+      p.inverseHessian (k + 1) = Matrix.inverseDFPUpdate (p.inverseHessian k)
+        (WithLp.ofLp (p.point (k + 1) - p.point k))
+        (WithLp.ofLp (p.gradients (k + 1) - p.gradients k)) := by
+  refine ⟨Parameters.matrix_step p hβ hstart k, ?_, ?_, ?_⟩
+  · exact p.stepLength_pos k hZ hC hsin hr
+  · exact p.chord_search k hZ hC hr hbalance
+  · exact p.inverseHessian_step k hβ hstart hbalance hZ
+      hrNext hsin hσ
 
 /-- Theorem 4 of `20251124-DFP/MP.zip`: the fixed `(1/4,1/2)` and
 `beta=1/2` construction exposes its actual objective, Wolfe orbit, and
