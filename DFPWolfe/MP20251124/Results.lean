@@ -175,6 +175,133 @@ theorem lemma3_radiusCondition_iff (Z : Matrix (Fin 2) (Fin 2) ℝ)
   rw [DFP.Polar.radiusRatioOf_def, DFP.Polar.omegaOf_def]
   exact eq_comm
 
+/-- Helper for `lem:polar-dfp`: the geometric chord in the current polar
+frame, without imposing the radius condition. -/
+theorem polarChordCoordinates (θ δ r rNext : ℝ) :
+    WithLp.ofLp (rNext • DFP.Polar.polarUnit (θ + δ) -
+      r • DFP.Polar.polarUnit θ) =
+      DFP.Polar.rotationMatrix θ *ᵥ
+        ![rNext * Real.cos δ - r, rNext * Real.sin δ] := by
+  rw [DFP.Polar.rotationMatrix_def]
+  ext i
+  fin_cases i
+  · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Real.cos_add]
+    ring
+  · simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Real.sin_add]
+    ring
+
+/-- Helper for `lem:polar-dfp`: a physical search equation is exactly its
+radial and tangential coordinate equations. -/
+theorem polarSearchCoordinates (Z : Matrix (Fin 2) (Fin 2) ℝ)
+    (θ δ r rNext ζ α : ℝ) (hZ : Z.PosDef) (hC : 0 < Z 0 1)
+    (hsearch : WithLp.ofLp (rNext • DFP.Polar.polarUnit (θ + δ) -
+      r • DFP.Polar.polarUnit θ) = (-α) •
+        ((DFP.Polar.rotationMatrix θ * Z⁻¹ *
+          (DFP.Polar.rotationMatrix θ).transpose) *ᵥ
+          WithLp.ofLp (ζ • (r • DFP.Polar.polarUnit θ)))) :
+    rNext * Real.cos δ - r =
+        -(α * (ζ * r * Z 0 1 / Z.det)) * DFP.Polar.omegaOf Z ∧
+      rNext * Real.sin δ = α * (ζ * r * Z 0 1 / Z.det) := by
+  rw [polarChordCoordinates,
+    DFP.Polar.PhysicalRealization.inverseHessian_mul_gradient Z θ r ζ
+      hZ.isHermitian hC.ne' hZ.det_pos.ne', ← Matrix.mulVec_smul,
+    ← Matrix.mulVec_smul, smul_smul] at hsearch
+  have hframe := congrArg ((DFP.Polar.rotationMatrix θ).transpose *ᵥ ·) hsearch
+  rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec,
+    (Matrix.mem_orthogonalGroup_iff' _ _).mp
+      (DFP.Polar.PhysicalRealization.rotation_orthogonal θ),
+    Matrix.one_mulVec, Matrix.one_mulVec] at hframe
+  have hradial := congrFun hframe 0
+  have htangent := congrFun hframe 1
+  simp only [DFP.Polar.stepVOf_def, Pi.smul_apply, smul_eq_mul,
+    Matrix.cons_val_zero, Matrix.cons_val_one, Matrix.cons_val_fin_one] at hradial htangent
+  constructor
+  · nlinarith [hradial]
+  · nlinarith [htangent]
+
+/-- Helper for `lem:polar-dfp`: the actual search equation forces both the
+radius ratio and the explicit step coefficient. -/
+theorem polarSearchDeterminesRadiusAndStep (Z : Matrix (Fin 2) (Fin 2) ℝ)
+    (θ δ r rNext ζ α : ℝ) (hZ : Z.PosDef) (hC : 0 < Z 0 1)
+    (hr : 0 < r) (hrNext : 0 < rNext) (hζ : 0 < ζ)
+    (hsearch : WithLp.ofLp (rNext • DFP.Polar.polarUnit (θ + δ) -
+      r • DFP.Polar.polarUnit θ) = (-α) •
+        ((DFP.Polar.rotationMatrix θ * Z⁻¹ *
+          (DFP.Polar.rotationMatrix θ).transpose) *ᵥ
+          WithLp.ofLp (ζ • (r • DFP.Polar.polarUnit θ)))) :
+    r / rNext = DFP.Polar.radiusRatioOf Z δ ∧
+      α = Z.det * Real.sin δ / (ζ * Z 0 1 * (r / rNext)) := by
+  obtain ⟨hradial, htangent⟩ :=
+    polarSearchCoordinates Z θ δ r rNext ζ α hZ hC hsearch
+  have hbalance : rNext * DFP.Polar.radiusRatioOf Z δ = r := by
+    rw [DFP.Polar.radiusRatioOf_def]
+    rw [← htangent] at hradial
+    nlinarith [hradial]
+  constructor
+  · apply (div_eq_iff hrNext.ne').2
+    simpa only [mul_comm] using hbalance.symm
+  · have hα : α * (ζ * r * Z 0 1) = rNext * Real.sin δ * Z.det := by
+      rw [← mul_div_assoc] at htangent
+      have ht := (eq_div_iff hZ.det_pos.ne').mp htangent
+      nlinarith [ht]
+    field_simp
+    nlinarith [hα]
+
+/-- Lemma 3(i) of `20251124-DFP/MP.zip`: under the paper's positivity
+conditions, a positive physical search step exists exactly for the prescribed
+radius ratio; its coefficient is explicit and unique. -/
+theorem lemma3_positiveStep_iff (Z : Matrix (Fin 2) (Fin 2) ℝ)
+    (θ δ r rNext ζ : ℝ) (hZ : Z.PosDef) (hC : 0 < Z 0 1)
+    (hr : 0 < r) (hrNext : 0 < rNext) (hζ : 0 < ζ)
+    (hδ : 0 < δ) (hδπ : δ < Real.pi) :
+    (∃ α : ℝ, 0 < α ∧
+      WithLp.ofLp (rNext • DFP.Polar.polarUnit (θ + δ) -
+        r • DFP.Polar.polarUnit θ) = (-α) •
+          ((DFP.Polar.rotationMatrix θ * Z⁻¹ *
+            (DFP.Polar.rotationMatrix θ).transpose) *ᵥ
+            WithLp.ofLp (ζ • (r • DFP.Polar.polarUnit θ)))) ↔
+      r / rNext = Real.cos δ + (Z 1 1 / Z 0 1) * Real.sin δ := by
+  constructor
+  · rintro ⟨α, _, hsearch⟩
+    have h := (polarSearchDeterminesRadiusAndStep Z θ δ r rNext ζ α
+      hZ hC hr hrNext hζ hsearch).1
+    simpa only [DFP.Polar.radiusRatioOf_def, DFP.Polar.omegaOf_def] using h
+  · intro hratio
+    have hratio' : r / rNext = DFP.Polar.radiusRatioOf Z δ := by
+      simpa only [DFP.Polar.radiusRatioOf_def, DFP.Polar.omegaOf_def] using hratio
+    have hbalance : rNext * DFP.Polar.radiusRatioOf Z δ = r := by
+      rw [← hratio']
+      field_simp
+    have hW : 0 < DFP.Polar.radiusRatioOf Z δ := by
+      rw [← hratio']
+      exact div_pos hr hrNext
+    obtain ⟨hpositive, hsearch⟩ := lemma3_polarSearchStep Z θ δ r rNext ζ
+      hZ hC hζ (Real.sin_pos_of_pos_of_lt_pi hδ hδπ) hW hbalance
+    exact ⟨_, hpositive, hsearch⟩
+
+/-- Helper for `lem:polar-dfp`: every physical search coefficient is the
+paper's explicit value, so any two such coefficients are equal. -/
+theorem lemma3_stepFormulaAndUniqueness (Z : Matrix (Fin 2) (Fin 2) ℝ)
+    (θ δ r rNext ζ α : ℝ) (hZ : Z.PosDef) (hC : 0 < Z 0 1)
+    (hr : 0 < r) (hrNext : 0 < rNext) (hζ : 0 < ζ)
+    (hsearch : WithLp.ofLp (rNext • DFP.Polar.polarUnit (θ + δ) -
+      r • DFP.Polar.polarUnit θ) = (-α) •
+        ((DFP.Polar.rotationMatrix θ * Z⁻¹ *
+          (DFP.Polar.rotationMatrix θ).transpose) *ᵥ
+          WithLp.ofLp (ζ • (r • DFP.Polar.polarUnit θ)))) :
+    α = Z.det * Real.sin δ / (ζ * Z 0 1 * (r / rNext)) ∧
+      ∀ α' : ℝ, WithLp.ofLp (rNext • DFP.Polar.polarUnit (θ + δ) -
+        r • DFP.Polar.polarUnit θ) = (-α') •
+          ((DFP.Polar.rotationMatrix θ * Z⁻¹ *
+            (DFP.Polar.rotationMatrix θ).transpose) *ᵥ
+            WithLp.ofLp (ζ • (r • DFP.Polar.polarUnit θ))) → α' = α := by
+  have hformula := (polarSearchDeterminesRadiusAndStep Z θ δ r rNext ζ α
+    hZ hC hr hrNext hζ hsearch).2
+  refine ⟨hformula, ?_⟩
+  intro α' hsearch'
+  exact (polarSearchDeterminesRadiusAndStep Z θ δ r rNext ζ α'
+    hZ hC hr hrNext hζ hsearch').2.trans hformula.symm
+
 /-- Support witness for Theorem 4 of `20251124-DFP/MP.zip`: the existing
 general source construction at the paper's fixed Wolfe pair and exponent.
 Its structure retains the objective, orbit, and regularity certificates. -/
