@@ -114,8 +114,12 @@ theorem theorem4_concrete :
         s.sourceData.objectiveEstimates.hessian_bounds ∧
         s.sourceData.objectiveEstimates.strongConvex ∧
         s.sourceData.objectiveEstimates.hessian_holder ∧
+        (∀ k, s.sourceData.objectiveEstimates.endpoints k) ∧
+        (∀ x, ‖x‖ ≤ 1 → s.sourceData.objectiveEstimates.disk x) ∧
+        (∀ x, s.sourceData.objectiveEstimates.hessian_near_identity x) ∧
         s.sourceData.clusterSet = Metric.sphere 0 1 ∧
         s.sourceData.gradientNorm_tendsto ∧
+        s.sourceIdentity ∧
         (∀ k, LineSearch.IsStrongWolfe (1 / 4) (1 / 2)
           ((s.parameters.withStartIndex s.startIndex).objective s.supportScale)
           ((s.parameters.withStartIndex s.startIndex).point k)
@@ -126,8 +130,13 @@ theorem theorem4_concrete :
   refine ⟨s, s.supportScale_pos, s.sourceData.objectiveEstimates.contDiff,
     s.sourceData.objectiveEstimates.hessian_bounds,
     s.sourceData.objectiveEstimates.strongConvex,
-    s.sourceData.objectiveEstimates.hessian_holder, s.sourceData.clusterSet,
-    s.sourceData.gradientNorm_tendsto, ?_⟩
+    s.sourceData.objectiveEstimates.hessian_holder,
+    s.sourceData.objectiveEstimates.endpoints,
+    s.sourceData.objectiveEstimates.disk,
+    s.sourceData.objectiveEstimates.hessian_near_identity,
+    s.sourceData.clusterSet,
+    s.sourceData.gradientNorm_tendsto,
+    s.sourceIdentity, ?_⟩
   intro k
   have hc1 := s.parameters.withStartIndex_c1 s.startIndex
   have hc2 := s.parameters.withStartIndex_c2 s.startIndex
