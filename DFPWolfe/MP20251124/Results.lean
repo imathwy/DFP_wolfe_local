@@ -247,6 +247,28 @@ theorem lemma5_fixedSingleLimit_general (a : ℝ) (x : ℝ × ℝ × ℝ)
       (𝓝 (Normalized.stage a 0 x 1 1)) := hAnalytic.continuousAt
   simpa only [Normalized.stage_zero] using hcont
 
+/-- Source-facing analytic-path form of `lem:fixed-single-limit`: analytic
+gradient factors that equal one at zero scale have the same canceled-stage
+limit as the unit-factor path. -/
+theorem lemma5_analyticPathLimit (a : ℝ) (x : ℝ × ℝ × ℝ)
+    (ζ η : ℝ → ℝ) (ha : a ≠ 0) (hC : x.2.1 ≠ 0)
+    (hζ : AnalyticAt ℝ ζ 0) (hη : AnalyticAt ℝ η 0)
+    (hζ0 : ζ 0 = 1) (hη0 : η 0 = 1) :
+    Tendsto (fun t : ℝ ↦ Normalized.stage a t x (ζ t) (η t)) (𝓝 0)
+      (𝓝 (Normalized.leadingStage a x)) := by
+  have hσ : Normalized.stageSigma a 0 x (ζ 0) (η 0) ≠ 0 := by
+    rw [hζ0, hη0]
+    simp [Normalized.stageSigma_def, Normalized.stepV_def,
+      Normalized.stepW_def]
+  have hAnalytic : AnalyticAt ℝ
+      (fun t : ℝ ↦ Normalized.stage a t x (ζ t) (η t)) 0 := by
+    exact Normalized.stageAlong_analyticAt
+      (a := fun _ : ℝ ↦ a) (t := fun y : ℝ ↦ y)
+      (X := fun _ : ℝ ↦ x) (ζ := ζ) (η := η) (z := 0)
+      analyticAt_const analyticAt_id analyticAt_const hζ hη ha rfl hC hσ
+  have hcont := hAnalytic.continuousAt
+  simpa only [hζ0, hη0, Normalized.stage_zero] using hcont
+
 /-- Helper for lem:fixed-single-limit: the canceled normalized stage at zero
 scale is the explicit limiting map used in the manuscript. -/
 theorem lemma5_limitingStage (a : ℝ) (x : ℝ × ℝ × ℝ) :
